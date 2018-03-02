@@ -8,8 +8,6 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Default;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
@@ -25,7 +23,7 @@ public class KweetDaoCollection implements KweetDao
         addKweet("02 #1");
         addKweet("03 #2");
         addKweet("04 #3");
-        addKweet("05 #4");
+        addKweet("05 #4 #3 #6 #1");
         addKweet("06 #4");
         addKweet("07 #4");
         addKweet("08 #4");

@@ -20,7 +20,6 @@ import java.util.List;
 public class KweetKweetEndpoint
 {
     @Inject
-    @Alternative
     private KweetDao kweetDao;
 
     @GET
@@ -38,5 +37,13 @@ public class KweetKweetEndpoint
     public Response getKweet(@PathParam("id") long kweetId)
     {
         return Response.ok( kweetDao.getKweet(kweetId)).build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/trends")
+    public Response getTrends()
+    {
+        return Response.ok( kweetDao.getTends()).build();
     }
 }

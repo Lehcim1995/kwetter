@@ -8,7 +8,6 @@ import java.util.Set;
 @ApplicationPath("/rest")
 public class KweetApplication extends Application
 {
-
     @Override
     public Set<Class<?>> getClasses()
     {
