@@ -76,8 +76,6 @@ public interface KweetDao {
 	 */
 	Kweet getKweet(long id);
 
-	List<String> getMentions();
-
 	List<String> getTends();
 
 }

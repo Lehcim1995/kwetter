@@ -1,8 +1,6 @@
 package classes;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,7 +8,7 @@ public class Kweet {
 
 	private long id;
 	private List<String> mentions;
-	private List<String> harts;
+	private Set<String> harts;
 	private List<String> trends;
 	private String message;
 	private String owner;
@@ -35,16 +33,16 @@ public class Kweet {
         this.id = id;
         this.message = message;
         this.owner = owner;
-        mentions = new ArrayList<>();
-        harts = new ArrayList<>();
-        trends = new ArrayList<>();
+        mentions = getMentionsFromMessage(message);
+        harts = new HashSet<>();
+        trends = getTrendsFromMessage(message);
         postDate = new Date();
     }
 
     public Kweet(
             long id,
             List<String> mentions,
-            List<String> harts,
+            Set<String> harts,
             List<String> trends,
             String message,
             String owner,
@@ -59,7 +57,7 @@ public class Kweet {
     }
 
     //https://stackoverflow.com/questions/29429074/extract-words-starting-with-a-particular-character-from-a-string
-    private List<String> getMentionsFromMessage(String message)
+    public static List<String> getMentionsFromMessage(String message)
     {
         List<String> mentions = new ArrayList<>();
 
@@ -74,7 +72,7 @@ public class Kweet {
         return mentions;
     }
 
-    private List<String> getTrendsFromMessage(String message)
+    public static List<String> getTrendsFromMessage(String message)
     {
         List<String> trends = new ArrayList<>();
 
@@ -121,7 +119,7 @@ public class Kweet {
 
     public List<String> getHarts()
     {
-        return harts;
+        return new ArrayList<>(harts);
     }
 
     public List<String> getTrends()
@@ -142,5 +140,10 @@ public class Kweet {
     public Date getPostDate()
     {
         return postDate;
+    }
+
+    public void addHeart(String userName)
+    {
+        harts.add(userName);
     }
 }

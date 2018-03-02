@@ -2,6 +2,7 @@ package interfaces;
 
 import classes.RolesEnum;
 import classes.User;
+import exceptions.IdAlreadyExistsException;
 import exceptions.NoPermissionException;
 import exceptions.UserNotFoundException;
 
@@ -15,6 +16,10 @@ public interface UserDao
 
     void setRole(String userName, RolesEnum role) throws NoPermissionException;
 
-    User createUser();
+    User createUser() throws IdAlreadyExistsException;
+
+
+
+
 
 }

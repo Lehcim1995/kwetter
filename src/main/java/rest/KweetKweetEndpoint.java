@@ -37,7 +37,6 @@ public class KweetKweetEndpoint
     @Path("/{id}")
     public Response getKweet(@PathParam("id") long kweetId)
     {
-        kweetDao.getKweet(kweetId);
-        return Response.status(Response.Status.NOT_IMPLEMENTED).build();
+        return Response.ok( kweetDao.getKweet(kweetId)).build();
     }
 }

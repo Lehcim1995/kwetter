@@ -63,7 +63,7 @@ public class KweetDaoDatabase implements KweetDao
     @Override
     public Kweet addKweet(String message)
     {
-        return false;
+        return null;
     }
 
     @Override
@@ -86,12 +86,6 @@ public class KweetDaoDatabase implements KweetDao
 
     @Override
     public Kweet getKweet(long id)
-    {
-        return null;
-    }
-
-    @Override
-    public List<String> getMentions()
     {
         return null;
     }
