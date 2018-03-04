@@ -1,7 +1,8 @@
 package rest;
 
 import classes.Kweet;
-import interfaces.KweetDao;
+import exceptions.KweetNotFoundException;
+import services.KweetService;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -14,13 +15,13 @@ import java.util.List;
 public class KweetKweetEndpoint
 {
     @Inject
-    private KweetDao kweetDao; //TODO create service
+    private KweetService kweetService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getKweets()
     {
-        GenericEntity<List<Kweet>> kweets = new GenericEntity<List<Kweet>>(kweetDao.getKweets()) {};
+        GenericEntity<List<Kweet>> kweets = new GenericEntity<List<Kweet>>(kweetService.getKweets()) {};
 
         return Response.ok(kweets).build();
     }
@@ -30,7 +31,7 @@ public class KweetKweetEndpoint
     @Path("/{id}")
     public Response getKweet(@PathParam("id") long kweetId)
     {
-        return Response.ok(kweetDao.getKweet(kweetId)).build();
+        return Response.ok(kweetService.getKweet(kweetId)).build();
     }
 
     @POST
@@ -40,6 +41,26 @@ public class KweetKweetEndpoint
     {
         // TODO create
 
+        //
+        kweetService.addKweet("test", "test");
+
+        return Response.noContent().build();
+    }
+
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{id}")
+    public Response deleteKweet(@PathParam("id") long kweetId)
+    {
+        try
+        {
+            kweetService.deleteKweet(kweetId);
+        }
+        catch (KweetNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+
         return Response.noContent().build();
     }
 
@@ -48,6 +69,6 @@ public class KweetKweetEndpoint
     @Path("/trends")
     public Response getTrends()
     {
-        return Response.ok(kweetDao.getTends()).build();
+        return Response.ok(kweetService.getTends()).build();
     }
 }

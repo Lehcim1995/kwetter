@@ -2,6 +2,8 @@ package rest;
 
 import interfaces.KweetDao;
 import interfaces.UserDao;
+import services.KweetService;
+import services.UserService;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -15,10 +17,10 @@ import javax.ws.rs.core.Response;
 public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plugin/blob/master/README.md // TODO
 {
     @Inject
-    UserDao userDao; // TODO change to service
+    private UserService userService;
 
     @Inject
-    KweetDao kweetDao; // TODO change to service
+    private KweetService kweetService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -40,7 +42,26 @@ public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plug
     @Path("{id}/kweets")
     public Response getKweetsFromUser(@PathParam("id") String username)
     {
-        kweetDao.getKweetsFromUser(username);
+        kweetService.getKweetsFromUser(username);
         return Response.ok("user").build();
     }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("{id}/mentions")
+    public Response getKweetsFromMentions(@PathParam("id") String username)
+    {
+        kweetService.getKweetsFromUser(username);
+        return Response.ok("mentions").build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("{id}/timeline")
+    public Response getKweetsFromTimeline(@PathParam("id") String username)
+    {
+        kweetService.getKweetsFromUser(username);
+        return Response.ok("timeline").build();
+    }
+
 }
