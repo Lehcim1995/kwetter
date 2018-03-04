@@ -1,16 +1,10 @@
 package rest;
 
 import classes.Kweet;
-import dao.KweetDaoCollection;
 import interfaces.KweetDao;
 
-import javax.enterprise.inject.Alternative;
 import javax.inject.Inject;
-import javax.inject.Named;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -20,13 +14,13 @@ import java.util.List;
 public class KweetKweetEndpoint
 {
     @Inject
-    private KweetDao kweetDao;
+    private KweetDao kweetDao; //TODO create service
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getKweets()
     {
-        GenericEntity<List<Kweet>> kweets = new GenericEntity<List<Kweet>>(kweetDao.getKweets()){};
+        GenericEntity<List<Kweet>> kweets = new GenericEntity<List<Kweet>>(kweetDao.getKweets()) {};
 
         return Response.ok(kweets).build();
     }
@@ -36,7 +30,17 @@ public class KweetKweetEndpoint
     @Path("/{id}")
     public Response getKweet(@PathParam("id") long kweetId)
     {
-        return Response.ok( kweetDao.getKweet(kweetId)).build();
+        return Response.ok(kweetDao.getKweet(kweetId)).build();
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response addKweet()
+    {
+        // TODO create
+
+        return Response.noContent().build();
     }
 
     @GET
@@ -44,6 +48,6 @@ public class KweetKweetEndpoint
     @Path("/trends")
     public Response getTrends()
     {
-        return Response.ok( kweetDao.getTends()).build();
+        return Response.ok(kweetDao.getTends()).build();
     }
 }

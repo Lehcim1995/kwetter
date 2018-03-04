@@ -14,7 +14,7 @@ public interface UserDao
 
     User getUser(String userName) throws UserNotFoundException;
 
-    void setRole(String userName, RolesEnum role) throws NoPermissionException;
+    void setRole(String userName, RolesEnum role) throws NoPermissionException, UserNotFoundException;
 
     default User createUser(
         String username,

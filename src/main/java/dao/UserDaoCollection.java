@@ -10,6 +10,7 @@ import interfaces.UserDao;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Default;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,21 +34,31 @@ public class UserDaoCollection implements UserDao
     @Override
     public List<User> getUsers()
     {
-        return null;
+        return new ArrayList<>(users.values());
     }
 
     @Override
     public User getUser(String userName) throws UserNotFoundException
     {
-        return null;
+        if (!users.containsKey(userName))
+        {
+            throw new UserNotFoundException("user " + userName + " does not exist");
+        }
+
+        return users.get(userName);
     }
 
     @Override
     public void setRole(
             String userName,
-            RolesEnum role) throws NoPermissionException
+            RolesEnum role) throws NoPermissionException, UserNotFoundException
     {
+        if (!users.containsKey(userName))
+        {
+            throw new UserNotFoundException("user " + userName + " does not exist");
+        }
 
+        // TODO add setter for role
     }
 
     @Override
@@ -56,7 +67,16 @@ public class UserDaoCollection implements UserDao
             String password,
             RolesEnum role) throws IdAlreadyExistsException
     {
-        return null;
+        if (users.containsKey(username))
+        {
+            throw new IdAlreadyExistsException("user " + username + " does not exist");
+        }
+
+        User u = new User(username);
+
+        users.put(username, u);
+
+        return u;
     }
 
 }
