@@ -9,8 +9,6 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 public class KweetDaoCollectionTest
 {
 
@@ -20,18 +18,6 @@ public class KweetDaoCollectionTest
     public void setUp() throws Exception
     {
         ((KweetDaoCollection) kweetDao).init();
-
-        kweetDao.addKweet("01");
-        kweetDao.addKweet("02");
-        kweetDao.addKweet("03");
-        kweetDao.addKweet("04");
-        kweetDao.addKweet("05");
-        kweetDao.addKweet("06");
-        kweetDao.addKweet("07");
-        kweetDao.addKweet("08");
-        kweetDao.addKweet("09");
-        kweetDao.addKweet("10");
-        kweetDao.addKweet("11");
     }
 
     @After
@@ -43,22 +29,78 @@ public class KweetDaoCollectionTest
     @Test
     public void getKweets()
     {
-        //fail();
-        List<Kweet> k = kweetDao.getKweets();
+        kweetDao.addKweet("01");
+        kweetDao.addKweet("02");
+        kweetDao.addKweet("03");
+        kweetDao.addKweet("04");
+        kweetDao.addKweet("05");
+        kweetDao.addKweet("06");
+        kweetDao.addKweet("07");
+        kweetDao.addKweet("08");
+        kweetDao.addKweet("09");
+        kweetDao.addKweet("10");
+        kweetDao.addKweet("11");
 
+        List<Kweet> k = kweetDao.getKweets();
         Assert.assertEquals(11, k.size());
     }
 
     @Test
     public void getKweetsFromUser()
     {
-        //fail();
+        String username = "Hans";
+
+        int expected = 5;
+
+        kweetDao.addKweet("01", username);
+        kweetDao.addKweet("02", username);
+        kweetDao.addKweet("03", username);
+        kweetDao.addKweet("04", username);
+        kweetDao.addKweet("05", username);
+        kweetDao.addKweet("06");
+        kweetDao.addKweet("07");
+        kweetDao.addKweet("08");
+        kweetDao.addKweet("09");
+        kweetDao.addKweet("10");
+        kweetDao.addKweet("11");
+
+        List<Kweet> output = kweetDao.getKweetsFromUser(username);
+
+        Assert.assertEquals(expected, output.size());
+
+        for (Kweet k : output)
+        {
+            Assert.assertEquals(username, k.getOwner());
+        }
     }
 
     @Test
     public void getKweetsFromUser1()
     {
-        //fail();
+        String username = "Hans";
+
+        int expected = 3;
+
+        kweetDao.addKweet("01", username);
+        kweetDao.addKweet("02", username);
+        kweetDao.addKweet("03", username);
+        kweetDao.addKweet("04", username);
+        kweetDao.addKweet("05", username);
+        kweetDao.addKweet("06");
+        kweetDao.addKweet("07");
+        kweetDao.addKweet("08");
+        kweetDao.addKweet("09");
+        kweetDao.addKweet("10");
+        kweetDao.addKweet("11");
+
+        List<Kweet> output = kweetDao.getKweetsFromUser(username, expected);
+
+        Assert.assertEquals(expected, output.size());
+
+        for (Kweet k : output)
+        {
+            Assert.assertEquals(username, k.getOwner());
+        }
     }
 
     @Test

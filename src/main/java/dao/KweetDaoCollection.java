@@ -2,6 +2,7 @@ package dao;
 
 import classes.Kweet;
 import classes.User;
+import exceptions.KweetNotFoundException;
 import interceptors.PermisionInceptor;
 import interfaces.KweetDao;
 
@@ -51,7 +52,6 @@ public class KweetDaoCollection implements KweetDao
     @Override
     public List<Kweet> getKweetsFromUser(String username)
     {
-
         return kweets.entrySet()
                 .stream()
                 .filter(longKweetEntry -> longKweetEntry.getValue().getOwner().equals(username))
@@ -118,16 +118,11 @@ public class KweetDaoCollection implements KweetDao
                 .collect(Collectors.toList());
     }
 
-    @Interceptors(PermisionInceptor.class)
     @Override
+    @Deprecated
     public Kweet addKweet(String message)
     {
-        long id = kweets.size() + 1;
-        Kweet kweet = new Kweet(id, message, "Jan");
-        trends.addAll(Kweet.getTrendsFromMessage(message));
-
-
-        return kweets.put(id, kweet);
+        return addKweet(message, "Test user");
     }
 
     @Override
@@ -135,12 +130,21 @@ public class KweetDaoCollection implements KweetDao
             String message,
             String user)
     {
-        return null;
+        long id = kweets.size() + 1;
+        Kweet kweet = new Kweet(id, message, user);
+        trends.addAll(Kweet.getTrendsFromMessage(message));
+
+        return kweets.put(id, kweet);
     }
 
     @Override
-    public boolean deleteKweet(long id)
+    public boolean deleteKweet(long id) throws KweetNotFoundException
     {
+        if (!kweets.containsKey(id))
+        {
+            throw new KweetNotFoundException("");
+        }
+
         kweets.remove(id);
 
         return true;
