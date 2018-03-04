@@ -94,7 +94,7 @@ public class UserDaoCollectionTest
 
         try
         {
-            userDao.getUser("Hans");
+            userDao.getUser("hans"); // TODO shizzles
         }
         catch (UserNotFoundException e)
         {
