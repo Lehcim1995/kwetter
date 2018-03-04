@@ -58,6 +58,7 @@ public class UserDaoCollection implements UserDao
             throw new UserNotFoundException("user " + userName + " does not exist");
         }
 
+        users.get(userName).setRole(role);
         // TODO add setter for role
     }
 
@@ -72,7 +73,7 @@ public class UserDaoCollection implements UserDao
             throw new IdAlreadyExistsException("user " + username + " does not exist");
         }
 
-        User u = new User(username);
+        User u = new User(username, role);
 
         users.put(username, u);
 

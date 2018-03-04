@@ -1,9 +1,14 @@
 package classes;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Kweet {
 
 	private long id;

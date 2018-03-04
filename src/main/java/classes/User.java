@@ -1,28 +1,42 @@
 package classes;
 
-import java.util.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.util.HashSet;
+import java.util.Set;
 
-public class User {
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
+public class User
+{
 
-	private String username;
-	private String bio;
-	private String location;
-	private String website;
-	private Set<String> following;
-	private Set<String> followers;
-	private String profilePicture;
-	private RolesEnum role;
-	private Set<Long> kweets;
+    private String username;
+    private String bio;
+    private String location;
+    private String website;
+    private Set<String> following;
+    private Set<String> followers;
+    private String profilePicture;
+    private RolesEnum role;
+    private Set<Long> kweets;
 
-    public User(String username)
+    public User(
+            String username,
+            RolesEnum role)
     {
         this.username = username;
         following = new HashSet<>();
         followers = new HashSet<>();
-        role = RolesEnum.User;
+        this.role = role;
 
         kweets = new HashSet<>();
         //TODO link to a default profile picture
+    }
+
+    public User(String username)
+    {
+        this(username, RolesEnum.User);
     }
 
     public String getUsername()
@@ -63,6 +77,11 @@ public class User {
     public RolesEnum getRole()
     {
         return role;
+    }
+
+    public void setRole(RolesEnum role)
+    {
+        this.role = role;
     }
 
     public Set<Long> getKweets()
