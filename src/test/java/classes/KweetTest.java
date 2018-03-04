@@ -1,12 +1,12 @@
 package classes;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class KweetTest
 {
@@ -23,22 +23,30 @@ public class KweetTest
     }
 
     @Test
-    public void test()
-    {
-        String text = "dit is echt walgelijk #vies #ikmoetslapen #opruimen @geert";
-
-        List<String> trends = Kweet.getTrendsFromMessage(text);
-        List<String> mensions = Kweet.getMentionsFromMessage(text);
-    }
-
-    @Test
     public void getMentionsFromMessage()
     {
+        String input = "@Jan, @Femke. @Werkt# @aan@elkaar @1234";
+
+        List<String> expected = Arrays.asList("@Jan", "@Femke", "@Werkt", "@aan", "@elkaar", "@1234");
+
+        List<String> output = Kweet.getMentionsFromMessage(input);
+
+        Assert.assertEquals(expected.size(), output.size());
+        Assert.assertEquals(expected, output);
+
     }
 
     @Test
     public void getTrendsFromMessage()
     {
+        String input = "#Jan, #Femke. #Werkt@ #aan#elkaar #1234";
+
+        List<String> expected = Arrays.asList("#Jan", "#Femke", "#Werkt", "#aan", "#elkaar", "#1234");
+
+        List<String> output = Kweet.getTrendsFromMessage(input);
+
+        Assert.assertEquals(expected.size(), output.size());
+        Assert.assertEquals(expected, output);
     }
 
     @Test

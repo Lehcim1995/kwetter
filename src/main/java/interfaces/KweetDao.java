@@ -52,6 +52,12 @@ public interface KweetDao {
      */
 	Kweet addKweet(String message);
 
+    /**
+     *
+     * @param message
+     */
+    Kweet addKweet(String message, String user);
+
 	/**
 	 * 
 	 * @param id

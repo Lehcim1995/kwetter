@@ -16,5 +16,10 @@ public interface UserDao
 
     void setRole(String userName, RolesEnum role) throws NoPermissionException;
 
-    User createUser() throws IdAlreadyExistsException;
+    default User createUser(
+        String username,
+        String password) throws IdAlreadyExistsException
+    {return createUser(username, password, RolesEnum.User);}
+
+    User createUser(String username, String password, RolesEnum role) throws IdAlreadyExistsException;
 }

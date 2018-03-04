@@ -67,6 +67,14 @@ public class KweetDaoDatabase implements KweetDao
     }
 
     @Override
+    public Kweet addKweet(
+            String message,
+            String user)
+    {
+        return null;
+    }
+
+    @Override
     public boolean deleteKweet(long id)
     {
         return false;

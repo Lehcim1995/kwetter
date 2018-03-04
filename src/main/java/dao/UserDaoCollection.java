@@ -51,8 +51,12 @@ public class UserDaoCollection implements UserDao
     }
 
     @Override
-    public User createUser() throws IdAlreadyExistsException
+    public User createUser(
+            String username,
+            String password,
+            RolesEnum role) throws IdAlreadyExistsException
     {
         return null;
     }
+
 }

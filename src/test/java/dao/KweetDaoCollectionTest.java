@@ -3,6 +3,7 @@ package dao;
 import classes.Kweet;
 import interfaces.KweetDao;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,22 +14,24 @@ import static org.junit.Assert.*;
 public class KweetDaoCollectionTest
 {
 
-//    KweetDao kweetDao = new KweetDaoCollection();
+    KweetDao kweetDao = new KweetDaoCollection();
 
     @Before
     public void setUp() throws Exception
     {
-//        kweetDao.addKweet("01");
-//        kweetDao.addKweet("02");
-//        kweetDao.addKweet("03");
-//        kweetDao.addKweet("04");
-//        kweetDao.addKweet("05");
-//        kweetDao.addKweet("06");
-//        kweetDao.addKweet("07");
-//        kweetDao.addKweet("08");
-//        kweetDao.addKweet("09");
-//        kweetDao.addKweet("10");
-//        kweetDao.addKweet("11");
+        ((KweetDaoCollection) kweetDao).init();
+
+        kweetDao.addKweet("01");
+        kweetDao.addKweet("02");
+        kweetDao.addKweet("03");
+        kweetDao.addKweet("04");
+        kweetDao.addKweet("05");
+        kweetDao.addKweet("06");
+        kweetDao.addKweet("07");
+        kweetDao.addKweet("08");
+        kweetDao.addKweet("09");
+        kweetDao.addKweet("10");
+        kweetDao.addKweet("11");
     }
 
     @After
@@ -41,7 +44,9 @@ public class KweetDaoCollectionTest
     public void getKweets()
     {
         //fail();
-//        List<Kweet> k = kweetDao.getKweets();
+        List<Kweet> k = kweetDao.getKweets();
+
+        Assert.assertEquals(11, k.size());
     }
 
     @Test

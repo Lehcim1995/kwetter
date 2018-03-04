@@ -2,11 +2,13 @@ package dao;
 
 import classes.Kweet;
 import classes.User;
+import interceptors.PermisionInceptor;
 import interfaces.KweetDao;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Default;
+import javax.interceptor.Interceptors;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -37,7 +39,7 @@ public class KweetDaoCollection implements KweetDao
     {
         kweets = new HashMap<>();
         trends = new HashSet<>();
-        createDummydata();
+//        createDummydata();
     }
 
     @Override
@@ -116,6 +118,7 @@ public class KweetDaoCollection implements KweetDao
                 .collect(Collectors.toList());
     }
 
+    @Interceptors(PermisionInceptor.class)
     @Override
     public Kweet addKweet(String message)
     {
@@ -125,6 +128,14 @@ public class KweetDaoCollection implements KweetDao
 
 
         return kweets.put(id, kweet);
+    }
+
+    @Override
+    public Kweet addKweet(
+            String message,
+            String user)
+    {
+        return null;
     }
 
     @Override
