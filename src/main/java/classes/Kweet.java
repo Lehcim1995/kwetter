@@ -19,6 +19,10 @@ public class Kweet {
 	private String owner;
 	private Date postDate;
 
+    public Kweet()
+    {
+    }
+
     public Kweet(
             long id,
             String message,

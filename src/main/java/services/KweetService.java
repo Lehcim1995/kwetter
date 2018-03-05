@@ -86,7 +86,7 @@ public class KweetService
         return kweetDao.getKweetsWithSQL(sql);
     }
 
-    public Kweet getKweet(long id)
+    public Kweet getKweet(long id) throws KweetNotFoundException
     {
         return kweetDao.getKweet(id);
     }

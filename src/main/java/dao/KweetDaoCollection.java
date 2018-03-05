@@ -1,15 +1,12 @@
 package dao;
 
 import classes.Kweet;
-import classes.User;
 import exceptions.KweetNotFoundException;
-import interceptors.PermisionInceptor;
 import interfaces.KweetDao;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Default;
-import javax.interceptor.Interceptors;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -133,8 +130,9 @@ public class KweetDaoCollection implements KweetDao
         long id = kweets.size() + 1;
         Kweet kweet = new Kweet(id, message, user);
         trends.addAll(Kweet.getTrendsFromMessage(message));
+        kweets.put(id, kweet);
 
-        return kweets.put(id, kweet);
+        return kweet;
     }
 
     @Override
@@ -163,9 +161,16 @@ public class KweetDaoCollection implements KweetDao
     }
 
     @Override
-    public Kweet getKweet(long id)
+    public Kweet getKweet(long id) throws KweetNotFoundException
     {
-        return kweets.get(id);
+        Kweet kweet = kweets.get(id);
+
+        if (kweet == null)
+        {
+            throw new KweetNotFoundException("Kweet " + id + " not found");
+        }
+
+        return kweet;
     }
 
     @Override

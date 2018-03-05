@@ -21,6 +21,10 @@ public class User
     private RolesEnum role;
     private Set<Long> kweets;
 
+    public User()
+    {
+    }
+
     public User(
             String username,
             RolesEnum role)
@@ -42,6 +46,31 @@ public class User
     public String getUsername()
     {
         return username;
+    }
+
+    public void setUsername(String username)
+    {
+        this.username = username;
+    }
+
+    public void setBio(String bio)
+    {
+        this.bio = bio;
+    }
+
+    public void setLocation(String location)
+    {
+        this.location = location;
+    }
+
+    public void setWebsite(String website)
+    {
+        this.website = website;
+    }
+
+    public void setProfilePicture(String profilePicture)
+    {
+        this.profilePicture = profilePicture;
     }
 
     public String getBio()

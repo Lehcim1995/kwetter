@@ -101,7 +101,7 @@ public interface KweetDao {
      *
 	 * @param id
 	 */
-	Kweet getKweet(long id);
+	Kweet getKweet(long id) throws KweetNotFoundException;
 
 
     /**

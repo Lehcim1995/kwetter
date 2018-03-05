@@ -1,17 +1,20 @@
 package rest;
 
+import classes.Kweet;
+import classes.User;
+import exceptions.IdAlreadyExistsException;
+import exceptions.UserNotFoundException;
 import interfaces.KweetDao;
 import interfaces.UserDao;
 import services.KweetService;
 import services.UserService;
 
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Path("/user")
 public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plugin/blob/master/README.md // TODO
@@ -26,7 +29,33 @@ public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plug
     @Produces(MediaType.APPLICATION_JSON)
     public Response getUsers()
     {
-        return Response.ok("user").build();
+        GenericEntity<List<User>> users = new GenericEntity<List<User>>(userService.getUsers()) {};
+
+        return Response.ok(users).build();
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response addUser(User user)
+    {
+        User newUser;
+
+        if (user.getUsername().isEmpty())
+        {
+            return Response.ok("username is empty").build();
+        }
+
+        try
+        {
+            newUser = userService.createUser(user.getUsername(), "password");
+        }
+        catch (IdAlreadyExistsException e)
+        {
+            return Response.noContent().build();
+        }
+
+        return Response.ok(newUser).build();
     }
 
     @GET
@@ -34,7 +63,18 @@ public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plug
     @Path("{id}")
     public Response getUser(@PathParam("id") String username)
     {
-        return Response.ok("user").build();
+        User u;
+
+        try
+        {
+            u = userService.getUser(username);
+        }
+        catch (UserNotFoundException e)
+        {
+            return Response.noContent().build();
+        }
+
+        return Response.ok(u).build();
     }
 
     @GET
@@ -51,8 +91,9 @@ public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plug
     @Path("{id}/mentions")
     public Response getKweetsFromMentions(@PathParam("id") String username)
     {
-        kweetService.getKweetsFromUser(username);
-        return Response.ok("mentions").build();
+        GenericEntity<List<Kweet>> mentions = new GenericEntity<List<Kweet>>(kweetService.getKweetsFromMention(username)) {};
+
+        return Response.ok(mentions).build();
     }
 
     @GET

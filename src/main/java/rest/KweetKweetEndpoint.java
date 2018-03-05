@@ -31,20 +31,32 @@ public class KweetKweetEndpoint
     @Path("/{id}")
     public Response getKweet(@PathParam("id") long kweetId)
     {
-        return Response.ok(kweetService.getKweet(kweetId)).build();
+        Kweet kweet;
+        try
+        {
+            kweet = kweetService.getKweet(kweetId);
+        }
+        catch (KweetNotFoundException e)
+        {
+            return Response.noContent().build();
+        }
+
+
+        return Response.ok(kweet).build();
     }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addKweet()
+    public Response addKweet(Kweet kweet)
     {
         // TODO create
+        String message = kweet.getMessage();
+        String user = kweet.getOwner();
 
-        //
-        kweetService.addKweet("test", "test");
+        Kweet newKweet = kweetService.addKweet(message, user);
 
-        return Response.noContent().build();
+        return Response.ok(newKweet).build();
     }
 
     @DELETE
@@ -61,7 +73,7 @@ public class KweetKweetEndpoint
             e.printStackTrace();
         }
 
-        return Response.noContent().build();
+        return Response.ok("Kweet has been deleted").build();
     }
 
     @GET
