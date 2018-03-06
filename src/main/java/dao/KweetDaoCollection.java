@@ -56,9 +56,11 @@ public class KweetDaoCollection implements KweetDao
     @Override
     public List<Kweet> getKweetsFromMention(String mention)
     {
+        String mentionToken = MENTION_TOKEN + mention;
+
         return kweets.entrySet()
                 .stream()
-                .filter(longKweetEntry -> longKweetEntry.getValue().getMentions().contains(mention))
+                .filter(longKweetEntry -> longKweetEntry.getValue().getMentions().contains(mentionToken))
                 .map(Map.Entry::getValue)
                 .collect(Collectors.toList());
     }
@@ -68,9 +70,11 @@ public class KweetDaoCollection implements KweetDao
             String mention,
             int amount)
     {
+        String mentionToken = MENTION_TOKEN + mention;
+
         return kweets.entrySet()
                 .stream()
-                .filter(longKweetEntry -> longKweetEntry.getValue().getMentions().contains(mention))
+                .filter(longKweetEntry -> longKweetEntry.getValue().getMentions().contains(mentionToken))
                 .map(Map.Entry::getValue)
                 .limit(amount)
                 .collect(Collectors.toList());
@@ -79,9 +83,11 @@ public class KweetDaoCollection implements KweetDao
     @Override
     public List<Kweet> getKweetsFromTrend(String trend)
     {
+        String trendToken = TREND_TOKEN + trend;
+
         return kweets.entrySet()
                 .stream()
-                .filter(longKweetEntry -> longKweetEntry.getValue().getTrends().contains(trend))
+                .filter(longKweetEntry -> longKweetEntry.getValue().getTrends().contains(trendToken))
                 .map(Map.Entry::getValue)
                 .collect(Collectors.toList());
     }
@@ -91,9 +97,11 @@ public class KweetDaoCollection implements KweetDao
             String trend,
             int amount)
     {
+        String trendToken = TREND_TOKEN + trend;
+
         return kweets.entrySet()
                 .stream()
-                .filter(longKweetEntry -> longKweetEntry.getValue().getTrends().contains(trend))
+                .filter(longKweetEntry -> longKweetEntry.getValue().getTrends().contains(trendToken))
                 .map(Map.Entry::getValue)
                 .limit(amount)
                 .collect(Collectors.toList());

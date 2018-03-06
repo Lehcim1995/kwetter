@@ -7,6 +7,9 @@ import java.util.List;
 
 public interface KweetDao {
 
+    String MENTION_TOKEN = "@";
+    String TREND_TOKEN = "#";
+
     /**
      *  Returns all kweets sorted by date
      *

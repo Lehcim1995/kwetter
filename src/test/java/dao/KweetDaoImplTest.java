@@ -1,6 +1,7 @@
 package dao;
 
 import classes.Kweet;
+import exceptions.KweetNotFoundException;
 import interfaces.KweetDao;
 import org.junit.After;
 import org.junit.Assert;
@@ -13,6 +14,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import static interfaces.KweetDao.MENTION_TOKEN;
+import static interfaces.KweetDao.TREND_TOKEN;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 @RunWith(Parameterized.class)
@@ -77,19 +81,19 @@ public class KweetDaoImplTest //https://moepad.wordpress.com/tutorials/testing-m
         kweetDao.addKweet("02 @" + user2 + " #Trend2", user1);
         kweetDao.addKweet("03 @" + user3 + "", user1);
         kweetDao.addKweet("04 @" + user2 + "@" + user3 + "", user1);
-        kweetDao.addKweet("05 #trend", user1);
+        kweetDao.addKweet("05 #Trend1", user1);
 
         kweetDao.addKweet("01", user2);
         kweetDao.addKweet("02 @" + user1 + " #Trend2", user2);
         kweetDao.addKweet("03 @" + user3 + "", user2);
         kweetDao.addKweet("04 @" + user1 + "@" + user3 + "", user2);
-        kweetDao.addKweet("05 #trend", user2);
+        kweetDao.addKweet("05 #Trend1", user2);
 
         kweetDao.addKweet("01", user3);
         kweetDao.addKweet("02 @" + user1 + " #Trend2", user3);
         kweetDao.addKweet("03 @" + user2 + "", user3);
         kweetDao.addKweet("04 @" + user1 + "@" + user2 + "", user3);
-        kweetDao.addKweet("05 #trend", user3);
+        kweetDao.addKweet("05 #Trend1", user3);
     }
 
     @After
@@ -102,6 +106,13 @@ public class KweetDaoImplTest //https://moepad.wordpress.com/tutorials/testing-m
     public void getKweets()
     {
         List<Kweet> k = kweetDao.getKweets();
+        Assert.assertEquals(totalKweets, k.size());
+    }
+
+    @Test
+    public void getKweets1()
+    {
+        List<Kweet> k = kweetDao.getKweets(); // TODO add amount parameter
         Assert.assertEquals(totalKweets, k.size());
     }
 
@@ -143,26 +154,51 @@ public class KweetDaoImplTest //https://moepad.wordpress.com/tutorials/testing-m
 
         for (Kweet k : output)
         {
-            Assert.assertTrue(k.getMentions().contains(user1));
+            Assert.assertTrue(k.getMentions().contains(MENTION_TOKEN + user1));
         }
     }
 
     @Test
     public void getKweetsFromMention1()
     {
-        fail();
+        int limit = 2;
+
+        List<Kweet> output = kweetDao.getKweetsFromMention(user1, limit);
+
+        Assert.assertEquals(limit, output.size());
+
+        for (Kweet k : output)
+        {
+            Assert.assertTrue(k.getMentions().contains(MENTION_TOKEN + user1));
+        }
     }
 
     @Test
     public void getKweetsFromTrend()
     {
-        fail();
+        List<Kweet> output = kweetDao.getKweetsFromTrend(trend1);
+
+        Assert.assertEquals(expectedMentionsUser1, output.size());
+
+        for (Kweet k : output)
+        {
+            Assert.assertTrue(k.getTrends().contains(TREND_TOKEN + user1));
+        }
     }
 
     @Test
     public void getKweetsFromTrend1()
     {
-        fail();
+        int limit = 3;
+
+        List<Kweet> output = kweetDao.getKweetsFromTrend(trend1, limit);
+
+        Assert.assertEquals(limit, output.size());
+
+        for (Kweet k : output)
+        {
+            Assert.assertTrue(k.getTrends().contains(TREND_TOKEN + trend1));
+        }
     }
 
     @Test
@@ -183,36 +219,52 @@ public class KweetDaoImplTest //https://moepad.wordpress.com/tutorials/testing-m
     @Test
     public void deleteKweet()
     {
-        fail();
-    }
 
-    @Test
-    public void getKweetsForUserProfile()
-    {
-        fail();
-    }
+        int deletedId = 5;
 
-    @Test
-    public void getKweetsWithSQL()
-    {
-        fail();
+        try
+        {
+            kweetDao.deleteKweet(deletedId);
+        }
+        catch (KweetNotFoundException e)
+        {
+            fail();
+        }
+
+        try
+        {
+            kweetDao.getKweet(deletedId);
+        }
+        catch (KweetNotFoundException e)
+        {
+            assertTrue(true);
+        }
     }
 
     @Test
     public void getKweet()
     {
-        fail();
-    }
+        // 15 kweets
 
-    @Test
-    public void getMentions()
-    {
-        fail();
+        for (int i = 1; i <= 15; i++)
+        {
+            try
+            {
+                kweetDao.getKweet(i);
+            }
+            catch (KweetNotFoundException e)
+            {
+                fail();
+            }
+        }
     }
 
     @Test
     public void getTends()
     {
-        fail();
+        // 2 trends
+        List<String> output = kweetDao.getTends();
+
+        Assert.assertEquals(2, output.size());
     }
 }
