@@ -5,6 +5,8 @@ import interfaces.KweetDao;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Alternative;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import java.util.List;
 
 @ApplicationScoped
@@ -12,7 +14,13 @@ import java.util.List;
 public class KweetDaoDatabase implements KweetDao
 {
 
+    private EntityManager entityManager;
 
+    @Inject // Nicer way of doing it ;)
+    public void setEntityManager(EntityManager entityManager)
+    {
+        this.entityManager = entityManager;
+    }
 
     @Override
     public List<Kweet> getKweets()
