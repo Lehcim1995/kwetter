@@ -44,11 +44,9 @@ public class Kweet implements Serializable
     }
 
     public Kweet(
-            long id,
             String message,
             String owner)
     {
-
         if (owner.isEmpty())
         {
             throw new IllegalArgumentException();
@@ -59,13 +57,21 @@ public class Kweet implements Serializable
             throw new IllegalArgumentException();
         }
 
-        this.id = id;
         this.message = message;
         this.owner = owner;
+        trends = getTrendsFromMessage(message);
         mentions = getMentionsFromMessage(message);
         harts = new HashSet<>();
-        trends = getTrendsFromMessage(message);
         postDate = new Date();
+    }
+
+    public Kweet(
+            long id,
+            String message,
+            String owner)
+    {
+        this(message, owner);
+        this.id = id;
     }
 
     public Kweet(

@@ -10,6 +10,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -35,7 +38,7 @@ public class KweetDaoImplTest //https://moepad.wordpress.com/tutorials/testing-m
     public static Collection<Object[]> getParameters() {
         return Arrays.asList(new Object[][] {
                 { new KweetDaoCollection() , "Collection" },
-//                { new KweetDaoDatabase() , "Database" }
+                { new KweetDaoDatabase() , "Database" }
         });
     }
 
@@ -73,6 +76,9 @@ public class KweetDaoImplTest //https://moepad.wordpress.com/tutorials/testing-m
         else
         {
 //            ((KweetDaoDatabase) kweetDao).init();
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("test");
+            EntityManager em = emf.createEntityManager();
+            ((KweetDaoDatabase) kweetDao).setEntityManager(em);
         }
 
         // TODO add 30 or so kweets, and save the exspected results to that
@@ -182,7 +188,7 @@ public class KweetDaoImplTest //https://moepad.wordpress.com/tutorials/testing-m
 
         for (Kweet k : output)
         {
-            Assert.assertTrue(k.getTrends().contains(TREND_TOKEN + user1));
+            Assert.assertTrue(k.getTrends().contains(TREND_TOKEN + trend1));
         }
     }
 

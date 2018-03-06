@@ -26,7 +26,7 @@ public class KweetDaoDatabase implements KweetDao
     @Override
     public List<Kweet> getKweets()
     {
-        return new ArrayList<>();
+        return entityManager.createNamedQuery("kweet.getKweets").getResultList();
     }
 
     @Override
@@ -82,7 +82,11 @@ public class KweetDaoDatabase implements KweetDao
             String message,
             String user)
     {
-        return null;
+        Kweet k = new Kweet(message, user);
+        entityManager.persist(k);
+        entityManager.flush();
+
+        return k;
     }
 
     @Override
