@@ -1,25 +1,49 @@
 package dao;
 
+import classes.RolesEnum;
 import classes.User;
 import exceptions.IdAlreadyExistsException;
+import exceptions.NoPermissionException;
 import exceptions.UserNotFoundException;
 import interfaces.UserDao;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
-public class UserDaoCollectionTest
-{
+import static org.junit.Assert.fail;
 
-    UserDao userDao = new UserDaoCollection();
+@RunWith(Parameterized.class)
+public class UserDaoImplTest
+{
+    UserDao userDao;
+
+    public UserDaoImplTest(UserDao userDao, String name){
+        this.userDao = userDao;
+    }
+
+    // This makes this junit impl run multiple times but with different implementations
+    // Very spicy
+    @Parameterized.Parameters(name= "{1}")
+    public static Collection<Object[]> getParameters() {
+        return Arrays.asList(new Object[][] {
+                { new UserDaoCollection() , "Collection" }
+                // TODO add Database class
+        });
+    }
 
     @Before
     public void setUp() throws Exception
     {
         ((UserDaoCollection) userDao).init();
+
+        // TODO create users here
     }
 
     @After
@@ -41,7 +65,7 @@ public class UserDaoCollectionTest
         }
         catch (Exception e)
         {
-            Assert.fail("cannot create users with same username");
+            fail("cannot create users with same username");
         }
 
         int expected = 5;
@@ -62,7 +86,7 @@ public class UserDaoCollectionTest
             userDao.createUser("hans2", "password");
             userDao.createUser("hans3", "password");
             userDao.createUser("hans4", "password");
-            Assert.fail("Cannot contain duplicate username's");
+            fail("Cannot contain duplicate username's");
         }
         catch (Exception e)
         {
@@ -89,7 +113,7 @@ public class UserDaoCollectionTest
         }
         catch (Exception e)
         {
-            Assert.fail("cannot create users with same username");
+            fail("cannot create users with same username");
         }
 
         try
@@ -99,7 +123,7 @@ public class UserDaoCollectionTest
         catch (UserNotFoundException e)
         {
             e.printStackTrace();
-            Assert.fail("User does not excist");
+            fail("User does not excist");
         }
 
         // something else
@@ -108,14 +132,64 @@ public class UserDaoCollectionTest
     @Test
     public void setRole()
     {
-        // TODO
+
+        try
+        {
+            userDao.createUser("hans", "password");
+        }
+        catch (IdAlreadyExistsException e)
+        {
+            fail();
+        }
+
+        try
+        {
+            userDao.setRole("hans", RolesEnum.Moderator);
+        }
+        catch (NoPermissionException | UserNotFoundException e)
+        {
+            fail();
+        }
+
+        try
+        {
+            Assert.assertEquals(RolesEnum.Moderator, userDao.getUser("hans").getRole());
+        }
+        catch (UserNotFoundException e)
+        {
+            fail();
+        }
+
     }
 
     @Test
     public void createUser()
     {
-        // TODO
+        String username = "username";
+        String password = "password";
 
-        // add role test and normal test
+        try
+        {
+            userDao.createUser(username, password);
+        }
+        catch (IdAlreadyExistsException e)
+        {
+            fail();
+        }
+
+        User u = null;
+
+        try
+        {
+            u = userDao.getUser(username);
+        }
+        catch (UserNotFoundException e)
+        {
+            fail();
+        }
+
+        Assert.assertEquals(username, u.getUsername());
+        Assert.assertEquals(RolesEnum.User, u.getRole());
+
     }
 }

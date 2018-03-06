@@ -17,27 +17,11 @@ public class KweetDaoCollection implements KweetDao
     private Set<String> trends;
     private Map<Long, Kweet> kweets;
 
-    private void createDummydata()
-    {
-        addKweet("01 @jan #r");
-        addKweet("02 #1");
-        addKweet("03 #2");
-        addKweet("04 #3");
-        addKweet("05 #4 #3 #6 #1");
-        addKweet("06 #4");
-        addKweet("07 #4");
-        addKweet("08 #4");
-        addKweet("09 #4");
-        addKweet("10 #4");
-        addKweet("11 #4");
-    }
-
     @PostConstruct
     public void init()
     {
         kweets = new HashMap<>();
         trends = new HashSet<>();
-//        createDummydata();
     }
 
     @Override
@@ -127,7 +111,7 @@ public class KweetDaoCollection implements KweetDao
             String message,
             String user)
     {
-        long id = kweets.size() + 1;
+        long id = kweets.size() + 1L;
         Kweet kweet = new Kweet(id, message, user);
         trends.addAll(Kweet.getTrendsFromMessage(message));
         kweets.put(id, kweet);
