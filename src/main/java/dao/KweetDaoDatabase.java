@@ -12,6 +12,8 @@ import java.util.List;
 public class KweetDaoDatabase implements KweetDao
 {
 
+
+
     @Override
     public List<Kweet> getKweets()
     {

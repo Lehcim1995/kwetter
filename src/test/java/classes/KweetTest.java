@@ -13,13 +13,11 @@ public class KweetTest
     @Before
     public void setUp() throws Exception
     {
-
     }
 
     @After
     public void tearDown() throws Exception
     {
-
     }
 
     @Test
@@ -47,60 +45,5 @@ public class KweetTest
 
         Assert.assertEquals(expected.size(), output.size());
         Assert.assertEquals(expected, output);
-    }
-
-    @Test
-    public void setId()
-    {
-    }
-
-    @Test
-    public void setMessage()
-    {
-    }
-
-    @Test
-    public void setOwner()
-    {
-    }
-
-    @Test
-    public void setPostDate()
-    {
-    }
-
-    @Test
-    public void getId()
-    {
-    }
-
-    @Test
-    public void getMentions()
-    {
-    }
-
-    @Test
-    public void getHarts()
-    {
-    }
-
-    @Test
-    public void getTrends()
-    {
-    }
-
-    @Test
-    public void getMessage()
-    {
-    }
-
-    @Test
-    public void getOwner()
-    {
-    }
-
-    @Test
-    public void getPostDate()
-    {
     }
 }
