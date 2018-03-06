@@ -35,7 +35,7 @@ public class KweetDaoImplTest //https://moepad.wordpress.com/tutorials/testing-m
     public static Collection<Object[]> getParameters() {
         return Arrays.asList(new Object[][] {
                 { new KweetDaoCollection() , "Collection" },
-                { new KweetDaoDatabase() , "Database" }
+//                { new KweetDaoDatabase() , "Database" }
         });
     }
 
@@ -178,7 +178,7 @@ public class KweetDaoImplTest //https://moepad.wordpress.com/tutorials/testing-m
     {
         List<Kweet> output = kweetDao.getKweetsFromTrend(trend1);
 
-        Assert.assertEquals(expectedMentionsUser1, output.size());
+        Assert.assertEquals(expectedTrendsForTrend1, output.size());
 
         for (Kweet k : output)
         {

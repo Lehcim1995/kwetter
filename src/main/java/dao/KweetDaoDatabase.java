@@ -7,6 +7,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Alternative;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 
 @ApplicationScoped
@@ -25,7 +26,7 @@ public class KweetDaoDatabase implements KweetDao
     @Override
     public List<Kweet> getKweets()
     {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
@@ -39,13 +40,13 @@ public class KweetDaoDatabase implements KweetDao
             String username,
             int amount)
     {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<Kweet> getKweetsFromMention(String mention)
     {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
@@ -53,7 +54,7 @@ public class KweetDaoDatabase implements KweetDao
             String mention,
             int amount)
     {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
@@ -67,7 +68,7 @@ public class KweetDaoDatabase implements KweetDao
             String trend,
             int amount)
     {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
@@ -93,13 +94,13 @@ public class KweetDaoDatabase implements KweetDao
     @Override
     public List<Kweet> getKweetsForUserProfile(String userName)
     {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<Kweet> getKweetsWithSQL(String sql)
     {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
@@ -111,6 +112,6 @@ public class KweetDaoDatabase implements KweetDao
     @Override
     public List<String> getTends()
     {
-        return null;
+        return new ArrayList<>();
     }
 }

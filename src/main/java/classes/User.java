@@ -1,24 +1,39 @@
 package classes;
 
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+@Entity
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class User
+public class User implements Serializable
 {
 
+    @Id
+    @GeneratedValue
     private String username;
     private String bio;
     private String location;
     private String website;
+
+    @ElementCollection
     private Set<String> following;
+
+    @ElementCollection
     private Set<String> followers;
+
     private String profilePicture;
     private RolesEnum role;
+
+    @ElementCollection
     private Set<Long> kweets;
 
     public User()

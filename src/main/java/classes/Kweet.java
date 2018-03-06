@@ -1,23 +1,43 @@
 package classes;
 
+
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Kweet {
+@Entity
+@NamedQueries({
+        @NamedQuery(name = "kweet.getKweets", query = "SELECT K FROM Kweet K"),
+        @NamedQuery(name = "getKweetsFromUser", query = "SELECT k FROM Kweet k where k.owner LIKE :owner")
+})
+public class Kweet implements Serializable
+{
 
-	private long id;
-	private List<String> mentions;
-	private Set<String> harts;
-	private List<String> trends;
-	private String message;
-	private String owner;
-	private Date postDate;
+    @Id
+    @GeneratedValue()
+    private long id;
+
+    @ElementCollection
+    private List<String> mentions;
+
+    @ElementCollection
+    private Set<String> harts;
+
+    @ElementCollection
+    private List<String> trends;
+
+    private String message;
+
+    private String owner;
+
+    private Date postDate;
 
     public Kweet()
     {
@@ -34,7 +54,7 @@ public class Kweet {
             throw new IllegalArgumentException();
         }
 
-        if (message.isEmpty() || message.length() > 140 )
+        if (message.isEmpty() || message.length() > 140)
         {
             throw new IllegalArgumentException();
         }
@@ -96,29 +116,14 @@ public class Kweet {
         return trends;
     }
 
-    public void setId(long id)
-    {
-        this.id = id;
-    }
-
-    public void setMessage(String message)
-    {
-        this.message = message;
-    }
-
-    public void setOwner(String owner)
-    {
-        this.owner = owner;
-    }
-
-    public void setPostDate(Date postDate)
-    {
-        this.postDate = postDate;
-    }
-
     public long getId()
     {
         return id;
+    }
+
+    public void setId(long id)
+    {
+        this.id = id;
     }
 
     public List<String> getMentions()
@@ -141,14 +146,29 @@ public class Kweet {
         return message;
     }
 
+    public void setMessage(String message)
+    {
+        this.message = message;
+    }
+
     public String getOwner()
     {
         return owner;
     }
 
+    public void setOwner(String owner)
+    {
+        this.owner = owner;
+    }
+
     public Date getPostDate()
     {
         return postDate;
+    }
+
+    public void setPostDate(Date postDate)
+    {
+        this.postDate = postDate;
     }
 
     public void addHeart(String userName)
