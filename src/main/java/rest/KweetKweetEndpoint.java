@@ -19,11 +19,11 @@ public class KweetKweetEndpoint
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getKweets()
+    public Response getKweets(@QueryParam("limit") int limit)
     {
         GenericEntity<List<Kweet>> kweets = new GenericEntity<List<Kweet>>(kweetService.getKweets()) {};
 
-        return Response.ok(kweets).build();
+        return Response.ok(limit).build();
     }
 
     @GET

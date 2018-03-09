@@ -17,6 +17,14 @@ public interface KweetDao {
      */
 	List<Kweet> getKweets();
 
+    /**
+     *  Returns all kweets sorted by date
+     *
+     * @param limit the limit on kweets
+     * @return all kweets in the Dao
+     */
+    List<Kweet> getKweets(int limit);
+
 	/**
 	 * Get all kweets from a user sorted by date
      *

@@ -73,7 +73,7 @@ public class KweetDaoImplTest //https://moepad.wordpress.com/tutorials/testing-m
         }
         else
         {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("studentPU");
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("testPU");
             EntityManager em = emf.createEntityManager();
             ((KweetDaoDatabase) kweetDao).setEntityManager(em);
         }

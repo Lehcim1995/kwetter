@@ -8,11 +8,7 @@ import javax.ejb.Singleton;
 import javax.enterprise.inject.Default;
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @Singleton
 @Default
@@ -31,19 +27,24 @@ public class KweetDaoDatabase implements KweetDao
     @Override
     public List<Kweet> getKweets()
     {
+        return entityManager.createNamedQuery("kweet.getKweets", Kweet.class)
+                .getResultList();
+    }
 
-        if (entityManager == null)
-        {
-            return Arrays.asList(new Kweet("entity", "is null"));
-        }
-
-        return entityManager.createNamedQuery("kweet.getKweets").getResultList();
+    @Override
+    public List<Kweet> getKweets(int limit)
+    {
+        return entityManager.createQuery("SELECT k FROM Kweet k ORDER BY k.postDate asc", Kweet.class)
+                .setMaxResults(limit)
+                .getResultList();
     }
 
     @Override
     public List<Kweet> getKweetsFromUser(String username)
     {
-        return null;
+        return entityManager.createNamedQuery("kweet.getKweetsFromUser", Kweet.class)
+                .setParameter("owner", username)
+                .getResultList();
     }
 
     @Override
@@ -51,13 +52,19 @@ public class KweetDaoDatabase implements KweetDao
             String username,
             int amount)
     {
-        return new ArrayList<>();
+        return entityManager.createNamedQuery("kweet.getKweetsFromUser", Kweet.class)
+                .setParameter("owner", username)
+                .setMaxResults(amount)
+                .getResultList();
     }
 
     @Override
     public List<Kweet> getKweetsFromMention(String mention)
     {
-        return new ArrayList<>();
+
+        return entityManager.createQuery("SELECT k FROM Kweet k WHERE k.mentions in :mention", Kweet.class)
+                .setParameter("mention", mention)
+                .getResultList();
     }
 
     @Override
@@ -65,13 +72,19 @@ public class KweetDaoDatabase implements KweetDao
             String mention,
             int amount)
     {
-        return new ArrayList<>();
+        return entityManager.createQuery("SELECT k FROM Kweet k WHERE k.mentions in :mention", Kweet.class)
+                .setParameter("mention", mention)
+                .setMaxResults(amount)
+                .getResultList();
     }
 
     @Override
     public List<Kweet> getKweetsFromTrend(String trend)
     {
-        return null;
+
+        return entityManager.createQuery("SELECT k FROM Kweet k WHERE k.trends in :trend", Kweet.class)
+                .setParameter("trend", trend)
+                .getResultList();
     }
 
     @Override
@@ -79,10 +92,14 @@ public class KweetDaoDatabase implements KweetDao
             String trend,
             int amount)
     {
-        return new ArrayList<>();
+        return entityManager.createQuery("SELECT k FROM Kweet k WHERE k.trends in :trend", Kweet.class)
+                .setParameter("trend", trend)
+                .setMaxResults(amount)
+                .getResultList();
     }
 
     @Override
+    @Deprecated
     public Kweet addKweet(String message)
     {
         return null;
@@ -94,11 +111,6 @@ public class KweetDaoDatabase implements KweetDao
             String user)
     {
         Kweet k = new Kweet(message, user);
-        if (entityManager == null)
-        {
-            Logger.getAnonymousLogger().log(Level.WARNING, "entitymanager is null");
-            return null;
-        }
         entityManager.persist(k);
 
         return k;
@@ -107,30 +119,38 @@ public class KweetDaoDatabase implements KweetDao
     @Override
     public boolean deleteKweet(long id)
     {
-        return false;
+        entityManager.remove(getKweet(id));
+
+        return true;
     }
 
     @Override
     public List<Kweet> getKweetsForUserProfile(String userName)
     {
+
         return new ArrayList<>();
     }
 
     @Override
     public List<Kweet> getKweetsWithSQL(String sql)
     {
+
         return new ArrayList<>();
     }
 
     @Override
     public Kweet getKweet(long id)
     {
-        return null;
+
+        return entityManager.createQuery("SELECT k FROM Kweet k WHERE k.id = :id", Kweet.class)
+                .setParameter("id", id)
+                .getSingleResult();
     }
 
     @Override
     public List<String> getTends()
     {
-        return new ArrayList<>();
+        return entityManager.createQuery("SELECT distinct k.trends FROM Kweet k", String.class)
+                .getResultList();
     }
 }
