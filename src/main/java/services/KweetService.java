@@ -4,12 +4,17 @@ import classes.Kweet;
 import exceptions.KweetNotFoundException;
 import interfaces.KweetDao;
 
+import javax.ejb.EJB;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.List;
 
+@Singleton
+@Default
 public class KweetService
 {
-    @Inject
+    @EJB
     private KweetDao kweetDao;
 
     public void setKweetDao(KweetDao kweetDao)

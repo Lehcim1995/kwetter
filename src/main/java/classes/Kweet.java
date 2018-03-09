@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 @Entity
 @NamedQueries({
         @NamedQuery(name = "kweet.getKweets", query = "SELECT K FROM Kweet K"),
-        @NamedQuery(name = "getKweetsFromUser", query = "SELECT k FROM Kweet k where k.owner LIKE :owner")
+        @NamedQuery(name = "kweet.getKweetsFromUser", query = "SELECT k FROM Kweet k where k.owner LIKE :owner")
 })
 public class Kweet implements Serializable
 {

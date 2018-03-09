@@ -7,9 +7,13 @@ import exceptions.NoPermissionException;
 import exceptions.UserNotFoundException;
 import interfaces.UserDao;
 
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.List;
 
+@Singleton
+@Default
 public class UserService
 {
     private UserDao userDao;

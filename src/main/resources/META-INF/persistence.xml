@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-    <persistence-unit name="kwtterPU">
-        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd" version="2.1">
+    <persistence-unit name="kwetterPU">
+        <!--<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
+        <!--<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>-->
         <jta-data-source>jdbc/kwetterDatabase</jta-data-source>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
-            <property name="serverName" value="localhost"/>
-            <property name="portNumber" value="3306"/>
-            <property name="url" value="jdbc:mysql://localhost:3306/kwetter"/>
-            <property name="User" value="root"/>
-            <property name="Password" value=""/>
-            <!--<property name="driverClass" value="com.mysql.jdbc.Driver"/>-->
+            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+            <property name="eclipselink.logging.logger" value="DefaultLogger"/>
+            <property name="eclipselink.logging.level" value="FINE"/>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/kwetter"/>
+            <property name="javax.persistence.jdbc.user" value="root"/>
+            <property name="javax.persistence.jdbc.password" value="root"/>
         </properties>
     </persistence-unit>
 </persistence>
