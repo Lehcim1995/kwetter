@@ -33,17 +33,22 @@ public class KweetDaoCollection implements KweetDao
     @Override
     public List<Kweet> getKweets(int limit)
     {
-        return kweets.values().stream().limit(limit).collect(Collectors.toList());
+        return kweets.values()
+                     .stream()
+                     .limit(limit)
+                     .collect(Collectors.toList());
     }
 
     @Override
     public List<Kweet> getKweetsFromUser(String username)
     {
         return kweets.entrySet()
-                .stream()
-                .filter(longKweetEntry -> longKweetEntry.getValue().getOwner().equals(username))
-                .map(Map.Entry::getValue)
-                .collect(Collectors.toList());
+                     .stream()
+                     .filter(longKweetEntry -> longKweetEntry.getValue()
+                                                             .getOwner()
+                                                             .equals(username))
+                     .map(Map.Entry::getValue)
+                     .collect(Collectors.toList());
     }
 
     @Override
@@ -52,11 +57,13 @@ public class KweetDaoCollection implements KweetDao
             int amount)
     {
         return kweets.entrySet()
-                .stream()
-                .filter(longKweetEntry -> longKweetEntry.getValue().getOwner().equals(username))
-                .map(Map.Entry::getValue)
-                .limit(amount)
-                .collect(Collectors.toList());
+                     .stream()
+                     .filter(longKweetEntry -> longKweetEntry.getValue()
+                                                             .getOwner()
+                                                             .equals(username))
+                     .map(Map.Entry::getValue)
+                     .limit(amount)
+                     .collect(Collectors.toList());
     }
 
     @Override
@@ -65,10 +72,12 @@ public class KweetDaoCollection implements KweetDao
         String mentionToken = MENTION_TOKEN + mention;
 
         return kweets.entrySet()
-                .stream()
-                .filter(longKweetEntry -> longKweetEntry.getValue().getMentions().contains(mentionToken))
-                .map(Map.Entry::getValue)
-                .collect(Collectors.toList());
+                     .stream()
+                     .filter(longKweetEntry -> longKweetEntry.getValue()
+                                                             .getMentions()
+                                                             .contains(mentionToken))
+                     .map(Map.Entry::getValue)
+                     .collect(Collectors.toList());
     }
 
     @Override
@@ -79,11 +88,13 @@ public class KweetDaoCollection implements KweetDao
         String mentionToken = MENTION_TOKEN + mention;
 
         return kweets.entrySet()
-                .stream()
-                .filter(longKweetEntry -> longKweetEntry.getValue().getMentions().contains(mentionToken))
-                .map(Map.Entry::getValue)
-                .limit(amount)
-                .collect(Collectors.toList());
+                     .stream()
+                     .filter(longKweetEntry -> longKweetEntry.getValue()
+                                                             .getMentions()
+                                                             .contains(mentionToken))
+                     .map(Map.Entry::getValue)
+                     .limit(amount)
+                     .collect(Collectors.toList());
     }
 
     @Override
@@ -92,10 +103,12 @@ public class KweetDaoCollection implements KweetDao
         String trendToken = TREND_TOKEN + trend;
 
         return kweets.entrySet()
-                .stream()
-                .filter(longKweetEntry -> longKweetEntry.getValue().getTrends().contains(trendToken))
-                .map(Map.Entry::getValue)
-                .collect(Collectors.toList());
+                     .stream()
+                     .filter(longKweetEntry -> longKweetEntry.getValue()
+                                                             .getTrends()
+                                                             .contains(trendToken))
+                     .map(Map.Entry::getValue)
+                     .collect(Collectors.toList());
     }
 
     @Override
@@ -106,11 +119,13 @@ public class KweetDaoCollection implements KweetDao
         String trendToken = TREND_TOKEN + trend;
 
         return kweets.entrySet()
-                .stream()
-                .filter(longKweetEntry -> longKweetEntry.getValue().getTrends().contains(trendToken))
-                .map(Map.Entry::getValue)
-                .limit(amount)
-                .collect(Collectors.toList());
+                     .stream()
+                     .filter(longKweetEntry -> longKweetEntry.getValue()
+                                                             .getTrends()
+                                                             .contains(trendToken))
+                     .map(Map.Entry::getValue)
+                     .limit(amount)
+                     .collect(Collectors.toList());
     }
 
     @Override

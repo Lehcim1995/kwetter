@@ -23,7 +23,7 @@ public class KweetKweetEndpoint
     {
         GenericEntity<List<Kweet>> kweets = new GenericEntity<List<Kweet>>(kweetService.getKweets()) {};
 
-        return Response.ok(limit).build();
+        return Response.ok(kweets).build();
     }
 
     @GET
@@ -81,6 +81,7 @@ public class KweetKweetEndpoint
     @Path("/trends")
     public Response getTrends()
     {
+
         return Response.ok(kweetService.getTends()).build();
     }
 }

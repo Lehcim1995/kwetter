@@ -58,7 +58,8 @@ public class UserDaoCollection implements UserDao
             throw new UserNotFoundException("user " + userName + " does not exist");
         }
 
-        users.get(userName).setRole(role);
+        users.get(userName)
+             .setRole(role);
         // TODO add setter for role
     }
 

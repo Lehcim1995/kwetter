@@ -1,12 +1,14 @@
 package dao;
 
 import classes.Kweet;
+import exceptions.KweetNotFoundException;
 import interfaces.KweetDao;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.enterprise.inject.Default;
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,23 +30,23 @@ public class KweetDaoDatabase implements KweetDao
     public List<Kweet> getKweets()
     {
         return entityManager.createNamedQuery("kweet.getKweets", Kweet.class)
-                .getResultList();
+                            .getResultList();
     }
 
     @Override
     public List<Kweet> getKweets(int limit)
     {
         return entityManager.createQuery("SELECT k FROM Kweet k ORDER BY k.postDate asc", Kweet.class)
-                .setMaxResults(limit)
-                .getResultList();
+                            .setMaxResults(limit)
+                            .getResultList();
     }
 
     @Override
     public List<Kweet> getKweetsFromUser(String username)
     {
         return entityManager.createNamedQuery("kweet.getKweetsFromUser", Kweet.class)
-                .setParameter("owner", username)
-                .getResultList();
+                            .setParameter("owner", username)
+                            .getResultList();
     }
 
     @Override
@@ -53,9 +55,9 @@ public class KweetDaoDatabase implements KweetDao
             int amount)
     {
         return entityManager.createNamedQuery("kweet.getKweetsFromUser", Kweet.class)
-                .setParameter("owner", username)
-                .setMaxResults(amount)
-                .getResultList();
+                            .setParameter("owner", username)
+                            .setMaxResults(amount)
+                            .getResultList();
     }
 
     @Override
@@ -63,8 +65,8 @@ public class KweetDaoDatabase implements KweetDao
     {
 
         return entityManager.createQuery("SELECT k FROM Kweet k WHERE k.mentions in :mention", Kweet.class)
-                .setParameter("mention", mention)
-                .getResultList();
+                            .setParameter("mention", mention)
+                            .getResultList();
     }
 
     @Override
@@ -73,9 +75,9 @@ public class KweetDaoDatabase implements KweetDao
             int amount)
     {
         return entityManager.createQuery("SELECT k FROM Kweet k WHERE k.mentions in :mention", Kweet.class)
-                .setParameter("mention", mention)
-                .setMaxResults(amount)
-                .getResultList();
+                            .setParameter("mention", mention)
+                            .setMaxResults(amount)
+                            .getResultList();
     }
 
     @Override
@@ -83,8 +85,8 @@ public class KweetDaoDatabase implements KweetDao
     {
 
         return entityManager.createQuery("SELECT k FROM Kweet k WHERE k.trends in :trend", Kweet.class)
-                .setParameter("trend", trend)
-                .getResultList();
+                            .setParameter("trend", trend)
+                            .getResultList();
     }
 
     @Override
@@ -93,9 +95,9 @@ public class KweetDaoDatabase implements KweetDao
             int amount)
     {
         return entityManager.createQuery("SELECT k FROM Kweet k WHERE k.trends in :trend", Kweet.class)
-                .setParameter("trend", trend)
-                .setMaxResults(amount)
-                .getResultList();
+                            .setParameter("trend", trend)
+                            .setMaxResults(amount)
+                            .getResultList();
     }
 
     @Override
@@ -117,7 +119,7 @@ public class KweetDaoDatabase implements KweetDao
     }
 
     @Override
-    public boolean deleteKweet(long id)
+    public boolean deleteKweet(long id) throws KweetNotFoundException
     {
         entityManager.remove(getKweet(id));
 
@@ -139,18 +141,28 @@ public class KweetDaoDatabase implements KweetDao
     }
 
     @Override
-    public Kweet getKweet(long id)
+    public Kweet getKweet(long id) throws KweetNotFoundException
     {
+        Kweet k;
 
-        return entityManager.createQuery("SELECT k FROM Kweet k WHERE k.id = :id", Kweet.class)
-                .setParameter("id", id)
-                .getSingleResult();
+        try
+        {
+            k = entityManager.createQuery("SELECT k FROM Kweet k WHERE k.id = :id", Kweet.class)
+                             .setParameter("id", id)
+                             .getSingleResult();
+        }
+        catch (NoResultException e)
+        {
+            throw new KweetNotFoundException("Kweet with id " + id + " was not found");
+        }
+
+        return k;
     }
 
     @Override
     public List<String> getTends()
     {
         return entityManager.createQuery("SELECT distinct k.trends FROM Kweet k", String.class)
-                .getResultList();
+                            .getResultList();
     }
 }
