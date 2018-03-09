@@ -9,9 +9,9 @@ import java.util.List;
 
 public class KweetService
 {
+    @Inject
     private KweetDao kweetDao;
 
-    @Inject
     public void setKweetDao(KweetDao kweetDao)
     {
         this.kweetDao = kweetDao;

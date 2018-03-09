@@ -5,13 +5,13 @@ import exceptions.KweetNotFoundException;
 import interfaces.KweetDao;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Default;
+import javax.enterprise.inject.Alternative;
+import javax.inject.Singleton;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@ApplicationScoped
-@Default
+@Singleton
+@Alternative
 public class KweetDaoCollection implements KweetDao
 {
     private Set<String> trends;

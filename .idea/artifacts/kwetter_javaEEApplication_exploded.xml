@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-ear" name="kwetter:javaEEApplication exploded">
+    <output-path>$PROJECT_DIR$/target/artifacts/kwetter_javaEEApplication_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="kwetter/javaeeApplication/javaEEApplication" />
+    </root>
+  </artifact>
+</component>

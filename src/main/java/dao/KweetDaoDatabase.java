@@ -3,21 +3,42 @@ package dao;
 import classes.Kweet;
 import interfaces.KweetDao;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Alternative;
-import javax.inject.Inject;
+import javax.annotation.PostConstruct;
+import javax.enterprise.inject.Default;
+import javax.inject.Singleton;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-@ApplicationScoped
-@Alternative
+@Singleton
+@Default
+@JPA
 public class KweetDaoDatabase implements KweetDao
 {
 
+    @PostConstruct
+    public void init() {
+        System.out.println("---StudentDaoJPA");
+
+
+        addKweet("Test1", "User");
+        addKweet("Test2", "User");
+        addKweet("Test3", "User");
+        addKweet("Test4", "User");
+    }
+
+    @PersistenceContext(unitName = "kwtterPU")
     private EntityManager entityManager;
 
-    @Inject // Nicer way of doing it ;)
+    public KweetDaoDatabase()
+    {
+
+    }
+
+    // Nicer way of doing it ;)
     public void setEntityManager(EntityManager entityManager)
     {
         this.entityManager = entityManager;
@@ -83,8 +104,12 @@ public class KweetDaoDatabase implements KweetDao
             String user)
     {
         Kweet k = new Kweet(message, user);
+        if (entityManager == null)
+        {
+            Logger.getAnonymousLogger().log(Level.WARNING, "entitymanger is null");
+            return null;
+        }
         entityManager.persist(k);
-        entityManager.flush();
 
         return k;
     }

@@ -38,7 +38,7 @@ public class KweetDaoImplTest //https://moepad.wordpress.com/tutorials/testing-m
     public static Collection<Object[]> getParameters() {
         return Arrays.asList(new Object[][] {
                 { new KweetDaoCollection() , "Collection" },
-                { new KweetDaoDatabase() , "Database" }
+//                { new KweetDaoDatabase() , "Database" }
         });
     }
 
@@ -65,8 +65,6 @@ public class KweetDaoImplTest //https://moepad.wordpress.com/tutorials/testing-m
     int expectedTrendsForTrend1 = 3;
     int expectedTrendsForTrend2 = 3;
 
-
-
     @Before
     public void setUp() throws Exception
     {
@@ -75,8 +73,7 @@ public class KweetDaoImplTest //https://moepad.wordpress.com/tutorials/testing-m
         }
         else
         {
-//            ((KweetDaoDatabase) kweetDao).init();
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("test");
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("studentPU");
             EntityManager em = emf.createEntityManager();
             ((KweetDaoDatabase) kweetDao).setEntityManager(em);
         }
