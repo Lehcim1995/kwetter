@@ -165,4 +165,13 @@ public class KweetDaoDatabase implements KweetDao
         return entityManager.createQuery("SELECT distinct k.trends FROM Kweet k", String.class)
                             .getResultList();
     }
+
+    @Override
+    public List<String> getTends(int limit)
+    {
+        // https://stackoverflow.com/questions/7001226/how-to-order-by-count-in-jpa
+        return entityManager.createQuery("SELECT distinct k.trends FROM Kweet k", String.class)
+                            .setMaxResults(limit)
+                            .getResultList();
+    }
 }

@@ -6,7 +6,6 @@ import interfaces.KweetDao;
 
 import javax.ejb.EJB;
 import javax.enterprise.inject.Default;
-import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.List;
 
@@ -99,5 +98,15 @@ public class KweetService
     public List<String> getTends()
     {
         return kweetDao.getTends();
+    }
+
+    public List<Kweet> getKweets(int limit)
+    {
+        return kweetDao.getKweets(limit);
+    }
+
+    public List<String> getTends(int limit)
+    {
+        return kweetDao.getTends(limit);
     }
 }

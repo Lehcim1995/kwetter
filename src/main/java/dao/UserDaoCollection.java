@@ -9,14 +9,14 @@ import interfaces.UserDao;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Default;
+import javax.enterprise.inject.Alternative;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @ApplicationScoped
-@Default
+@Alternative
 public class UserDaoCollection implements UserDao
 {
 

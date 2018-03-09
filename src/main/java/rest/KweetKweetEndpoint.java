@@ -38,7 +38,7 @@ public class KweetKweetEndpoint
         }
         catch (KweetNotFoundException e)
         {
-            return Response.noContent().build();
+            return Response.noContent().build(); // TODO maybe pick a better response
         }
 
 
@@ -70,7 +70,7 @@ public class KweetKweetEndpoint
         }
         catch (KweetNotFoundException e)
         {
-            e.printStackTrace();
+            return Response.noContent().build(); // TODO maybe pick a better response
         }
 
         return Response.ok("Kweet has been deleted").build();
@@ -79,9 +79,8 @@ public class KweetKweetEndpoint
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/trends")
-    public Response getTrends()
+    public Response getTrends(@DefaultValue("5") @QueryParam("limit") int limit)
     {
-
-        return Response.ok(kweetService.getTends()).build();
+        return Response.ok(kweetService.getTends(limit)).build();
     }
 }

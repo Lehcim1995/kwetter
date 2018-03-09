@@ -122,4 +122,5 @@ public interface KweetDao {
      */
 	List<String> getTends();
 
+    List<String> getTends(int limit);
 }

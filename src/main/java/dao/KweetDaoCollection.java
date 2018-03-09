@@ -191,4 +191,9 @@ public class KweetDaoCollection implements KweetDao
     {
         return new ArrayList<>(trends);
     }
+
+    @Override
+    public List<String> getTends(int limit) {
+        return new ArrayList<>();
+    }
 }
