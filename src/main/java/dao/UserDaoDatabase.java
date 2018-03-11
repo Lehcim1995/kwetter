@@ -61,9 +61,27 @@ public class UserDaoDatabase implements UserDao
             String password,
             RolesEnum role) throws IdAlreadyExistsException
     {
-        User u = new User(username, role);
-        entityManager.persist(u);
+        try
+        {
+            getUser(username);
+            throw new IdAlreadyExistsException("User already exists");
+        }
+        catch (UserNotFoundException e)
+        {
+            // continue?
+            User u = new User(username, role);
+            entityManager.persist(u);
 
-        return u;
+            return u;
+        }
+    }
+
+    @Override
+    public User updateUser(User user) throws NoPermissionException, UserNotFoundException {
+        getUser(user.getUsername());
+
+        entityManager.merge(user);
+
+        return user;
     }
 }

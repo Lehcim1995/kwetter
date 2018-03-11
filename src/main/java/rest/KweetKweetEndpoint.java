@@ -47,7 +47,6 @@ public class KweetKweetEndpoint
             return Response.noContent().build(); // TODO maybe pick a better response
         }
 
-
         return Response.ok(kweet).build();
     }
 

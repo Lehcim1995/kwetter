@@ -3,6 +3,7 @@ package rest;
 import classes.Kweet;
 import classes.User;
 import exceptions.IdAlreadyExistsException;
+import exceptions.NoPermissionException;
 import exceptions.UserNotFoundException;
 import interfaces.KweetDao;
 import interfaces.UserDao;
@@ -70,6 +71,25 @@ public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plug
             u = userService.getUser(username);
         }
         catch (UserNotFoundException e)
+        {
+            return Response.noContent().build();
+        }
+
+        return Response.ok(u).build();
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("{id}")
+    public Response updateUser(@PathParam("id") String username)
+    {
+        User u;
+
+        try
+        {
+            u = userService.updateUser(userService.getUser(username));
+        }
+        catch (UserNotFoundException | NoPermissionException e)
         {
             return Response.noContent().build();
         }

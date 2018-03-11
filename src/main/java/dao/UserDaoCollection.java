@@ -81,4 +81,8 @@ public class UserDaoCollection implements UserDao
         return u;
     }
 
+    @Override
+    public User updateUser(User user) throws NoPermissionException, UserNotFoundException {
+        return null; // TODO
+    }
 }

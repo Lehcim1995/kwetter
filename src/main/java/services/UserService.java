@@ -56,4 +56,8 @@ public class UserService
     {
         return userDao.createUser(username, password, role);
     }
+
+    public User updateUser(User user) throws NoPermissionException, UserNotFoundException {
+        return userDao.updateUser(user);
+    }
 }
