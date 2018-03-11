@@ -1,8 +1,10 @@
 package services;
 
 import classes.Kweet;
+import classes.User;
 import exceptions.KweetNotFoundException;
 import interfaces.KweetDao;
+import interfaces.UserDao;
 
 import javax.ejb.EJB;
 import javax.enterprise.inject.Default;
@@ -62,15 +64,9 @@ public class KweetService
         return kweetDao.getKweetsFromTrend(trend, amount);
     }
 
-    @Deprecated
-    public Kweet addKweet(String message)
-    {
-        return kweetDao.addKweet(message);
-    }
-
     public Kweet addKweet(
             String message,
-            String user)
+            User user)
     {
         return kweetDao.addKweet(message, user);
     }

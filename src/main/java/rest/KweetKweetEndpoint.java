@@ -1,8 +1,11 @@
 package rest;
 
 import classes.Kweet;
+import classes.User;
 import exceptions.KweetNotFoundException;
+import exceptions.UserNotFoundException;
 import services.KweetService;
+import services.UserService;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -16,6 +19,9 @@ public class KweetKweetEndpoint
 {
     @Inject
     private KweetService kweetService;
+
+    @Inject
+    private UserService userService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -52,7 +58,16 @@ public class KweetKweetEndpoint
     {
         // TODO create
         String message = kweet.getMessage();
-        String user = kweet.getOwner();
+        User user = null;
+        try
+        {
+            user = userService.getUser(kweet.getOwnerName());
+        }
+        catch (UserNotFoundException e)
+        {
+            return Response.noContent().build();
+        }
+
 
         Kweet newKweet = kweetService.addKweet(message, user);
 

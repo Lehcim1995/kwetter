@@ -1,6 +1,7 @@
 package dao;
 
 import classes.Kweet;
+import classes.User;
 import exceptions.KweetNotFoundException;
 import interfaces.KweetDao;
 import org.junit.After;
@@ -38,13 +39,13 @@ public class KweetDaoImplTest //https://moepad.wordpress.com/tutorials/testing-m
     public static Collection<Object[]> getParameters() {
         return Arrays.asList(new Object[][] {
                 { new KweetDaoCollection() , "Collection" },
-//                { new KweetDaoDatabase() , "Database" }
+                { new KweetDaoDatabase() , "Database" }
         });
     }
 
-    String user1 = "User1";
-    String user2 = "User2";
-    String user3 = "User3";
+    User user1 = new User("user1");
+    User user2 = new User("user2");
+    User user3 = new User("user3");
 
     String trend1 = "Trend1";
     String trend2 = "Trend2";
@@ -122,7 +123,7 @@ public class KweetDaoImplTest //https://moepad.wordpress.com/tutorials/testing-m
     @Test
     public void getKweetsFromUser()
     {
-        List<Kweet> output = kweetDao.getKweetsFromUser(user1);
+        List<Kweet> output = kweetDao.getKweetsFromUser(user1.getUsername());
 
         Assert.assertEquals(expectedKweetForUser1, output.size());
 
@@ -138,7 +139,7 @@ public class KweetDaoImplTest //https://moepad.wordpress.com/tutorials/testing-m
 
         int expectedLimit = 3;
 
-        List<Kweet> output = kweetDao.getKweetsFromUser(user1, expectedLimit);
+        List<Kweet> output = kweetDao.getKweetsFromUser(user1.getUsername(), expectedLimit);
 
         Assert.assertEquals(expectedLimit, output.size());
 
@@ -151,13 +152,13 @@ public class KweetDaoImplTest //https://moepad.wordpress.com/tutorials/testing-m
     @Test
     public void getKweetsFromMention()
     {
-        List<Kweet> output = kweetDao.getKweetsFromMention(user1);
+        List<Kweet> output = kweetDao.getKweetsFromMention(user1.getUsername());
 
         Assert.assertEquals(expectedMentionsUser1, output.size());
 
         for (Kweet k : output)
         {
-            Assert.assertTrue(k.getMentions().contains(MENTION_TOKEN + user1));
+            Assert.assertTrue(k.getMentions().contains(MENTION_TOKEN + user1.getUsername()));
         }
     }
 
@@ -166,13 +167,13 @@ public class KweetDaoImplTest //https://moepad.wordpress.com/tutorials/testing-m
     {
         int limit = 2;
 
-        List<Kweet> output = kweetDao.getKweetsFromMention(user1, limit);
+        List<Kweet> output = kweetDao.getKweetsFromMention(user1.getUsername(), limit);
 
         Assert.assertEquals(limit, output.size());
 
         for (Kweet k : output)
         {
-            Assert.assertTrue(k.getMentions().contains(MENTION_TOKEN + user1));
+            Assert.assertTrue(k.getMentions().contains(MENTION_TOKEN + user1.getUsername()));
         }
     }
 

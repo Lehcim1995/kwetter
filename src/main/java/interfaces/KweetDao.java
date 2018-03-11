@@ -1,6 +1,7 @@
 package interfaces;
 
 import classes.Kweet;
+import classes.User;
 import exceptions.KweetNotFoundException;
 
 import java.util.List;
@@ -71,23 +72,14 @@ public interface KweetDao {
 	 */
 	List<Kweet> getKweetsFromTrend(String trend, int amount);
 
-	/**
-	 *  @deprecated
-     *
-     * {@link #addKweet(String, String)}
-     * @param message
-     */
-	@Deprecated
-	Kweet addKweet(String message);
-
     /**
      * Creates a new kweet
      * @param message the message for the kweet
      * @param user the user for the kweet
      */
-    Kweet addKweet(String message, String user);
+    Kweet addKweet(String message, User user);
 
-	/**
+    /**
 	 * Deletes a kweet by id
 	 * @param id Kweet id
 	 */

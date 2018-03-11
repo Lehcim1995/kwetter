@@ -1,15 +1,13 @@
 package classes;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @XmlRootElement
@@ -33,8 +31,9 @@ public class User implements Serializable
     private String profilePicture;
     private RolesEnum role;
 
-    @ElementCollection
-    private Set<Long> kweets;
+    @OneToMany(mappedBy = "users")
+    @JoinColumn(name = "ID")
+    private Set<Kweet> kweets;
 
     public User()
     {
@@ -130,6 +129,8 @@ public class User implements Serializable
 
     public Set<Long> getKweets()
     {
-        return kweets;
+        return kweets.stream()
+                     .map(Kweet::getId)
+                     .collect(Collectors.toSet());
     }
 }

@@ -7,6 +7,7 @@ import exceptions.NoPermissionException;
 import exceptions.UserNotFoundException;
 import interfaces.UserDao;
 
+import javax.ejb.EJB;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -18,7 +19,7 @@ public class UserService
 {
     private UserDao userDao;
 
-    @Inject
+    @EJB
     public void setUserDao(UserDao userDao)
     {
         this.userDao = userDao;

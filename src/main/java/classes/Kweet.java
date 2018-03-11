@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 @Entity
 @NamedQueries({
         @NamedQuery(name = "kweet.getKweets", query = "SELECT K FROM Kweet K"),
-        @NamedQuery(name = "kweet.getKweetsFromUser", query = "SELECT k FROM Kweet k where k.owner LIKE :owner")
+        @NamedQuery(name = "kweet.getKweetsFromUser", query = "SELECT k FROM Kweet k where k.owner.username = :owner")
 })
 public class Kweet implements Serializable
 {
@@ -35,7 +35,9 @@ public class Kweet implements Serializable
 
     private String message;
 
-    private String owner;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "USERS_OWNER")
+    private User owner;
 
     private Date postDate;
 
@@ -45,9 +47,9 @@ public class Kweet implements Serializable
 
     public Kweet(
             String message,
-            String owner)
+            User owner)
     {
-        if (owner.isEmpty())
+        if (owner == null)
         {
             throw new IllegalArgumentException();
         }
@@ -68,7 +70,7 @@ public class Kweet implements Serializable
     public Kweet(
             long id,
             String message,
-            String owner)
+            User owner)
     {
         this(message, owner);
         this.id = id;
@@ -80,7 +82,7 @@ public class Kweet implements Serializable
             Set<String> harts,
             List<String> trends,
             String message,
-            String owner,
+            User owner,
             Date postDate)
     {
         this(id, message, owner);
@@ -157,12 +159,17 @@ public class Kweet implements Serializable
         this.message = message;
     }
 
-    public String getOwner()
+    public String getOwnerName()
+    {
+        return owner.getUsername();
+    }
+
+    public User getOwner()
     {
         return owner;
     }
 
-    public void setOwner(String owner)
+    public void setOwner(User owner)
     {
         this.owner = owner;
     }
@@ -180,5 +187,16 @@ public class Kweet implements Serializable
     public void addHeart(String userName)
     {
         harts.add(userName);
+    }
+
+    @ManyToOne(optional = false)
+    private User users;
+
+    public User getUsers() {
+        return users;
+    }
+
+    public void setUsers(User users) {
+        this.users = users;
     }
 }

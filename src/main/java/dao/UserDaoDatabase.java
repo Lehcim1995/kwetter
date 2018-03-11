@@ -10,6 +10,7 @@ import interfaces.UserDao;
 import javax.ejb.Singleton;
 import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
@@ -23,12 +24,23 @@ public class UserDaoDatabase implements UserDao
 
     @Override
     public List<User> getUsers() {
-        return null;
+        return entityManager.createQuery("SELECT u FROM User u", User.class)
+                            .getResultList();
     }
 
     @Override
     public User getUser(String userName) throws UserNotFoundException {
-        return null;
+
+        try
+        {
+            return entityManager.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
+                                .setParameter("username", userName)
+                                .getSingleResult();
+        }
+        catch (NoResultException e)
+        {
+            throw new UserNotFoundException("User " + userName + " was not found");
+        }
     }
 
     @Override
@@ -36,7 +48,11 @@ public class UserDaoDatabase implements UserDao
             String userName,
             RolesEnum role) throws NoPermissionException, UserNotFoundException
     {
+        User u = getUser(userName);
 
+        u.setRole(role);
+
+        entityManager.merge(u);
     }
 
     @Override

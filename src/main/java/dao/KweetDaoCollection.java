@@ -1,6 +1,7 @@
 package dao;
 
 import classes.Kweet;
+import classes.User;
 import exceptions.KweetNotFoundException;
 import interfaces.KweetDao;
 
@@ -129,16 +130,9 @@ public class KweetDaoCollection implements KweetDao
     }
 
     @Override
-    @Deprecated
-    public Kweet addKweet(String message)
-    {
-        return addKweet(message, "Test user");
-    }
-
-    @Override
     public Kweet addKweet(
             String message,
-            String user)
+            User user)
     {
         long id = kweets.size() + 1L;
         Kweet kweet = new Kweet(id, message, user);

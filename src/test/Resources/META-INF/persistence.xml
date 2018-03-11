@@ -3,19 +3,21 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
              http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd" version="2.1">
-    <persistence-unit name="testPU">
+    <persistence-unit name="testPU" transaction-type="RESOURCE_LOCAL">
+        <class>classes.Kweet</class>
+        <class>classes.User</class>
         <!--<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
         <!--<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>-->
-        <jta-data-source>jdbc/testDB</jta-data-source>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
             <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/> <!--drop-and-create-->
-            <property name="eclipselink.logging.logger" value="DefaultLogger"/>
-            <property name="eclipselink.logging.level" value="FINE"/>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/kwettertest"/>
             <property name="javax.persistence.jdbc.user" value="root"/>
             <property name="javax.persistence.jdbc.password" value="root"/>
+            <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
+            <property name="eclipselink.logging.logger" value="DefaultLogger"/>
+            <property name="eclipselink.logging.level" value="FINE"/>
         </properties>
     </persistence-unit>
 </persistence>

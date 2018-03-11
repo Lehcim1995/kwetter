@@ -1,6 +1,7 @@
 package dao;
 
 import classes.Kweet;
+import classes.User;
 import exceptions.KweetNotFoundException;
 import interfaces.KweetDao;
 
@@ -101,18 +102,13 @@ public class KweetDaoDatabase implements KweetDao
     }
 
     @Override
-    @Deprecated
-    public Kweet addKweet(String message)
-    {
-        return null;
-    }
-
-    @Override
     public Kweet addKweet(
             String message,
-            String user)
+            User user)
     {
         Kweet k = new Kweet(message, user);
+
+
         entityManager.persist(k);
 
         return k;
@@ -162,7 +158,7 @@ public class KweetDaoDatabase implements KweetDao
     @Override
     public List<String> getTends()
     {
-        return entityManager.createQuery("SELECT distinct k.trends FROM Kweet k", String.class)
+        return entityManager.createQuery("SELECT distinct k.trends, count(k.trends) FROM Kweet k order by count(k.trends) desc", String.class)
                             .getResultList();
     }
 
@@ -170,7 +166,7 @@ public class KweetDaoDatabase implements KweetDao
     public List<String> getTends(int limit)
     {
         // https://stackoverflow.com/questions/7001226/how-to-order-by-count-in-jpa
-        return entityManager.createQuery("SELECT distinct k.trends FROM Kweet k", String.class)
+        return entityManager.createQuery("SELECT distinct k.trends, count(k.trends) FROM Kweet k order by count(k.trends) desc", String.class)
                             .setMaxResults(limit)
                             .getResultList();
     }

@@ -15,7 +15,7 @@
         <datasource-mapping>
           <factory-entry name="Entities" />
           <factory-entry name="StudentTestPU" />
-          <factory-entry name="kwetterPU" />
+          <factory-entry name="kwetterPU" value="10a80c0a-a3c2-447c-a635-7fdfdd2bdb8f" />
           <factory-entry name="studentPU" />
         </datasource-mapping>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" />
