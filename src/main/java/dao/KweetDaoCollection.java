@@ -47,6 +47,7 @@ public class KweetDaoCollection implements KweetDao
                      .stream()
                      .filter(longKweetEntry -> longKweetEntry.getValue()
                                                              .getOwner()
+                                                             .getUsername()
                                                              .equals(username))
                      .map(Map.Entry::getValue)
                      .collect(Collectors.toList());
@@ -61,6 +62,7 @@ public class KweetDaoCollection implements KweetDao
                      .stream()
                      .filter(longKweetEntry -> longKweetEntry.getValue()
                                                              .getOwner()
+                                                             .getUsername()
                                                              .equals(username))
                      .map(Map.Entry::getValue)
                      .limit(amount)

@@ -9,7 +9,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Entity
+@Entity(name = "User")
+@Table(name = "kwetter_user")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class User implements Serializable
@@ -18,6 +19,7 @@ public class User implements Serializable
     @Id
     @GeneratedValue
     private String username;
+
     private String bio;
     private String location;
     private String website;

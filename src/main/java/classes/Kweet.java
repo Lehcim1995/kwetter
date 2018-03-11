@@ -1,6 +1,7 @@
 package classes;
 
 
+import javax.naming.Name;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -12,7 +13,8 @@ import java.util.regex.Pattern;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Entity
+@Entity(name = "Kweet")
+@Table(name = "kweet")
 @NamedQueries({
         @NamedQuery(name = "kweet.getKweets", query = "SELECT K FROM Kweet K"),
         @NamedQuery(name = "kweet.getKweetsFromUser", query = "SELECT k FROM Kweet k where k.owner.username = :owner")
@@ -35,7 +37,7 @@ public class Kweet implements Serializable
 
     private String message;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "USERS_OWNER")
     private User owner;
 
