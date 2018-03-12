@@ -170,4 +170,9 @@ public class KweetDaoDatabase implements KweetDao
                             .setMaxResults(limit)
                             .getResultList();
     }
+
+    @Override
+    public List<Kweet> searchKweets(String search) {
+        return new ArrayList<>();
+    }
 }

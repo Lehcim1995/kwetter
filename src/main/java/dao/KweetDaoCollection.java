@@ -192,4 +192,9 @@ public class KweetDaoCollection implements KweetDao
     public List<String> getTends(int limit) {
         return new ArrayList<>();
     }
+
+    @Override
+    public List<Kweet> searchKweets(String search) {
+        return new ArrayList<>();
+    }
 }

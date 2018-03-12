@@ -105,4 +105,8 @@ public class KweetService
     {
         return kweetDao.getTends(limit);
     }
+
+    public List<Kweet> searchKweets(String search) {
+        return kweetDao.searchKweets(search);
+    }
 }

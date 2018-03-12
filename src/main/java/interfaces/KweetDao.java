@@ -114,5 +114,20 @@ public interface KweetDao {
      */
 	List<String> getTends();
 
+    /**
+     * Get all mentiond trends limited by limit
+     *
+     * @param limit the limit
+     * @return
+     */
     List<String> getTends(int limit);
+
+    /**
+     * Gets all kweets with the search query
+     *
+     * @param search the sting that is being searched
+     * @return a list with the kweets with this string
+     */
+    List<Kweet> searchKweets(String search);
+
 }

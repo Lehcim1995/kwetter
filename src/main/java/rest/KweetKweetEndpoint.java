@@ -29,7 +29,8 @@ public class KweetKweetEndpoint
     {
         GenericEntity<List<Kweet>> kweets = new GenericEntity<List<Kweet>>(kweetService.getKweets()) {};
 
-        return Response.ok(kweets).build();
+        return Response.ok(kweets)
+                       .build();
     }
 
     @GET
@@ -44,10 +45,14 @@ public class KweetKweetEndpoint
         }
         catch (KweetNotFoundException e)
         {
-            return Response.noContent().build(); // TODO maybe pick a better response
+            return Response.status(Response.Status.NOT_FOUND)
+                           .entity("Kweet doesn't exists")
+                           .type(MediaType.TEXT_HTML)
+                           .build();
         }
 
-        return Response.ok(kweet).build();
+        return Response.ok(kweet)
+                       .build();
     }
 
     @POST
@@ -64,13 +69,17 @@ public class KweetKweetEndpoint
         }
         catch (UserNotFoundException e)
         {
-            return Response.noContent().build();
+            return Response.status(Response.Status.NOT_FOUND)
+                           .entity("User doesn't exist")
+                           .type(MediaType.TEXT_HTML)
+                           .build();
         }
 
 
         Kweet newKweet = kweetService.addKweet(message, user);
 
-        return Response.ok(newKweet).build();
+        return Response.ok(newKweet)
+                       .build();
     }
 
     @DELETE
@@ -84,10 +93,14 @@ public class KweetKweetEndpoint
         }
         catch (KweetNotFoundException e)
         {
-            return Response.noContent().build(); // TODO maybe pick a better response
+            return Response.status(Response.Status.NOT_FOUND)
+                           .entity("kweet doesn't exists")
+                           .type(MediaType.TEXT_HTML)
+                           .build();
         }
 
-        return Response.ok("Kweet has been deleted").build();
+        return Response.ok("Kweet has been deleted")
+                       .build();
     }
 
     @GET
@@ -95,6 +108,7 @@ public class KweetKweetEndpoint
     @Path("/trends")
     public Response getTrends(@DefaultValue("5") @QueryParam("limit") int limit)
     {
-        return Response.ok(kweetService.getTends(limit)).build();
+        return Response.ok(kweetService.getTends(limit))
+                       .build();
     }
 }
