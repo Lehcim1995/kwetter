@@ -5,8 +5,6 @@ import classes.User;
 import exceptions.IdAlreadyExistsException;
 import exceptions.NoPermissionException;
 import exceptions.UserNotFoundException;
-import interfaces.KweetDao;
-import interfaces.UserDao;
 import services.KweetService;
 import services.UserService;
 
@@ -32,19 +30,24 @@ public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plug
     {
         GenericEntity<List<User>> users = new GenericEntity<List<User>>(userService.getUsers()) {};
 
-        return Response.ok(users).build();
+        return Response.ok(users)
+                       .build();
     }
 
     @POST
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_HTML})
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addUser(User user)
     {
         User newUser;
 
-        if (user.getUsername().isEmpty())
+        if (user.getUsername()
+                .isEmpty())
         {
-            return Response.ok("username is empty").build();
+            return Response.status(Response.Status.NOT_ACCEPTABLE)
+                           .entity("username is empty")
+                           .type(MediaType.TEXT_HTML)
+                           .build();
         }
 
         try
@@ -53,14 +56,18 @@ public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plug
         }
         catch (IdAlreadyExistsException e)
         {
-            return Response.noContent().build();
+            return Response.status(Response.Status.NOT_ACCEPTABLE)
+                           .entity("User already exists")
+                           .type(MediaType.TEXT_HTML)
+                           .build();
         }
 
-        return Response.ok(newUser).build();
+        return Response.ok(newUser)
+                       .build();
     }
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_HTML})
     @Path("{id}")
     public Response getUser(@PathParam("id") String username)
     {
@@ -72,14 +79,45 @@ public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plug
         }
         catch (UserNotFoundException e)
         {
-            return Response.noContent().build();
+            return Response.status(Response.Status.NOT_FOUND)
+                           .entity("User not found")
+                           .type(MediaType.TEXT_HTML)
+                           .build();
         }
 
-        return Response.ok(u).build();
+        return Response.ok(u)
+                       .build();
     }
 
     @POST
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_HTML})
+    @Path("{id}/addkweet")
+    public Response addKweetToUser(
+            @PathParam("id") String username,
+            Kweet kweet)
+    {
+        String message = kweet.getMessage();
+        User user = null;
+        try
+        {
+            user = userService.getUser(username);
+        }
+        catch (UserNotFoundException e)
+        {
+            return Response.status(Response.Status.NOT_FOUND)
+                           .entity("User not found")
+                           .type(MediaType.TEXT_HTML)
+                           .build();
+        }
+
+        Kweet newKweet = kweetService.addKweet(message, user);
+
+        return Response.ok(newKweet)
+                       .build();
+    }
+
+    @POST
+    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_HTML})
     @Path("{id}")
     public Response updateUser(@PathParam("id") String username)
     {
@@ -89,40 +127,61 @@ public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plug
         {
             u = userService.updateUser(userService.getUser(username));
         }
-        catch (UserNotFoundException | NoPermissionException e)
+        catch (UserNotFoundException e)
         {
-            return Response.noContent().build();
+            return Response.status(Response.Status.NOT_FOUND)
+                           .entity("User not found")
+                           .type(MediaType.TEXT_HTML)
+                           .build();
+        }
+        catch (NoPermissionException e)
+        {
+            return Response.status(Response.Status.UNAUTHORIZED)
+                           .entity("No permission")
+                           .type(MediaType.TEXT_HTML)
+                           .build();
         }
 
-        return Response.ok(u).build();
+        return Response.ok(u)
+                       .build();
     }
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_HTML})
     @Path("{id}/kweets")
-    public Response getKweetsFromUser(@PathParam("id") String username)
+    public Response getKweetsFromUser(
+            @PathParam("id") String username,
+            @DefaultValue("5") @QueryParam("limit") int limit)
     {
-        kweetService.getKweetsFromUser(username);
-        return Response.ok("user").build();
+        GenericEntity<List<Kweet>> userKweets = new GenericEntity<List<Kweet>>(kweetService.getKweetsFromUser(username)) {};
+
+        return Response.ok(userKweets)
+                       .build();
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{id}/mentions")
-    public Response getKweetsFromMentions(@PathParam("id") String username)
+    public Response getKweetsFromMentions(
+            @PathParam("id") String username,
+            @DefaultValue("5") @QueryParam("limit") int limit)
     {
         GenericEntity<List<Kweet>> mentions = new GenericEntity<List<Kweet>>(kweetService.getKweetsFromMention(username)) {};
 
-        return Response.ok(mentions).build();
+        return Response.ok(mentions)
+                       .build();
     }
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_HTML})
     @Path("{id}/timeline")
-    public Response getKweetsFromTimeline(@PathParam("id") String username)
+    public Response getKweetsFromTimeline(
+            @PathParam("id") String username,
+            @DefaultValue("5") @QueryParam("limit") int limit)
     {
         kweetService.getKweetsFromUser(username);
-        return Response.ok("timeline").build();
+        return Response.ok("timeline")
+                       .type(MediaType.TEXT_HTML)
+                       .build();
     }
-
 }

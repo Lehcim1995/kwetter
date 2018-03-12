@@ -33,7 +33,7 @@ public class KweetKweetEndpoint
     }
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_HTML})
     @Path("/{id}")
     public Response getKweet(@PathParam("id") long kweetId)
     {
@@ -51,7 +51,7 @@ public class KweetKweetEndpoint
     }
 
     @POST
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_HTML})
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addKweet(Kweet kweet)
     {
@@ -74,7 +74,7 @@ public class KweetKweetEndpoint
     }
 
     @DELETE
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_HTML})
     @Path("/{id}")
     public Response deleteKweet(@PathParam("id") long kweetId)
     {
@@ -91,7 +91,7 @@ public class KweetKweetEndpoint
     }
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_HTML})
     @Path("/trends")
     public Response getTrends(@DefaultValue("5") @QueryParam("limit") int limit)
     {
