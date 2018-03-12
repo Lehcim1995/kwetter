@@ -111,4 +111,15 @@ public class KweetKweetEndpoint
         return Response.ok(kweetService.getTends(limit))
                        .build();
     }
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_HTML})
+    @Path("/search")
+    public Response getTrends(
+            @QueryParam("search") String search,
+            @DefaultValue("5") @QueryParam("limit") int limit)
+    {
+        return Response.ok(kweetService.searchKweets(search))
+                       .build();
+    }
 }
