@@ -62,7 +62,7 @@ public class KweetKweetEndpoint
     {
         // TODO create
         String message = kweet.getMessage();
-        User user = null;
+        User user;
         try
         {
             user = userService.getUser(kweet.getOwnerName());

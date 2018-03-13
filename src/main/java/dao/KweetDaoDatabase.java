@@ -173,6 +173,8 @@ public class KweetDaoDatabase implements KweetDao
 
     @Override
     public List<Kweet> searchKweets(String search) {
-        return new ArrayList<>();
+        return entityManager.createQuery("SELECT k FROM Kweet k WHERE k.message like :search", Kweet.class)
+                            .setParameter("search", "%" + search + "%")
+                            .getResultList();
     }
 }
