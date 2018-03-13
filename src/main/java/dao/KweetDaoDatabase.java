@@ -5,16 +5,14 @@ import classes.User;
 import exceptions.KweetNotFoundException;
 import interfaces.KweetDao;
 
-import javax.ejb.Singleton;
-import javax.enterprise.inject.Default;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 
-@Singleton
-@Default
+@Stateless //stateless
 @JPA
 public class KweetDaoDatabase implements KweetDao
 {
@@ -45,7 +43,7 @@ public class KweetDaoDatabase implements KweetDao
     @Override
     public List<Kweet> getKweetsFromUser(String username)
     {
-        return entityManager.createNamedQuery("kweet.getKweetsFromUser", Kweet.class)
+        return entityManager.createQuery("SELECT u.kweets FROM User u WHERE u.username = :owner", Kweet.class)
                             .setParameter("owner", username)
                             .getResultList();
     }
@@ -55,7 +53,7 @@ public class KweetDaoDatabase implements KweetDao
             String username,
             int amount)
     {
-        return entityManager.createNamedQuery("kweet.getKweetsFromUser", Kweet.class)
+        return entityManager.createQuery("SELECT u.kweets FROM User u WHERE u.username = :owner", Kweet.class)
                             .setParameter("owner", username)
                             .setMaxResults(amount)
                             .getResultList();

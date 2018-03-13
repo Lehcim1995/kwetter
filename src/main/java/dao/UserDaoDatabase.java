@@ -8,14 +8,14 @@ import exceptions.UserNotFoundException;
 import interfaces.UserDao;
 
 import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
-@Singleton
-@Default
+@Stateless
 @JPA
 public class UserDaoDatabase implements UserDao
 {

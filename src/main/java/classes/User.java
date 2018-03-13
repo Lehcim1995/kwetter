@@ -5,7 +5,9 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -33,9 +35,9 @@ public class User implements Serializable
     private String profilePicture;
     private RolesEnum role;
 
-    @OneToMany(mappedBy = "users")
-    @JoinColumn(name = "ID")
-    private Set<Kweet> kweets;
+    @OneToMany(mappedBy = "owner")
+    @JoinColumn(name = "ID") // join table?
+    private List<Kweet> kweets;
 
     public User()
     {
@@ -50,7 +52,7 @@ public class User implements Serializable
         followers = new HashSet<>();
         this.role = role;
 
-        kweets = new HashSet<>();
+        kweets = new ArrayList<>();
         //TODO link to a default profile picture
     }
 
@@ -69,29 +71,14 @@ public class User implements Serializable
         this.username = username;
     }
 
-    public void setBio(String bio)
-    {
-        this.bio = bio;
-    }
-
-    public void setLocation(String location)
-    {
-        this.location = location;
-    }
-
-    public void setWebsite(String website)
-    {
-        this.website = website;
-    }
-
-    public void setProfilePicture(String profilePicture)
-    {
-        this.profilePicture = profilePicture;
-    }
-
     public String getBio()
     {
         return bio;
+    }
+
+    public void setBio(String bio)
+    {
+        this.bio = bio;
     }
 
     public String getLocation()
@@ -99,9 +86,19 @@ public class User implements Serializable
         return location;
     }
 
+    public void setLocation(String location)
+    {
+        this.location = location;
+    }
+
     public String getWebsite()
     {
         return website;
+    }
+
+    public void setWebsite(String website)
+    {
+        this.website = website;
     }
 
     public Set<String> getFollowing()
@@ -119,6 +116,11 @@ public class User implements Serializable
         return profilePicture;
     }
 
+    public void setProfilePicture(String profilePicture)
+    {
+        this.profilePicture = profilePicture;
+    }
+
     public RolesEnum getRole()
     {
         return role;
@@ -129,10 +131,14 @@ public class User implements Serializable
         this.role = role;
     }
 
-    public Set<Long> getKweets()
+    public List<Long> getKweets()
     {
+//        return kweets.stream()
+//                     .map(Kweet::getId)
+//                     .collect(Collectors.toSet());
+
         return kweets.stream()
                      .map(Kweet::getId)
-                     .collect(Collectors.toSet());
+                     .collect(Collectors.toList());
     }
 }

@@ -1,6 +1,8 @@
 package classes;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.naming.Name;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -21,18 +23,19 @@ import java.util.regex.Pattern;
 })
 public class Kweet implements Serializable
 {
-
+//    @JsonManagedReference
     @Id
     @GeneratedValue()
     private long id;
 
     @ElementCollection
-    private List<String> mentions;
+    private List<String> mentions; // make users
 
     @ElementCollection
     private Set<String> harts;
 
     @ElementCollection
+
     private List<String> trends;
 
     private String message;
@@ -189,16 +192,5 @@ public class Kweet implements Serializable
     public void addHeart(String userName)
     {
         harts.add(userName);
-    }
-
-    @ManyToOne(optional = false)
-    private User users;
-
-    public User getUsers() {
-        return users;
-    }
-
-    public void setUsers(User users) {
-        this.users = users;
     }
 }

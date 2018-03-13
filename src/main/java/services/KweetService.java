@@ -2,20 +2,21 @@ package services;
 
 import classes.Kweet;
 import classes.User;
+import dao.JPA;
 import exceptions.KweetNotFoundException;
 import interfaces.KweetDao;
-import interfaces.UserDao;
 
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
-import javax.inject.Singleton;
 import java.util.List;
 
-@Singleton
+@Stateless
 @Default
 public class KweetService
 {
     @EJB
+    @JPA
     private KweetDao kweetDao;
 
     public void setKweetDao(KweetDao kweetDao)

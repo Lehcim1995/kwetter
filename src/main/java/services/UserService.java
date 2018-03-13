@@ -2,24 +2,25 @@ package services;
 
 import classes.RolesEnum;
 import classes.User;
+import dao.JPA;
 import exceptions.IdAlreadyExistsException;
 import exceptions.NoPermissionException;
 import exceptions.UserNotFoundException;
 import interfaces.UserDao;
 
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.List;
 
-@Singleton
+@Stateless
 @Default
 public class UserService
 {
     private UserDao userDao;
 
     @EJB
+    @JPA
     public void setUserDao(UserDao userDao)
     {
         this.userDao = userDao;

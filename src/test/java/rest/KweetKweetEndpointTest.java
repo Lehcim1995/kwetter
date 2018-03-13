@@ -36,7 +36,7 @@ public class KweetKweetEndpointTest
     }
 
     @Test
-    public void crud() {
+    public void crud() { //rest assured.
         String mediaType = MediaType.APPLICATION_JSON;
         User u = new User("user1");
         Kweet kweet = new Kweet("message", u);
