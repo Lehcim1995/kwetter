@@ -1,47 +1,44 @@
 package classes;
 
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-import javax.naming.Name;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity(name = "Kweet")
 @Table(name = "kweet")
-@NamedQueries({
-        @NamedQuery(name = "kweet.getKweets", query = "SELECT K FROM Kweet K"),
-        @NamedQuery(name = "kweet.getKweetsFromUser", query = "SELECT k FROM Kweet k where k.owner.username = :owner")
-})
+@NamedQueries({@NamedQuery(name = "kweet.getKweets", query = "SELECT K FROM Kweet K"), @NamedQuery(name = "kweet.getKweetsFromUser", query = "SELECT k FROM Kweet k where k.owner.username = :owner")})
 public class Kweet implements Serializable
 {
-//    @JsonManagedReference
+    //    @JsonManagedReference
     @Id
     @GeneratedValue()
     private long id;
 
-    @ElementCollection
-    private List<String> mentions; // make users
+    @ManyToMany
+    private List<User> mentions; // make users
+
+    @ManyToMany
+    private List<User> harts;
 
     @ElementCollection
-    private Set<String> harts;
-
-    @ElementCollection
-
     private List<String> trends;
 
     private String message;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "USERS_OWNER")
+    @JoinTable(name = "user_kweets")
     private User owner;
 
     private Date postDate;
@@ -67,8 +64,10 @@ public class Kweet implements Serializable
         this.message = message;
         this.owner = owner;
         trends = getTrendsFromMessage(message);
-        mentions = getMentionsFromMessage(message);
-        harts = new HashSet<>();
+        mentions = getMentionsFromMessage(message).stream()
+                                                  .map(User::new)
+                                                  .collect(Collectors.toList());
+        harts = new ArrayList<>();
         postDate = new Date();
     }
 
@@ -83,8 +82,8 @@ public class Kweet implements Serializable
 
     public Kweet(
             long id,
-            List<String> mentions,
-            Set<String> harts,
+            List<User> mentions,
+            List<User> harts,
             List<String> trends,
             String message,
             User owner,
@@ -141,12 +140,16 @@ public class Kweet implements Serializable
 
     public List<String> getMentions()
     {
-        return mentions;
+        return mentions.stream()
+                       .map(User::getUsername)
+                       .collect(Collectors.toList());
     }
 
     public List<String> getHarts()
     {
-        return new ArrayList<>(harts);
+        return harts.stream()
+                       .map(User::getUsername)
+                       .collect(Collectors.toList());
     }
 
     public List<String> getTrends()
@@ -191,6 +194,6 @@ public class Kweet implements Serializable
 
     public void addHeart(String userName)
     {
-        harts.add(userName);
+        harts.add(null); // test todo fix
     }
 }

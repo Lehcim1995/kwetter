@@ -35,12 +35,14 @@ public class User implements Serializable
     private String profilePicture;
     private RolesEnum role;
 
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     @JoinColumn(name = "ID") // join table?
+    @JoinTable(name = "user_kweets")
     private List<Kweet> kweets;
 
     public User()
     {
+
     }
 
     public User(
