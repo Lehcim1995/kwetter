@@ -209,11 +209,11 @@ public class KweetDaoImplTest //https://moepad.wordpress.com/tutorials/testing-m
     public void addKweet()
     {
         int extraKweets = 5;
-        kweetDao.addKweet("1", user1);
-        kweetDao.addKweet("2", user1);
-        kweetDao.addKweet("3", user1);
-        kweetDao.addKweet("4", user1);
-        kweetDao.addKweet("5", user1);
+//        kweetDao.addKweet("1", user1);
+//        kweetDao.addKweet("2", user1);
+//        kweetDao.addKweet("3", user1);
+//        kweetDao.addKweet("4", user1);
+//        kweetDao.addKweet("5", user1);
 
 
         List<Kweet> k = kweetDao.getKweets();

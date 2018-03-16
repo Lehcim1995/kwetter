@@ -2,10 +2,10 @@ package rest;
 
 import classes.Kweet;
 import classes.User;
+import classes.restClasses.KweetRest;
 import exceptions.KweetNotFoundException;
 import exceptions.UserNotFoundException;
-import services.KweetService;
-import services.UserService;
+import services.KwetterService;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -17,17 +17,15 @@ import java.util.List;
 @Path("/kweet")
 public class KweetKweetEndpoint
 {
-    @Inject
-    private KweetService kweetService;
 
     @Inject
-    private UserService userService;
+    KwetterService kwetterService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getKweets(@QueryParam("limit") int limit)
     {
-        GenericEntity<List<Kweet>> kweets = new GenericEntity<List<Kweet>>(kweetService.getKweets()) {};
+        GenericEntity<List<Kweet>> kweets = new GenericEntity<List<Kweet>>(kwetterService.getKweets()) {};
 
         return Response.ok(kweets)
                        .build();
@@ -41,7 +39,7 @@ public class KweetKweetEndpoint
         Kweet kweet;
         try
         {
-            kweet = kweetService.getKweet(kweetId);
+            kweet = kwetterService.getKweet(kweetId);
         }
         catch (KweetNotFoundException e)
         {
@@ -58,25 +56,22 @@ public class KweetKweetEndpoint
     @POST
     @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_HTML})
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addKweet(Kweet kweet)
+    public Response addKweet(KweetRest kweet)
     {
         // TODO create
-        String message = kweet.getMessage();
-        User user;
+
+        Kweet newKweet;
         try
         {
-            user = userService.getUser(kweet.getOwnerName());
+            newKweet = kwetterService.addKweet(kweet.getMessage(), kweet.getUsername());
         }
         catch (UserNotFoundException e)
         {
             return Response.status(Response.Status.NOT_FOUND)
-                           .entity("User doesn't exist")
+                           .entity("User doesn't exists")
                            .type(MediaType.TEXT_HTML)
                            .build();
         }
-
-
-        Kweet newKweet = kweetService.addKweet(message, user);
 
         return Response.ok(newKweet)
                        .build();
@@ -89,7 +84,7 @@ public class KweetKweetEndpoint
     {
         try
         {
-            kweetService.deleteKweet(kweetId);
+            kwetterService.deleteKweet(kweetId);
         }
         catch (KweetNotFoundException e)
         {
@@ -108,7 +103,7 @@ public class KweetKweetEndpoint
     @Path("/trends")
     public Response getTrends(@DefaultValue("5") @QueryParam("limit") int limit)
     {
-        return Response.ok(kweetService.getTends(limit))
+        return Response.ok(kwetterService.getTends(limit))
                        .build();
     }
 
@@ -119,7 +114,39 @@ public class KweetKweetEndpoint
             @QueryParam("search") String search,
             @DefaultValue("5") @QueryParam("limit") int limit)
     {
-        return Response.ok(kweetService.searchKweets(search))
+        return Response.ok(kwetterService.searchKweets(search))
                        .build();
+    }
+
+    @POST
+    @Path("/{id}/like")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_HTML})
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response likeKweet(@PathParam("id") long id, User user)
+    {
+        if (user == null)
+        {
+            return Response.notAcceptable(null).build();
+        }
+
+        try
+        {
+            if (kwetterService.getKweet(id).like(user))
+            {
+                return Response.status(Response.Status.NOT_MODIFIED)
+                               .entity("user already liked kweet")
+                               .type(MediaType.TEXT_HTML)
+                               .build();
+            }
+        }
+        catch (KweetNotFoundException e)
+        {
+            return Response.status(Response.Status.NOT_FOUND)
+                           .entity("kweet doesn't exists")
+                           .type(MediaType.TEXT_HTML)
+                           .build();
+        }
+
+        return Response.ok("like").build();
     }
 }

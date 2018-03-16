@@ -5,8 +5,7 @@ import classes.User;
 import exceptions.IdAlreadyExistsException;
 import exceptions.NoPermissionException;
 import exceptions.UserNotFoundException;
-import services.KweetService;
-import services.UserService;
+import services.KwetterService;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -18,17 +17,15 @@ import java.util.List;
 @Path("/user")
 public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plugin/blob/master/README.md // TODO
 {
-    @Inject
-    private UserService userService;
 
     @Inject
-    private KweetService kweetService;
+    KwetterService kwetterService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getUsers()
     {
-        GenericEntity<List<User>> users = new GenericEntity<List<User>>(userService.getUsers()) {};
+        GenericEntity<List<User>> users = new GenericEntity<List<User>>(kwetterService.getUsers()) {};
 
         return Response.ok(users)
                        .build();
@@ -52,7 +49,7 @@ public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plug
 
         try
         {
-            newUser = userService.createUser(user.getUsername(), "password");
+            newUser = kwetterService.createUser(user.getUsername(), "password");
         }
         catch (IdAlreadyExistsException e)
         {
@@ -75,7 +72,7 @@ public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plug
 
         try
         {
-            u = userService.getUser(username);
+            u = kwetterService.getUser(username);
         }
         catch (UserNotFoundException e)
         {
@@ -100,7 +97,7 @@ public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plug
         User user = null;
         try
         {
-            user = userService.getUser(username);
+            user = kwetterService.getUser(username);
         }
         catch (UserNotFoundException e)
         {
@@ -110,7 +107,15 @@ public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plug
                            .build();
         }
 
-        Kweet newKweet = kweetService.addKweet(message, user);
+        Kweet newKweet = null;
+        try
+        {
+            newKweet = kwetterService.addKweet(message, user.getUsername());
+        }
+        catch (UserNotFoundException e)
+        {
+            e.printStackTrace();
+        }
 
         return Response.ok(newKweet)
                        .build();
@@ -125,7 +130,7 @@ public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plug
 
         try
         {
-            u = userService.updateUser(userService.getUser(username));
+            u = kwetterService.updateUser(kwetterService.getUser(username));
         }
         catch (UserNotFoundException e)
         {
@@ -153,7 +158,7 @@ public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plug
             @PathParam("id") String username,
             @DefaultValue("5") @QueryParam("limit") int limit)
     {
-        GenericEntity<List<Kweet>> userKweets = new GenericEntity<List<Kweet>>(kweetService.getKweetsFromUser(username)) {};
+        GenericEntity<List<Kweet>> userKweets = new GenericEntity<List<Kweet>>(kwetterService.getKweetsFromUser(username)) {};
 
         return Response.ok(userKweets)
                        .build();
@@ -166,7 +171,7 @@ public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plug
             @PathParam("id") String username,
             @DefaultValue("5") @QueryParam("limit") int limit)
     {
-        GenericEntity<List<Kweet>> mentions = new GenericEntity<List<Kweet>>(kweetService.getKweetsFromMention(username)) {};
+        GenericEntity<List<Kweet>> mentions = new GenericEntity<List<Kweet>>(kwetterService.getKweetsFromMention(username)) {};
 
         return Response.ok(mentions)
                        .build();
@@ -179,7 +184,7 @@ public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plug
             @PathParam("id") String username,
             @DefaultValue("5") @QueryParam("limit") int limit)
     {
-        kweetService.getKweetsFromUser(username);
+        kwetterService.getKweetsFromUser(username);
         return Response.ok("timeline")
                        .type(MediaType.TEXT_HTML)
                        .build();

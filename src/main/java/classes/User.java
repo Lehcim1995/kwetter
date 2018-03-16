@@ -1,15 +1,15 @@
 package classes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity(name = "User")
 @Table(name = "kwetter_user")
@@ -27,22 +27,20 @@ public class User implements Serializable
     private String website;
 
     @ElementCollection
-    private Set<String> following;
+    private List<String> following;
 
     @ElementCollection
-    private Set<String> followers;
+    private List<String> followers;
 
     private String profilePicture;
     private RolesEnum role;
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
-    @JoinColumn(name = "ID") // join table?
-    @JoinTable(name = "user_kweets")
+    @OneToMany(mappedBy = "owner")
+    @JsonManagedReference
     private List<Kweet> kweets;
 
     public User()
     {
-
     }
 
     public User(
@@ -50,8 +48,8 @@ public class User implements Serializable
             RolesEnum role)
     {
         this.username = username;
-        following = new HashSet<>();
-        followers = new HashSet<>();
+        following = new ArrayList<>();
+        followers = new ArrayList<>();
         this.role = role;
 
         kweets = new ArrayList<>();
@@ -103,12 +101,12 @@ public class User implements Serializable
         this.website = website;
     }
 
-    public Set<String> getFollowing()
+    public List<String> getFollowing()
     {
         return following;
     }
 
-    public Set<String> getFollowers()
+    public List<String> getFollowers()
     {
         return followers;
     }
@@ -133,14 +131,28 @@ public class User implements Serializable
         this.role = role;
     }
 
-    public List<Long> getKweets()
+    @JsonIgnore
+    public List<Kweet> getKweets()
     {
-//        return kweets.stream()
-//                     .map(Kweet::getId)
-//                     .collect(Collectors.toSet());
+        return kweets;
+    }
 
-        return kweets.stream()
-                     .map(Kweet::getId)
-                     .collect(Collectors.toList());
+    public Kweet addKweet(String message) {
+
+        Kweet k = new Kweet(message, this);
+
+        kweets.add(k);
+
+        return k;
+    }
+
+    public Kweet addKweet(Kweet k) {
+
+        kweets.add(k);
+        if (k.getOwner() != this) {
+            k.setOwner(this);
+        }
+
+        return k;
     }
 }

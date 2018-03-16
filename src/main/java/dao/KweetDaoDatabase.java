@@ -3,6 +3,7 @@ package dao;
 import classes.Kweet;
 import classes.User;
 import exceptions.KweetNotFoundException;
+import exceptions.UserNotFoundException;
 import interfaces.KweetDao;
 
 import javax.ejb.Stateless;
@@ -102,12 +103,19 @@ public class KweetDaoDatabase implements KweetDao
     @Override
     public Kweet addKweet(
             String message,
-            User user)
+            User user) throws UserNotFoundException
     {
-        Kweet k = new Kweet(message, user);
 
+        if (user == null)
+        {
+            throw new UserNotFoundException("ded");
+        }
+
+        Kweet k = new Kweet(message);
 
         entityManager.persist(k);
+
+        user.addKweet(k);
 
         return k;
     }

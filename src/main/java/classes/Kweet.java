@@ -1,6 +1,9 @@
 package classes;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -20,7 +23,7 @@ import java.util.stream.Collectors;
 @NamedQueries({@NamedQuery(name = "kweet.getKweets", query = "SELECT K FROM Kweet K"), @NamedQuery(name = "kweet.getKweetsFromUser", query = "SELECT k FROM Kweet k where k.owner.username = :owner")})
 public class Kweet implements Serializable
 {
-    //    @JsonManagedReference
+
     @Id
     @GeneratedValue()
     private long id;
@@ -36,9 +39,9 @@ public class Kweet implements Serializable
 
     private String message;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "USERS_OWNER")
-    @JoinTable(name = "user_kweets")
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="USERS_OWNER", nullable = false)
+    @JsonBackReference
     private User owner;
 
     private Date postDate;
@@ -47,14 +50,8 @@ public class Kweet implements Serializable
     {
     }
 
-    public Kweet(
-            String message,
-            User owner)
+    public Kweet(String message)
     {
-        if (owner == null)
-        {
-            throw new IllegalArgumentException();
-        }
 
         if (message.isEmpty() || message.length() > 140)
         {
@@ -62,13 +59,26 @@ public class Kweet implements Serializable
         }
 
         this.message = message;
-        this.owner = owner;
         trends = getTrendsFromMessage(message);
         mentions = getMentionsFromMessage(message).stream()
                                                   .map(User::new)
                                                   .collect(Collectors.toList());
         harts = new ArrayList<>();
         postDate = new Date();
+    }
+
+    public Kweet(
+            String message,
+            User owner)
+    {
+        this(message);
+
+        if (owner == null)
+        {
+            throw new IllegalArgumentException();
+        }
+
+        this.owner = owner;
     }
 
     public Kweet(
@@ -128,6 +138,28 @@ public class Kweet implements Serializable
         return trends;
     }
 
+    public boolean like(User user)
+    {
+        if (harts.contains(user))
+        {
+            return false;
+        }
+
+        harts.add(user);
+        return true;
+    }
+
+    public boolean unLike(User user)
+    {
+        if (harts.contains(user))
+        {
+            harts.remove(user);
+            return true;
+        }
+
+        return false;
+    }
+
     public long getId()
     {
         return id;
@@ -169,9 +201,14 @@ public class Kweet implements Serializable
 
     public String getOwnerName()
     {
+        if (owner == null)
+        {
+            return "";
+        }
         return owner.getUsername();
     }
 
+    @JsonIgnore
     public User getOwner()
     {
         return owner;
@@ -180,6 +217,9 @@ public class Kweet implements Serializable
     public void setOwner(User owner)
     {
         this.owner = owner;
+        if (!owner.getKweets().contains(this)) { // warning this may cause performance issues if you have a large data set since this operation is O(n)
+            owner.getKweets().add(this);
+        }
     }
 
     public Date getPostDate()

@@ -3,6 +3,7 @@ package interfaces;
 import classes.Kweet;
 import classes.User;
 import exceptions.KweetNotFoundException;
+import exceptions.UserNotFoundException;
 
 import java.util.List;
 
@@ -77,7 +78,7 @@ public interface KweetDao {
      * @param message the message for the kweet
      * @param user the user for the kweet
      */
-    Kweet addKweet(String message, User user);
+    Kweet addKweet(String message, User user) throws UserNotFoundException;
 
     /**
 	 * Deletes a kweet by id
