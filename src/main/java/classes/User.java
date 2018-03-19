@@ -1,12 +1,12 @@
 package classes;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,17 +27,26 @@ public class User implements Serializable
     private String website;
 
     @ElementCollection
-    private List<String> following;
+    private List<String> following = new ArrayList<>();
 
     @ElementCollection
-    private List<String> followers;
+    private List<String> followers = new ArrayList<>();
+
+    //    @OneToMany(cascade = CascadeType.PERSIST)
+    @ElementCollection
+    private List<String> mentions = new ArrayList<>();
+
+    //    @OneToMany(cascade = CascadeType.PERSIST)
+    @ElementCollection
+    private List<String> harts = new ArrayList<>();
 
     private String profilePicture;
     private RolesEnum role;
 
-    @OneToMany(mappedBy = "owner")
-    @JsonManagedReference
-    private List<Kweet> kweets;
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JsonIgnore
+    @XmlTransient
+    private List<Kweet> kweets = new ArrayList<>();
 
     public User()
     {
@@ -141,15 +150,14 @@ public class User implements Serializable
 
         Kweet k = new Kweet(message, this);
 
-        kweets.add(k);
-
         return k;
     }
 
     public Kweet addKweet(Kweet k) {
 
         kweets.add(k);
-        if (k.getOwner() != this) {
+        if (k.getOwner() != this)
+        {
             k.setOwner(this);
         }
 

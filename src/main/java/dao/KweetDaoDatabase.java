@@ -29,16 +29,30 @@ public class KweetDaoDatabase implements KweetDao
     @Override
     public List<Kweet> getKweets()
     {
-        return entityManager.createNamedQuery("kweet.getKweets", Kweet.class)
-                            .getResultList();
+        try
+        {
+            return entityManager.createQuery("SELECT k FROM Kweet k ORDER BY k.postDate asc", Kweet.class)
+                                .getResultList();
+        }
+        catch (NoResultException e)
+        {
+            return new ArrayList<>();
+        }
     }
 
     @Override
     public List<Kweet> getKweets(int limit)
     {
-        return entityManager.createQuery("SELECT k FROM Kweet k ORDER BY k.postDate asc", Kweet.class)
-                            .setMaxResults(limit)
-                            .getResultList();
+        try
+        {
+            return entityManager.createQuery("SELECT k FROM Kweet k ORDER BY k.postDate asc", Kweet.class)
+                                .setMaxResults(limit)
+                                .getResultList();
+        }
+        catch (NoResultException e)
+        {
+            return new ArrayList<>();
+        }
     }
 
     @Override
@@ -111,11 +125,8 @@ public class KweetDaoDatabase implements KweetDao
             throw new UserNotFoundException("ded");
         }
 
-        Kweet k = new Kweet(message);
-
+        Kweet k = new Kweet(message, user);
         entityManager.persist(k);
-
-        user.addKweet(k);
 
         return k;
     }

@@ -28,7 +28,8 @@ public class KwetterService
     @JPA
     private UserDao userDao;
 
-    public List<Kweet> getKweets() {
+    public List<Kweet> getKweets()
+    {
         return kweetDao.getKweets();
     }
 

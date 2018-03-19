@@ -19,13 +19,19 @@ public class KweetKweetEndpoint
 {
 
     @Inject
-    KwetterService kwetterService;
+    private KwetterService kwetterService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getKweets(@QueryParam("limit") int limit)
     {
         GenericEntity<List<Kweet>> kweets = new GenericEntity<List<Kweet>>(kwetterService.getKweets()) {};
+
+        if (kwetterService == null)
+        {
+            return Response.ok("is null idot")
+                           .build();
+        }
 
         return Response.ok(kweets)
                        .build();

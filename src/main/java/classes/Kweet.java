@@ -1,20 +1,19 @@
 package classes;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -28,20 +27,22 @@ public class Kweet implements Serializable
     @GeneratedValue()
     private long id;
 
-    @ManyToMany
-    private List<User> mentions; // make users
+    //    @OneToMany(cascade = CascadeType.PERSIST)
+    @ElementCollection
+    private List<String> mentions = new ArrayList<>(); // make users
 
-    @ManyToMany
-    private List<User> harts;
+    //    @OneToMany(cascade = CascadeType.PERSIST)
+    @ElementCollection
+    private List<String> harts = new ArrayList<>();
 
     @ElementCollection
     private List<String> trends;
 
     private String message;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="USERS_OWNER", nullable = false)
-    @JsonBackReference
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JsonIgnore
+    @XmlTransient
     private User owner;
 
     private Date postDate;
@@ -60,9 +61,9 @@ public class Kweet implements Serializable
 
         this.message = message;
         trends = getTrendsFromMessage(message);
-        mentions = getMentionsFromMessage(message).stream()
+        mentions = getMentionsFromMessage(message);/*.stream()
                                                   .map(User::new)
-                                                  .collect(Collectors.toList());
+                                                  .collect(Collectors.toList());*/
         harts = new ArrayList<>();
         postDate = new Date();
     }
@@ -78,7 +79,7 @@ public class Kweet implements Serializable
             throw new IllegalArgumentException();
         }
 
-        this.owner = owner;
+        setOwner(owner);
     }
 
     public Kweet(
@@ -101,8 +102,8 @@ public class Kweet implements Serializable
     {
         this(id, message, owner);
 
-        this.mentions = mentions;
-        this.harts = harts;
+        this.mentions = new ArrayList<>();
+        this.harts = new ArrayList<>();
         this.trends = trends;
         this.postDate = postDate;
     }
@@ -140,20 +141,20 @@ public class Kweet implements Serializable
 
     public boolean like(User user)
     {
-        if (harts.contains(user))
+        if (harts.contains(user.getUsername()))
         {
             return false;
         }
 
-        harts.add(user);
+        harts.add(user.getUsername());
         return true;
     }
 
     public boolean unLike(User user)
     {
-        if (harts.contains(user))
+        if (harts.contains(user.getUsername()))
         {
-            harts.remove(user);
+            harts.remove(user.getUsername());
             return true;
         }
 
@@ -172,16 +173,16 @@ public class Kweet implements Serializable
 
     public List<String> getMentions()
     {
-        return mentions.stream()
+        return mentions/*.stream()
                        .map(User::getUsername)
-                       .collect(Collectors.toList());
+                       .collect(Collectors.toList())*/;
     }
 
     public List<String> getHarts()
     {
-        return harts.stream()
-                       .map(User::getUsername)
-                       .collect(Collectors.toList());
+        return harts/*.stream()
+                    .map(User::getUsername)
+                    .collect(Collectors.toList())*/;
     }
 
     public List<String> getTrends()
@@ -217,8 +218,10 @@ public class Kweet implements Serializable
     public void setOwner(User owner)
     {
         this.owner = owner;
-        if (!owner.getKweets().contains(this)) { // warning this may cause performance issues if you have a large data set since this operation is O(n)
-            owner.getKweets().add(this);
+        if (!owner.getKweets()
+                  .contains(this))
+        { // warning this may cause performance issues if you have a large data set since this operation is O(n)
+            owner.addKweet(this);
         }
     }
 
