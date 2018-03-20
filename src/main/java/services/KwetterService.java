@@ -4,10 +4,7 @@ import classes.Kweet;
 import classes.RolesEnum;
 import classes.User;
 import dao.JPA;
-import exceptions.IdAlreadyExistsException;
-import exceptions.KweetNotFoundException;
-import exceptions.NoPermissionException;
-import exceptions.UserNotFoundException;
+import exceptions.*;
 import interfaces.KweetDao;
 import interfaces.UserDao;
 
@@ -142,4 +139,25 @@ public class KwetterService
     {
         return userDao.createUser(username, password, role);
     }
+
+    public void follow(User user, User follower) throws UserAlreadyFollowing, UserNotFoundException
+    {
+        userDao.getUser(follower.getUsername()).follow(user);
+    }
+
+    public void unfollow(User user, User follower) throws UserNotFollowing, UserNotFoundException
+    {
+        userDao.getUser(follower.getUsername()).unfollow(user);
+    }
+
+    public void likeKweet(User user, Kweet kweet) throws KweetNotFoundException
+    {
+        kweetDao.getKweet(kweet.getId()).like(user);
+    }
+
+    public void unlikeKweet(User user, Kweet kweet) throws KweetNotFoundException
+    {
+        kweetDao.getKweet(kweet.getId()).unLike(user);
+    }
+
 }

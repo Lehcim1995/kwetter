@@ -1,6 +1,8 @@
 package classes;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import exceptions.UserAlreadyFollowing;
+import exceptions.UserNotFollowing;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -10,6 +12,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity(name = "User")
 @Table(name = "kwetter_user")
@@ -26,11 +29,11 @@ public class User implements Serializable
     private String location;
     private String website;
 
-    @ElementCollection
-    private List<String> following = new ArrayList<>();
+    @ManyToMany
+    private List<User> following = new ArrayList<>();
 
-    @ElementCollection
-    private List<String> followers = new ArrayList<>();
+    @ManyToMany
+    private List<User> followers = new ArrayList<>();
 
     //    @OneToMany(cascade = CascadeType.PERSIST)
     @ElementCollection
@@ -112,12 +115,16 @@ public class User implements Serializable
 
     public List<String> getFollowing()
     {
-        return following;
+        return following.stream()
+                        .map(User::getUsername)
+                        .collect(Collectors.toList());
     }
 
     public List<String> getFollowers()
     {
-        return followers;
+        return followers.stream()
+                        .map(User::getUsername)
+                        .collect(Collectors.toList());
     }
 
     public String getProfilePicture()
@@ -148,9 +155,7 @@ public class User implements Serializable
 
     public Kweet addKweet(String message) {
 
-        Kweet k = new Kweet(message, this);
-
-        return k;
+        return addKweet(new Kweet(message, this));
     }
 
     public Kweet addKweet(Kweet k) {
@@ -162,5 +167,25 @@ public class User implements Serializable
         }
 
         return k;
+    }
+
+    public void follow(User user) throws UserAlreadyFollowing
+    {
+        if (user.followers.contains(this))
+        {
+            throw new UserAlreadyFollowing();
+        }
+        user.followers.add(this);
+        following.add(user);
+    }
+
+    public void unfollow(User user) throws UserNotFollowing
+    {
+        if (!user.followers.contains(this))
+        {
+            throw new UserNotFollowing();
+        }
+        user.followers.remove(this);
+        following.remove(user);
     }
 }

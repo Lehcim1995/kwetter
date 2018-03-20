@@ -4,6 +4,7 @@ import classes.Kweet;
 import classes.User;
 import exceptions.IdAlreadyExistsException;
 import exceptions.NoPermissionException;
+import exceptions.UserAlreadyFollowing;
 import exceptions.UserNotFoundException;
 import services.KwetterService;
 
@@ -188,5 +189,64 @@ public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plug
         return Response.ok("timeline")
                        .type(MediaType.TEXT_HTML)
                        .build();
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_HTML})
+    @Path("{id}/followers")
+    public Response getFollowersUser(
+            @PathParam("id") String username,
+            @DefaultValue("5") @QueryParam("limit") int limit)
+    {
+        try
+        {
+            List<String> followers = kwetterService.getUser(username)
+                                                   .getFollowers();
+
+            return Response.ok(followers)
+                           .build();
+        }
+        catch (UserNotFoundException e)
+        {
+            return Response.ok("user not found")
+                           .type(MediaType.TEXT_HTML)
+                           .build();
+        }
+    }
+
+    @POST
+    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_HTML})
+    @Path("{id}/followers")
+    public Response addFollowersUser(
+            @PathParam("id") String username,
+            @DefaultValue("5") @QueryParam("limit") int limit,
+            User user)
+    {
+        try
+        {
+            User follower = kwetterService.getUser(user.getUsername());
+            User following = kwetterService.getUser(username);
+
+            kwetterService.follow(following, follower);
+
+            GenericEntity<List<String>> followers = new GenericEntity<List<String>>(kwetterService.getUser(username)
+                                                                                                  .getFollowers()) {};
+
+            return Response.ok(followers)
+                           .type(MediaType.APPLICATION_JSON)
+                           .build();
+        }
+        catch (UserNotFoundException e)
+        {
+            return Response.ok("user not found")
+                           .type(MediaType.TEXT_HTML)
+                           .build();
+        }
+        catch (UserAlreadyFollowing userAlreadyFollowing)
+        {
+            return Response.ok("already following")
+                           .type(MediaType.TEXT_HTML)
+                           .build();
+        }
     }
 }
