@@ -27,7 +27,7 @@
 
     <h:form>
         <p:dataTable var="kweet" value="#{kweetBean.kweets}" widgetVar="carsTable"
-                     emptyMessage="No Kweets found with given criteria">
+                     emptyMessage="No Kweets found with given criteria" sortMode="multiple">
 
             <f:facet name="header">
                 <p:outputPanel>
@@ -36,17 +36,29 @@
                 </p:outputPanel>
             </f:facet>
 
-            <p:column filterBy="#{kweet.id}" headerText="Id" footerText="contains" filterMatchMode="contains">
+            <p:column filterBy="#{kweet.id}" sortBy="#{kweet.id}" headerText="Id" footerText="contains" filterMatchMode="contains">
                 <h:outputText value="#{kweet.id}" />
             </p:column>
 
-            <!--<p:column filterBy="#{k}" headerText="Year" footerText="lte" filterMatchMode="lte">-->
+            <p:column filterBy="#{kweet.message}" sortBy="#{kweet.message}" headerText="message" footerText="contains" filterMatchMode="contains">
+                <h:outputText value="#{kweet.message}" />
+            </p:column>
+
+            <p:column filterBy="#{kweet.owner.username}" sortBy="#{kweet.owner.username}" headerText="owner" footerText="contains" filterMatchMode="contains">
+                <h:outputText value="#{kweet.owner.username}" />
+            </p:column>
+
+            <p:column filterBy="#{kweet.postDate}" sortBy="#{kweet.postDate}" headerText="postdate" footerText="contains" filterMatchMode="contains">
+                <h:outputText value="#{kweet.postDate}" />
+            </p:column>
+
+            <!--<p:column filterBy="#{kweet.message}" headerText="message" footerText="lte" filterMatchMode="lte">-->
                 <!--<f:facet name="filter">-->
                     <!--<p:spinner onchange="PF('carsTable').filter()" styleClass="year-spinner">-->
-                        <!--<f:converter converterId="javax.faces.Integer" />-->
+                        <!--<f:converter converterId="javax.faces.Character" />-->
                     <!--</p:spinner>-->
                 <!--</f:facet>-->
-                <!--<h:outputText value="#{car.year}" />-->
+                <!--<h:outputText value="#{kweet.message}" />-->
             <!--</p:column>-->
 
             <!--<p:column filterBy="#{car.brand}" headerText="Brand" footerText="exact" filterMatchMode="exact">-->
