@@ -3,9 +3,25 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
 >
-<f:view>
-    <h:outputLabel value="Hello, world"/>
-</f:view>
+<h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Main page</title>
+</h:head>
+<h:body>
+    <p:dataTable var="kweet" value="#{kweetBean.kweets}">
+        <p:column headerText="id">
+            <h:outputText value="#{kweet.id}"/>
+        </p:column>
+        <p:column headerText="message">
+            <h:outputText value="#{kweet.message}"/>
+        </p:column>
+        <p:column headerText="owner">
+            <h:outputText value="#{kweet.owner.username}"/>
+        </p:column>
+    </p:dataTable>
+</h:body>
 </html>
