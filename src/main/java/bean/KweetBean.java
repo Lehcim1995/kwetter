@@ -1,6 +1,7 @@
 package bean;
 
 import classes.Kweet;
+import exceptions.KweetNotFoundException;
 import services.KwetterService;
 
 import javax.annotation.ManagedBean;
@@ -17,5 +18,9 @@ public class KweetBean
 
     public List<Kweet> getKweets() {
         return kwetterService.getKweets();
+    }
+
+    public Kweet getKweet(long id) throws KweetNotFoundException {
+        return kwetterService.getKweet(id);
     }
 }

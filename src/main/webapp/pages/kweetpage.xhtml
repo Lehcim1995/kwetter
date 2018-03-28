@@ -4,7 +4,45 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-<f:view>
-    <h:outputLabel value="Hello, world"/>
-</f:view>
+<h:head>
+
+    <f:metadata>
+        <f:viewParam name="kweet" value="#{kweetBean.getKweet(param['id'])}" required="true">
+            <!--<o:viewParamValidationFailed sendRedirect="some.xhtml"/>-->
+            <!--https://stackoverflow.com/questions/29838447/redirect-if-a-fviewparam-is-empty-->
+        </f:viewParam>
+    </f:metadata>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Kweet id <h:outputText value="#{param['id']}"/></title>
+</h:head>
+<h:body>
+
+
+    <div id="kweetinfo">
+        id = <h:outputText value="#{kweetBean.getKweet(param['id']).id}"/> <br/>
+        message = <h:outputText value="#{kweetBean.getKweet(param['id']).message}"/><br/>
+        owner = <h:outputText value="#{kweetBean.getKweet(param['id']).owner.username}"/><br/> add link
+        postdate = <h:outputText value="#{kweetBean.getKweet(param['id']).postDate}"/><br/>
+    </div>
+
+    <div id="kweetoperations">
+        remove kweet
+        <!--<h:commandButton -->
+    </div>
+
+    <div id="likes">
+
+    </div>
+
+    <div id="metions">
+
+    </div>
+
+    <div id="trends">
+
+    </div>
+</h:body>
 </html>
