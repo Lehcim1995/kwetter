@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +30,10 @@ public class User implements Serializable
     private String location;
     private String website;
 
+    @XmlTransient // Never display password in a xml or json format
+    @JsonIgnore
+    private String password;
+
     @ManyToMany
     private List<User> following = new ArrayList<>();
 
@@ -45,6 +50,9 @@ public class User implements Serializable
 
     private String profilePicture;
     private RolesEnum role;
+
+    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    private Collection<Group> groups;
 
     @OneToMany(cascade = CascadeType.PERSIST)
     @JsonIgnore

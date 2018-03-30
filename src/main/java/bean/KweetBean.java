@@ -10,17 +10,24 @@ import javax.inject.Named;
 import java.util.List;
 
 @ManagedBean
-@Named(value="kweetBean")
+@Named(value = "kweetBean")
 public class KweetBean
 {
     @Inject
     KwetterService kwetterService;
 
-    public List<Kweet> getKweets() {
+    public List<Kweet> getKweets()
+    {
         return kwetterService.getKweets();
     }
 
-    public Kweet getKweet(long id) throws KweetNotFoundException {
+    public Kweet getKweet(long id) throws KweetNotFoundException
+    {
         return kwetterService.getKweet(id);
+    }
+
+    public boolean deleteKweet(long id) throws KweetNotFoundException
+    {
+        return kwetterService.deleteKweet(id);
     }
 }

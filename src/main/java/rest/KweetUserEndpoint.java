@@ -2,10 +2,7 @@ package rest;
 
 import classes.Kweet;
 import classes.User;
-import exceptions.IdAlreadyExistsException;
-import exceptions.NoPermissionException;
-import exceptions.UserAlreadyFollowing;
-import exceptions.UserNotFoundException;
+import exceptions.*;
 import services.KwetterService;
 
 import javax.inject.Inject;
@@ -53,6 +50,13 @@ public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plug
             newUser = kwetterService.createUser(user.getUsername(), "password");
         }
         catch (IdAlreadyExistsException e)
+        {
+            return Response.status(Response.Status.NOT_ACCEPTABLE)
+                           .entity("User already exists")
+                           .type(MediaType.TEXT_HTML)
+                           .build();
+        }
+        catch (CouldNotCreateUser couldNotCreateUser)
         {
             return Response.status(Response.Status.NOT_ACCEPTABLE)
                            .entity("User already exists")

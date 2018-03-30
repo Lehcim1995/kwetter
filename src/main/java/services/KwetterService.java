@@ -8,6 +8,7 @@ import exceptions.*;
 import interfaces.KweetDao;
 import interfaces.UserDao;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
@@ -24,6 +25,38 @@ public class KwetterService
     @Inject
     @JPA
     private UserDao userDao;
+
+    @PostConstruct
+    public void init()
+    {
+        try
+        {
+            createUser("user1", "");
+
+        }
+        catch (IdAlreadyExistsException e1)
+        {
+            System.out.println("User already exists");
+//            return;
+        }
+        catch (CouldNotCreateUser couldNotCreateUser)
+        {
+            couldNotCreateUser.printStackTrace();
+            //return
+        }
+
+        try
+        {
+            addKweet("message 1", "user1");
+            addKweet("message 2", "user1");
+            addKweet("message 3", "user1");
+            addKweet("message 4", "user1");
+        }
+        catch (UserNotFoundException e2)
+        {
+            System.out.println("User doesn't exists");
+        }
+    }
 
     public List<Kweet> getKweets()
     {
@@ -127,7 +160,7 @@ public class KwetterService
 
     public User createUser(
             String username,
-            String password) throws IdAlreadyExistsException
+            String password) throws IdAlreadyExistsException, CouldNotCreateUser
     {
         return userDao.createUser(username, password);
     }
@@ -135,7 +168,7 @@ public class KwetterService
     public User createUser(
             String username,
             String password,
-            RolesEnum role) throws IdAlreadyExistsException
+            RolesEnum role) throws IdAlreadyExistsException, CouldNotCreateUser
     {
         return userDao.createUser(username, password, role);
     }

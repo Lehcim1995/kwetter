@@ -2,6 +2,7 @@ package interfaces;
 
 import classes.RolesEnum;
 import classes.User;
+import exceptions.CouldNotCreateUser;
 import exceptions.IdAlreadyExistsException;
 import exceptions.NoPermissionException;
 import exceptions.UserNotFoundException;
@@ -20,8 +21,9 @@ public interface UserDao
 
     default User createUser(
         String username,
-        String password) throws IdAlreadyExistsException
+        String password) throws IdAlreadyExistsException, CouldNotCreateUser
     {return createUser(username, password, RolesEnum.User);}
 
-    User createUser(String username, String password, RolesEnum role) throws IdAlreadyExistsException;
+    User createUser(String username, String password, RolesEnum role)
+    throws IdAlreadyExistsException, CouldNotCreateUser;
 }

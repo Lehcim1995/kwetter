@@ -2,6 +2,7 @@ package dao;
 
 import classes.RolesEnum;
 import classes.User;
+import exceptions.CouldNotCreateUser;
 import exceptions.IdAlreadyExistsException;
 import exceptions.NoPermissionException;
 import exceptions.UserNotFoundException;
@@ -137,7 +138,7 @@ public class UserDaoImplTest
         {
             userDao.createUser("hans", "password");
         }
-        catch (IdAlreadyExistsException e)
+        catch (IdAlreadyExistsException | CouldNotCreateUser e)
         {
             fail();
         }
@@ -172,7 +173,7 @@ public class UserDaoImplTest
         {
             userDao.createUser(username, password);
         }
-        catch (IdAlreadyExistsException e)
+        catch (IdAlreadyExistsException | CouldNotCreateUser e)
         {
             fail();
         }

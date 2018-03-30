@@ -2,6 +2,7 @@ package dao;
 
 import classes.RolesEnum;
 import classes.User;
+import exceptions.CouldNotCreateUser;
 import exceptions.IdAlreadyExistsException;
 import exceptions.NoPermissionException;
 import exceptions.UserNotFoundException;
@@ -58,20 +59,19 @@ public class UserDaoDatabase implements UserDao
     public User createUser(
             String username,
             String password,
-            RolesEnum role) throws IdAlreadyExistsException
+            RolesEnum role) throws IdAlreadyExistsException, CouldNotCreateUser
     {
         try
         {
-            getUser(username);
-            throw new IdAlreadyExistsException("User already exists");
-        }
-        catch (UserNotFoundException e)
-        {
-            // continue?
+
             User u = new User(username, role);
             entityManager.persist(u);
 
             return u;
+        }
+        catch (Exception e)
+        {
+            throw new CouldNotCreateUser();
         }
     }
 
