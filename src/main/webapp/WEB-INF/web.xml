@@ -16,24 +16,33 @@
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
 
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+
     <welcome-file-list>
         <welcome-file>login.xhtml</welcome-file>
     </welcome-file-list>
 
     <error-page>
         <error-code>403</error-code>
-        <location>/error/403.xhtml</location>
+        <location>/pages/error/403.xhtml</location>
     </error-page>
 
     <error-page>
         <error-code>404</error-code>
-        <location>/error/404.xhtml</location>
+        <location>/pages/error/404.xhtml</location>
+    </error-page>
+
+    <error-page>
+        <error-code>500</error-code>
+        <location>/pages/error/500.xhtml</location>
     </error-page>
 
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>All Access</web-resource-name>
-            <url-pattern>/admin/*</url-pattern>
+            <url-pattern>/pages/*</url-pattern>
         </web-resource-collection>
 
         <auth-constraint>
@@ -46,7 +55,7 @@
 
     <login-config>
         <auth-method>FORM</auth-method>
-        <realm-name>security_realm</realm-name>
+        <realm-name>kwetterRealm</realm-name>
     </login-config>
 
     <security-role>
@@ -63,7 +72,4 @@
         <description/>
         <role-name>AdminRole</role-name>
     </security-role>
-    ø
-
-
 </web-app>

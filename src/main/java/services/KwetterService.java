@@ -12,11 +12,12 @@ import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
+import java.io.Serializable;
 import java.util.List;
 
 @Stateless
 @Default
-public class KwetterService
+public class KwetterService implements Serializable
 {
     @Inject
     @JPA
