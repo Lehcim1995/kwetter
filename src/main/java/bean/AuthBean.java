@@ -1,21 +1,17 @@
 package bean;
 
-import javax.enterprise.context.SessionScoped;
-import javax.faces.context.FacesContext;
+import javax.annotation.ManagedBean;
 import javax.inject.Named;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.security.Principal;
 
+@ManagedBean
 @Named(value = "authbean")
-@SessionScoped
-public class AuthBean implements Serializable {
-    @NotNull(message = "Please enter a username")
+public class AuthBean implements Serializable
+{
+//    @NotNull(message = "Please enter a username")
     private String username = "admin1";
 
-    @NotNull(message = "Please enter a password")
+//    @NotNull(message = "Please enter a password")
     private String password = "password";
 
     public String login() {
@@ -40,23 +36,32 @@ public class AuthBean implements Serializable {
     }
 
     public String logout() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        try {
-            request.logout();
-            return "/login.xhtml";
-        } catch (ServletException e) {
-            return null;
-        }
+//        FacesContext context = FacesContext.getCurrentInstance();
+//        HttpServletRequest request = (HttpServletRequest) context.getExternalContext()
+//                                                                 .getRequest();
+//        try
+//        {
+//            request.logout();
+//            return "/login.xhtml";
+//        }
+//        catch (ServletException e)
+//        {
+//            return null;
+//        }
+
+        return null;
     }
 
     public String getUserPrincipalName() {
-        FacesContext fc = FacesContext.getCurrentInstance();
-        Principal principal = (fc.getExternalContext()).getUserPrincipal();
-        if (principal == null) {
-            return null;
-        }
-        return principal.getName();
+//        FacesContext fc = FacesContext.getCurrentInstance();
+//        Principal principal = (fc.getExternalContext()).getUserPrincipal();
+//        if (principal == null)
+//        {
+//            return null;
+//        }
+//        return principal.getName();
+
+        return null;
     }
 
     public String getUsername() {

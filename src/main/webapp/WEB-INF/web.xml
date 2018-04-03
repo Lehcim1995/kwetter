@@ -6,15 +6,16 @@
          version="2.5">
 
     <display-name>Archetype Created Web Application</display-name>
-    <servlet>
-        <servlet-name>Faces Servlet</servlet-name>
-        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Faces Servlet</servlet-name>
-        <url-pattern>*.xhtml</url-pattern>
-    </servlet-mapping>
+    <!--<servlet>-->
+        <!--<servlet-name>Faces Servlet</servlet-name>-->
+        <!--<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>-->
+        <!--<load-on-startup>1</load-on-startup>-->
+    <!--</servlet>-->
+
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>Faces Servlet</servlet-name>-->
+        <!--<url-pattern>*.xhtml</url-pattern>-->
+    <!--</servlet-mapping>-->
 
     <session-config>
         <session-timeout>30</session-timeout>

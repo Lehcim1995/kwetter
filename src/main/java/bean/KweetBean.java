@@ -4,13 +4,13 @@ import classes.Kweet;
 import exceptions.KweetNotFoundException;
 import services.KwetterService;
 
-import javax.enterprise.context.SessionScoped;
+import javax.annotation.ManagedBean;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
 
-@SessionScoped
+@ManagedBean
 @Named(value = "kweetBean")
 public class KweetBean implements Serializable
 {
