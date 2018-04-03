@@ -19,75 +19,87 @@
 
             <f:facet name="header">
                 <p:outputPanel>
-                    <h:outputText value="Search all fields:" />
-                    <p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                    <h:outputText value="Search all fields:"/>
+                    <p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px"
+                                 placeholder="Enter keyword"/>
                 </p:outputPanel>
             </f:facet>
 
-            <p:column filterBy="#{kweet.id}" sortBy="#{kweet.id}" headerText="Id" footerText="contains" filterMatchMode="contains">
+            <p:column filterBy="#{kweet.id}" sortBy="#{kweet.id}" headerText="Id" footerText="contains"
+                      filterMatchMode="contains">
                 <p:link outcome="/pages/kweetpage.xhtml" value="#{kweet.id}">
-                    <f:param name="id" value="#{kweet.id}" />
+                    <f:param name="id" value="#{kweet.id}"/>
                 </p:link>
             </p:column>
 
-            <p:column filterBy="#{kweet.message}" sortBy="#{kweet.message}" headerText="message" footerText="contains" filterMatchMode="contains">
-                <h:outputText value="#{kweet.message}" />
+            <p:column filterBy="#{kweet.message}" sortBy="#{kweet.message}" headerText="message" footerText="contains"
+                      filterMatchMode="contains">
+                <h:outputText value="#{kweet.message}"/>
             </p:column>
 
-            <p:column filterBy="#{kweet.owner.username}" sortBy="#{kweet.owner.username}" headerText="owner" footerText="contains" filterMatchMode="contains">
+            <p:column filterBy="#{kweet.owner.username}" sortBy="#{kweet.owner.username}" headerText="owner"
+                      footerText="contains" filterMatchMode="contains">
                 <p:link outcome="/pages/userpage.xhtml" value="#{kweet.owner.username}">
-                    <f:param name="username" value="#{kweet.owner.username}" />
+                    <f:param name="username" value="#{kweet.owner.username}"/>
                 </p:link>
             </p:column>
 
-            <p:column filterBy="#{kweet.postDate}" sortBy="#{kweet.postDate}" headerText="postdate" footerText="contains" filterMatchMode="contains">
-                <h:outputText value="#{kweet.postDate}" />
+            <p:column filterBy="#{kweet.postDate}" sortBy="#{kweet.postDate}" headerText="postdate"
+                      footerText="contains" filterMatchMode="contains">
+                <h:outputText value="#{kweet.postDate}"/>
+            </p:column>
+
+            <p:column headerText="operations">
+                <h:form>
+                    <p:commandButton action="#{kweetBean.deleteKweet(kweet.id)}" value="delete">
+                    </p:commandButton>
+                </h:form>
             </p:column>
 
             <!--<p:column filterBy="#{kweet.message}" headerText="message" footerText="lte" filterMatchMode="lte">-->
-                <!--<f:facet name="filter">-->
-                    <!--<p:spinner onchange="PF('carsTable').filter()" styleClass="year-spinner">-->
-                        <!--<f:converter converterId="javax.faces.Character" />-->
-                    <!--</p:spinner>-->
-                <!--</f:facet>-->
-                <!--<h:outputText value="#{kweet.message}" />-->
+            <!--<f:facet name="filter">-->
+            <!--<p:spinner onchange="PF('carsTable').filter()" styleClass="year-spinner">-->
+            <!--<f:converter converterId="javax.faces.Character" />-->
+            <!--</p:spinner>-->
+            <!--</f:facet>-->
+            <!--<h:outputText value="#{kweet.message}" />-->
             <!--</p:column>-->
 
             <!--<p:column filterBy="#{car.brand}" headerText="Brand" footerText="exact" filterMatchMode="exact">-->
-                <!--<f:facet name="filter">-->
-                    <!--<p:selectOneMenu onchange="PF('carsTable').filter()" >-->
-                        <!--<f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />-->
-                        <!--<f:selectItems value="#{dtFilterView.brands}" />-->
-                    <!--</p:selectOneMenu>-->
-                <!--</f:facet>-->
-                <!--<h:outputText value="#{car.brand}" />-->
+            <!--<f:facet name="filter">-->
+            <!--<p:selectOneMenu onchange="PF('carsTable').filter()" >-->
+            <!--<f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />-->
+            <!--<f:selectItems value="#{dtFilterView.brands}" />-->
+            <!--</p:selectOneMenu>-->
+            <!--</f:facet>-->
+            <!--<h:outputText value="#{car.brand}" />-->
             <!--</p:column>-->
 
             <!--<p:column filterBy="#{car.color}" headerText="Color" footerText="in" filterMatchMode="in">-->
-                <!--<f:facet name="filter">-->
-                    <!--<p:selectCheckboxMenu label="Colors" onchange="PF('carsTable').filter()" panelStyle="width:125px" scrollHeight="150">-->
-                        <!--<f:selectItems value="#{dtFilterView.colors}" />-->
-                    <!--</p:selectCheckboxMenu>-->
-                <!--</f:facet>-->
-                <!--<h:outputText value="#{car.color}" />-->
+            <!--<f:facet name="filter">-->
+            <!--<p:selectCheckboxMenu label="Colors" onchange="PF('carsTable').filter()" panelStyle="width:125px" scrollHeight="150">-->
+            <!--<f:selectItems value="#{dtFilterView.colors}" />-->
+            <!--</p:selectCheckboxMenu>-->
+            <!--</f:facet>-->
+            <!--<h:outputText value="#{car.color}" />-->
             <!--</p:column>-->
 
             <!--<p:column filterBy="#{car.sold}" headerText="Status" footerText="equals" filterMatchMode="equals">-->
-                <!--<f:facet name="filter">-->
-                    <!--<p:selectOneButton onchange="PF('carsTable').filter()">-->
-                        <!--<f:converter converterId="javax.faces.Boolean" />-->
-                        <!--<f:selectItem itemLabel="All" itemValue="" />-->
-                        <!--<f:selectItem itemLabel="Sold" itemValue="true" />-->
-                        <!--<f:selectItem itemLabel="Sale" itemValue="false" />-->
-                    <!--</p:selectOneButton>-->
-                <!--</f:facet>-->
-                <!--<h:outputText value="#{car.sold ? 'Sold': 'Sale'}" />-->
+            <!--<f:facet name="filter">-->
+            <!--<p:selectOneButton onchange="PF('carsTable').filter()">-->
+            <!--<f:converter converterId="javax.faces.Boolean" />-->
+            <!--<f:selectItem itemLabel="All" itemValue="" />-->
+            <!--<f:selectItem itemLabel="Sold" itemValue="true" />-->
+            <!--<f:selectItem itemLabel="Sale" itemValue="false" />-->
+            <!--</p:selectOneButton>-->
+            <!--</f:facet>-->
+            <!--<h:outputText value="#{car.sold ? 'Sold': 'Sale'}" />-->
             <!--</p:column>-->
 
             <!--<p:column filterBy="#{car.price}" headerText="Price" footerText="custom (min)" filterFunction="#{dtFilterView.filterByPrice}">-->
-                <!--<h:outputText value="#{car.price}">-->
-                    <!--<f:convertNumber currencySymbol="$" type="currency"/>-->
-                <!--</h:outputText>-->
+            <!--<h:outputText value="#{car.price}">-->
+            <!--<f:convertNumber currencySymbol="$" type="currency"/>-->
+            <!--</h:outputText>-->
             <!--</p:column>-->
         </p:dataTable>
     </h:form>

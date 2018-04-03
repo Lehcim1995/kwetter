@@ -24,6 +24,12 @@
         <p:column headerText="role">
             <h:outputText value="#{user.role}"/>
         </p:column>
+        <p:column headerText="operations">
+            <h:form>
+                <p:commandButton action="#{userBean.deleteUser(user.username)}" value="delete">
+                </p:commandButton>
+            </h:form>
+        </p:column>
     </p:dataTable>
 </h:body>
 </html>

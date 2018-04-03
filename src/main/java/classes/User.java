@@ -54,7 +54,7 @@ public class User implements Serializable
     @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     private Collection<Group> groups;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "owner")
     @JsonIgnore
     @XmlTransient
     private List<Kweet> kweets = new ArrayList<>();

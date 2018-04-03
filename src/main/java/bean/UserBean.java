@@ -19,4 +19,9 @@ public class UserBean implements Serializable
     public List<User> getUsers() {
         return kwetterService.getUsers();
     }
+
+    public void deleteUser(String username)
+    {
+//        kwetterService.d
+    }
 }

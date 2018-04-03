@@ -30,33 +30,33 @@ public class KwetterService implements Serializable
     @PostConstruct
     public void init()
     {
-        try
-        {
-            createUser("user1", "");
-
-        }
-        catch (IdAlreadyExistsException e1)
-        {
-            System.out.println("User already exists");
-//            return;
-        }
-        catch (CouldNotCreateUser couldNotCreateUser)
-        {
-            couldNotCreateUser.printStackTrace();
-            //return
-        }
-
-        try
-        {
-            addKweet("message 1", "user1");
-            addKweet("message 2", "user1");
-            addKweet("message 3", "user1");
-            addKweet("message 4", "user1");
-        }
-        catch (UserNotFoundException e2)
-        {
-            System.out.println("User doesn't exists");
-        }
+//        try
+//        {
+//            createUser("user1", "");
+//
+//        }
+//        catch (IdAlreadyExistsException e1)
+//        {
+//            System.out.println("User already exists");
+////            return;
+//        }
+//        catch (CouldNotCreateUser couldNotCreateUser)
+//        {
+//            couldNotCreateUser.printStackTrace();
+//            //return
+//        }
+//
+//        try
+//        {
+//            addKweet("message 1", "user1");
+//            addKweet("message 2", "user1");
+//            addKweet("message 3", "user1");
+//            addKweet("message 4", "user1");
+//        }
+//        catch (UserNotFoundException e2)
+//        {
+//            System.out.println("User doesn't exists");
+//        }
     }
 
     public List<Kweet> getKweets()

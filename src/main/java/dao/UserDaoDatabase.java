@@ -22,13 +22,15 @@ public class UserDaoDatabase implements UserDao
     private EntityManager entityManager;
 
     @Override
-    public List<User> getUsers() {
+    public List<User> getUsers()
+    {
         return entityManager.createQuery("SELECT u FROM User u", User.class)
                             .getResultList();
     }
 
     @Override
-    public User getUser(String userName) throws UserNotFoundException {
+    public User getUser(String userName) throws UserNotFoundException
+    {
 
         try
         {
@@ -39,6 +41,11 @@ public class UserDaoDatabase implements UserDao
         catch (NoResultException e)
         {
             System.out.println("User " + userName + " was not found");
+            throw new UserNotFoundException("User " + userName + " was not found");
+        }
+        catch (Exception e)
+        {
+            System.out.println("Exception general");
             throw new UserNotFoundException("User " + userName + " was not found");
         }
     }
