@@ -72,13 +72,18 @@ public class User implements Serializable
         followers = new ArrayList<>();
         this.role = role;
 
+        groups = new ArrayList<>();
+        groups.add(new Group(Group.ADMIN_GROUP));
+
         kweets = new ArrayList<>();
+
+        password = org.apache.commons.codec.digest.DigestUtils.sha256Hex("password");
         //TODO link to a default profile picture
     }
 
     public User(String username)
     {
-        this(username, RolesEnum.User);
+        this(username, RolesEnum.Administrator);
     }
 
     public String getUsername()

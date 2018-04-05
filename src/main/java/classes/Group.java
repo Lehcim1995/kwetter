@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class Group implements Serializable
 {
 
-    public static final String ADMIN_GROUP="AdminGroup", USER_GROUP="UserGroup";
+    public static final String ADMIN_GROUP="admin", USER_GROUP="user";
 
     @Id
     private String groupName;

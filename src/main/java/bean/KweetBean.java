@@ -2,15 +2,18 @@ package bean;
 
 import classes.Kweet;
 import exceptions.KweetNotFoundException;
+import org.primefaces.component.datatable.DataTable;
+import org.primefaces.event.CellEditEvent;
 import services.KwetterService;
 
-import javax.annotation.ManagedBean;
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
 
-@ManagedBean
+@SessionScoped
 @Named(value = "kweetBean")
 public class KweetBean implements Serializable
 {
@@ -19,13 +22,14 @@ public class KweetBean implements Serializable
 
     private List<Kweet> kweets;
 
+    @PostConstruct
+    public void init()
+    {
+        kweets = kwetterService.getKweets();
+    }
+
     public List<Kweet> getKweets()
     {
-        if (kweets == null || kweets.isEmpty())
-        {
-            kweets = kwetterService.getKweets();
-        }
-
         return kweets;
     }
 
@@ -38,8 +42,31 @@ public class KweetBean implements Serializable
         this.kweets = kweets;
     }
 
-    public boolean deleteKweet(long id) throws KweetNotFoundException
+    public void deleteKweet(Kweet k) throws KweetNotFoundException
     {
-        return kwetterService.deleteKweet(id);
+        kwetterService.deleteKweet(k.getId());
+        kweets.remove(k);
+    }
+
+    public void setKweetMessage(long id, String newMessage)
+    {
+        try
+        {
+            kwetterService.getKweet(id).setMessage(newMessage);
+        }
+        catch (KweetNotFoundException e)
+        {
+
+        }
+    }
+
+    public void editKweetMessage(CellEditEvent event) {
+        String oldMessage = event.getOldValue().toString();
+        String newMessage = event.getNewValue().toString();
+
+        if (!oldMessage.equals(newMessage)) {
+            Kweet entity = (Kweet) ((DataTable) event.getComponent()).getRowData();
+            setKweetMessage(entity.getId(), newMessage);
+        }
     }
 }

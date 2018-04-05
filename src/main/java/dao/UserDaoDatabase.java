@@ -9,6 +9,7 @@ import exceptions.UserNotFoundException;
 import interfaces.UserDao;
 
 import javax.ejb.Stateless;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -70,14 +71,28 @@ public class UserDaoDatabase implements UserDao
     {
         try
         {
+            System.out.println("Nu gaan we een user maken");
+            System.out.println("Username is null =" + (username==null ? "True" : "False"));
+            System.out.println("Password is null =" + (password==null ? "True" : "False"));
+            System.out.println("Role is null =" + (role==null ? "True" : "False"));
 
             User u = new User(username, role);
+            System.out.println("User is null =" + (u==null ? "True" : "False"));
+            System.out.println("Em is null =" + (entityManager==null ? "True" : "False"));
             entityManager.persist(u);
+
 
             return u;
         }
+        catch (EntityExistsException eee)
+        {
+            System.out.println(eee.getMessage());
+            throw new IdAlreadyExistsException("user");
+        }
         catch (Exception e)
         {
+            System.out.println(e.getClass());
+            System.out.println(e.getMessage());
             throw new CouldNotCreateUser();
         }
     }

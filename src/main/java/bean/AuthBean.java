@@ -1,67 +1,84 @@
 package bean;
 
-import javax.annotation.ManagedBean;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.security.Principal;
 
-@ManagedBean
+@SessionScoped
 @Named(value = "authbean")
 public class AuthBean implements Serializable
 {
-//    @NotNull(message = "Please enter a username")
+    @NotNull(message = "Please enter a username")
     private String username = "admin1";
 
-//    @NotNull(message = "Please enter a password")
+    @NotNull(message = "Please enter a password")
     private String password = "password";
 
-    public String login() {
+//    public String login() {
 //        FacesContext context = FacesContext.getCurrentInstance();
-//        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+//        HttpServletRequest request = (HttpServletRequest) context.getExternalContext()
+//                                                                 .getRequest();
 //
-//        try {
+//        try
+//        {
 //            request.login(this.username, this.password);
+//
+//            System.out.println("login");
 //
 //            boolean isModerator = request.isUserInRole("ModeratorRole");
 //            boolean isAdmin = request.isUserInRole("AdminRole");
 //
-//            if (isModerator || isAdmin) {
-//                return "admin/administration.xhtml";
-//            } else {
-//                ((HttpSession) FacesContext.getCurrentInstance()
-//                                           .getExternalContext().getSession(false))
-//                        .invalidate();
+//            if (isModerator || isAdmin)
+//            {
+//                return "pages/kweetmanager.xhtml";
 //            }
-//        } catch (ServletException e) {}
-        return "error/403.xhtml";
-    }
-
-    public String logout() {
-//        FacesContext context = FacesContext.getCurrentInstance();
-//        HttpServletRequest request = (HttpServletRequest) context.getExternalContext()
-//                                                                 .getRequest();
-//        try
-//        {
-//            request.logout();
-//            return "/login.xhtml";
+//            else
+//            {
+//                ((HttpSession) FacesContext.getCurrentInstance()
+//                                           .getExternalContext()
+//                                           .getSession(false)).invalidate();
+//
+//            }
 //        }
 //        catch (ServletException e)
 //        {
-//            return null;
+//            return "pages/error/403.xhtml";
 //        }
+//        return "error/403.xhtml";
+//    }
 
-        return null;
+    public String logout() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext()
+                                                                 .getRequest();
+        try
+        {
+            request.logout();
+            return "/login.xhtml";
+        }
+        catch (ServletException e)
+        {
+            return null;
+        }
+
+//        return null;
     }
 
     public String getUserPrincipalName() {
-//        FacesContext fc = FacesContext.getCurrentInstance();
-//        Principal principal = (fc.getExternalContext()).getUserPrincipal();
-//        if (principal == null)
-//        {
-//            return null;
-//        }
-//        return principal.getName();
+        FacesContext fc = FacesContext.getCurrentInstance();
+        Principal principal = (fc.getExternalContext()).getUserPrincipal();
+        if (principal == null)
+        {
+            return null;
+        }
+        return principal.getName();
 
-        return null;
+//        return null;
     }
 
     public String getUsername() {

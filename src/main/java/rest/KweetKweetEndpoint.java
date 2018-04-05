@@ -27,12 +27,6 @@ public class KweetKweetEndpoint
     {
         GenericEntity<List<Kweet>> kweets = new GenericEntity<List<Kweet>>(kwetterService.getKweets()) {};
 
-        if (kwetterService == null)
-        {
-            return Response.ok("is null idot")
-                           .build();
-        }
-
         return Response.ok(kweets)
                        .build();
     }

@@ -3,7 +3,7 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+>
 <h:head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -12,11 +12,17 @@
 </h:head>
 <h:body>
 
-    <h:form id="login-form">
-        <p:inputText type="text" value="#{authbean.username}" styleClass="input" placeholder="username"/>
-        <p:inputText type="password" value="#{authbean.password}" styleClass="input" placeholder="password"/>
-        <p:commandButton value="Login" id="login" action="#{authbean.login}" styleClass="ui-priority-primary"/>
-    </h:form>
+    <form method="post" action="j_security_check" id="login_form" class="flexbox column">
+        <h3>Vul je gegevens in om in te loggen</h3>
+        <label for="j_username">Username</label>
+        <input type="text" name="j_username" id="j_username" class="input" />
+
+        <label for="j_password">Password</label>
+        <input type="password" name="j_password" id="j_password" class="input" />
+
+        <input type="submit" name="submit" value="Login" class="input" />
+        <h:button outcome="/index.xhmtl" value="Cancel" class="input" />
+    </form>
 
 </h:body>
 </html>

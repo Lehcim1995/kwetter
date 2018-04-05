@@ -13,9 +13,14 @@
     <title>Main page</title>
 </h:head>
 <h:body>
-    <h:form>
-        <p:dataTable var="kweet" value="#{kweetBean.kweets}" widgetVar="carsTable"
+    <h:form id="kweet-form">
+        <p:growl id="kweet_message" showDetail="true"/>
+        <p:dataTable id="kweets" var="kweet" value="#{kweetBean.kweets}" widgetVar="kweetTable" editable="true"
+                     editMode="cell"
                      emptyMessage="No Kweets found with given criteria" sortMode="multiple">
+
+            <p:ajax event="cellEdit" listener="#{kweetBean.editKweetMessage}"
+                    update=":kweet-form:kweet_message"/>
 
             <f:facet name="header">
                 <p:outputPanel>
@@ -34,7 +39,12 @@
 
             <p:column filterBy="#{kweet.message}" sortBy="#{kweet.message}" headerText="message" footerText="contains"
                       filterMatchMode="contains">
-                <h:outputText value="#{kweet.message}"/>
+                <!--<h:outputText value="#{kweet.message}"/>-->
+
+                <p:cellEditor>
+                    <f:facet name="output"> <h:outputText value="#{kweet.message}"/></f:facet>
+                    <f:facet name="input"><p:inputText value="#{kweet.message}"/></f:facet>
+                </p:cellEditor>
             </p:column>
 
             <p:column filterBy="#{kweet.owner.username}" sortBy="#{kweet.owner.username}" headerText="owner"
@@ -51,7 +61,7 @@
 
             <p:column headerText="operations">
                 <h:form>
-                    <p:commandButton action="#{kweetBean.deleteKweet(kweet.id)}" value="delete">
+                    <p:commandButton actionListener="#{kweetBean.deleteKweet(kweet)}" value="delete" update=":kweet-form:kweets:">
                     </p:commandButton>
                 </h:form>
             </p:column>

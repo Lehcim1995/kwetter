@@ -59,7 +59,7 @@ public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plug
         catch (CouldNotCreateUser couldNotCreateUser)
         {
             return Response.status(Response.Status.NOT_ACCEPTABLE)
-                           .entity("User already exists")
+                           .entity("could not create user")
                            .type(MediaType.TEXT_HTML)
                            .build();
         }
