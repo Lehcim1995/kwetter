@@ -48,7 +48,6 @@
 
         <auth-constraint>
             <description/>
-            <role-name>UserRole</role-name>
             <role-name>ModeratorRole</role-name>
             <role-name>AdminRole</role-name>
         </auth-constraint>

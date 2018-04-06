@@ -1,14 +1,12 @@
 package services;
 
 import classes.Kweet;
-import classes.RolesEnum;
 import classes.User;
 import dao.JPA;
 import exceptions.*;
 import interfaces.KweetDao;
 import interfaces.UserDao;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
@@ -26,38 +24,6 @@ public class KwetterService implements Serializable
     @Inject
     @JPA
     private UserDao userDao;
-
-    @PostConstruct
-    public void init()
-    {
-//        try
-//        {
-//            createUser("user1", "");
-//
-//        }
-//        catch (IdAlreadyExistsException e1)
-//        {
-//            System.out.println("User already exists");
-////            return;
-//        }
-//        catch (CouldNotCreateUser couldNotCreateUser)
-//        {
-//            couldNotCreateUser.printStackTrace();
-//            //return
-//        }
-//
-//        try
-//        {
-//            addKweet("message 1", "user1");
-//            addKweet("message 2", "user1");
-//            addKweet("message 3", "user1");
-//            addKweet("message 4", "user1");
-//        }
-//        catch (UserNotFoundException e2)
-//        {
-//            System.out.println("User doesn't exists");
-//        }
-    }
 
     public List<Kweet> getKweets()
     {
@@ -148,11 +114,11 @@ public class KwetterService implements Serializable
         return userDao.getUser(userName);
     }
 
-    public void setRole(
+    public void setGroup(
             String userName,
-            RolesEnum role) throws NoPermissionException, UserNotFoundException
+            String group) throws NoPermissionException, UserNotFoundException
     {
-        userDao.setRole(userName, role);
+        userDao.addGroup(userName, group);
     }
 
     public User updateUser(User user) throws NoPermissionException, UserNotFoundException {
@@ -169,9 +135,9 @@ public class KwetterService implements Serializable
     public User createUser(
             String username,
             String password,
-            RolesEnum role) throws IdAlreadyExistsException, CouldNotCreateUser
+            String group) throws IdAlreadyExistsException, CouldNotCreateUser
     {
-        return userDao.createUser(username, password, role);
+        return userDao.createUser(username, password, group);
     }
 
     public void follow(User user, User follower) throws UserAlreadyFollowing, UserNotFoundException

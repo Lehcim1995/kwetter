@@ -1,5 +1,6 @@
 package rest;
 
+import classes.Group;
 import classes.Kweet;
 import classes.User;
 import exceptions.*;
@@ -47,7 +48,7 @@ public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plug
 
         try
         {
-            newUser = kwetterService.createUser(user.getUsername(), "password");
+            newUser = kwetterService.createUser(user.getUsername(), "password", Group.ADMIN_GROUP);
         }
         catch (IdAlreadyExistsException e)
         {

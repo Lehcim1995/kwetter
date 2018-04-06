@@ -1,6 +1,5 @@
 package dao;
 
-import classes.RolesEnum;
 import classes.User;
 import exceptions.CouldNotCreateUser;
 import exceptions.IdAlreadyExistsException;
@@ -52,13 +51,13 @@ public class UserDaoDatabase implements UserDao
     }
 
     @Override
-    public void setRole(
+    public void addGroup(
             String userName,
-            RolesEnum role) throws NoPermissionException, UserNotFoundException
+            String group) throws NoPermissionException, UserNotFoundException
     {
         User u = getUser(userName);
 
-        u.setRole(role);
+        u.addGroup(group);
 
         entityManager.merge(u);
     }
@@ -67,18 +66,11 @@ public class UserDaoDatabase implements UserDao
     public User createUser(
             String username,
             String password,
-            RolesEnum role) throws IdAlreadyExistsException, CouldNotCreateUser
+            String group) throws IdAlreadyExistsException, CouldNotCreateUser
     {
         try
         {
-            System.out.println("Nu gaan we een user maken");
-            System.out.println("Username is null =" + (username==null ? "True" : "False"));
-            System.out.println("Password is null =" + (password==null ? "True" : "False"));
-            System.out.println("Role is null =" + (role==null ? "True" : "False"));
-
-            User u = new User(username, role);
-            System.out.println("User is null =" + (u==null ? "True" : "False"));
-            System.out.println("Em is null =" + (entityManager==null ? "True" : "False"));
+            User u = new User(username, group);
             entityManager.persist(u);
 
 

@@ -38,6 +38,11 @@ public class KweetBean implements Serializable
         return kwetterService.getKweet(id);
     }
 
+    public void refreshKweets()
+    {
+        kweets = kwetterService.getKweets();
+    }
+
     public void setKweets(List<Kweet> kweets) {
         this.kweets = kweets;
     }

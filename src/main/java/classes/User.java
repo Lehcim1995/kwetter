@@ -49,9 +49,10 @@ public class User implements Serializable
     private List<String> harts = new ArrayList<>();
 
     private String profilePicture;
-    private RolesEnum role;
 
     @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @JoinTable(joinColumns = @JoinColumn(name = "USERNAME", referencedColumnName = "USERNAME"),
+            inverseJoinColumns = @JoinColumn(name = "GROUPNAME", referencedColumnName = "GROUPNAME"))
     private Collection<Group> groups;
 
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "owner")
@@ -65,15 +66,14 @@ public class User implements Serializable
 
     public User(
             String username,
-            RolesEnum role)
+            String group)
     {
         this.username = username;
         following = new ArrayList<>();
         followers = new ArrayList<>();
-        this.role = role;
 
         groups = new ArrayList<>();
-        groups.add(new Group(Group.ADMIN_GROUP));
+        groups.add(new Group(group));
 
         kweets = new ArrayList<>();
 
@@ -83,7 +83,7 @@ public class User implements Serializable
 
     public User(String username)
     {
-        this(username, RolesEnum.Administrator);
+        this(username, Group.ADMIN_GROUP);
     }
 
     public String getUsername()
@@ -150,16 +150,6 @@ public class User implements Serializable
         this.profilePicture = profilePicture;
     }
 
-    public RolesEnum getRole()
-    {
-        return role;
-    }
-
-    public void setRole(RolesEnum role)
-    {
-        this.role = role;
-    }
-
     @JsonIgnore
     public List<Kweet> getKweets()
     {
@@ -200,5 +190,47 @@ public class User implements Serializable
         }
         user.followers.remove(this);
         following.remove(user);
+    }
+
+    public Collection<Group> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(Collection<Group> groups) {
+        this.groups = groups;
+    }
+
+    public void removeGroup(String groupName)
+    {
+        groups.removeIf(group -> group.getGroupName().equals(groupName));
+    }
+
+    public void addGroup(String groupName)
+    {
+        groups.add(new Group(groupName));
+    }
+
+    public void setFollowing(List<User> following) {
+        this.following = following;
+    }
+
+    public void setFollowers(List<User> followers) {
+        this.followers = followers;
+    }
+
+    public List<String> getMentions() {
+        return mentions;
+    }
+
+    public void setMentions(List<String> mentions) {
+        this.mentions = mentions;
+    }
+
+    public List<String> getHarts() {
+        return harts;
+    }
+
+    public void setHarts(List<String> harts) {
+        this.harts = harts;
     }
 }

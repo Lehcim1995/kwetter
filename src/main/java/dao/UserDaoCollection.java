@@ -1,6 +1,5 @@
 package dao;
 
-import classes.RolesEnum;
 import classes.User;
 import exceptions.IdAlreadyExistsException;
 import exceptions.NoPermissionException;
@@ -49,9 +48,9 @@ public class UserDaoCollection implements UserDao
     }
 
     @Override
-    public void setRole(
+    public void addGroup(
             String userName,
-            RolesEnum role) throws NoPermissionException, UserNotFoundException
+            String group) throws NoPermissionException, UserNotFoundException
     {
         if (!users.containsKey(userName))
         {
@@ -59,7 +58,7 @@ public class UserDaoCollection implements UserDao
         }
 
         users.get(userName)
-             .setRole(role);
+             .addGroup(group);
         // TODO add setter for role
     }
 
@@ -67,14 +66,14 @@ public class UserDaoCollection implements UserDao
     public User createUser(
             String username,
             String password,
-            RolesEnum role) throws IdAlreadyExistsException
+            String group) throws IdAlreadyExistsException
     {
         if (users.containsKey(username))
         {
             throw new IdAlreadyExistsException("user " + username + " does not exist");
         }
 
-        User u = new User(username, role);
+        User u = new User(username, group);
 
         users.put(username, u);
 

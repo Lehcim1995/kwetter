@@ -5,6 +5,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
 
 >
 <h:head>
@@ -21,8 +22,19 @@
         <p:column headerText="kweets">
             <h:outputText value="#{ fn:length(user.kweets) }"/>
         </p:column>
-        <p:column headerText="role">
-            <h:outputText value="#{user.role}"/>
+        <p:column headerText="groups">
+
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{user.groups}"/></f:facet>
+                <f:facet name="input">
+                    <h:selectOneMenu value="#{user.groups}" style="width:100%">
+                        <f:selectItems value="#{userBean.userGroups}" var="groups" itemLabel="#{groups}"
+                                       itemValue="#{groups}"/>
+                    </h:selectOneMenu>
+                </f:facet>
+            </p:cellEditor>
+
+            <!--<h:outputText value="#{user.groups}"/>-->
         </p:column>
         <p:column headerText="operations">
             <h:form>

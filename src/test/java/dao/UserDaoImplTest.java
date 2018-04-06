@@ -1,6 +1,6 @@
 package dao;
 
-import classes.RolesEnum;
+import classes.Group;
 import classes.User;
 import exceptions.CouldNotCreateUser;
 import exceptions.IdAlreadyExistsException;
@@ -145,7 +145,7 @@ public class UserDaoImplTest
 
         try
         {
-            userDao.setRole("hans", RolesEnum.Moderator);
+            userDao.addGroup("hans", Group.USER_GROUP);
         }
         catch (NoPermissionException | UserNotFoundException e)
         {
@@ -154,7 +154,7 @@ public class UserDaoImplTest
 
         try
         {
-            Assert.assertEquals(RolesEnum.Moderator, userDao.getUser("hans").getRole());
+            Assert.assertTrue(userDao.getUser("hans").getGroups().contains(new Group(Group.USER_GROUP)));
         }
         catch (UserNotFoundException e)
         {
@@ -190,7 +190,7 @@ public class UserDaoImplTest
         }
 
         Assert.assertEquals(username, u.getUsername());
-        Assert.assertEquals(RolesEnum.User, u.getRole());
+//        Assert.assertEquals(RolesEnum.User, u.getRole());
 
     }
 }

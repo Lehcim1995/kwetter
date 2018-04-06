@@ -61,57 +61,16 @@
 
             <p:column headerText="operations">
                 <h:form>
-                    <p:commandButton actionListener="#{kweetBean.deleteKweet(kweet)}" value="delete" update=":kweet-form:kweets:">
+                    <p:commandButton actionListener="#{kweetBean.deleteKweet(kweet)}" value="delete"
+                                     update=":kweet-form:kweets:">
                     </p:commandButton>
                 </h:form>
             </p:column>
-
-            <!--<p:column filterBy="#{kweet.message}" headerText="message" footerText="lte" filterMatchMode="lte">-->
-            <!--<f:facet name="filter">-->
-            <!--<p:spinner onchange="PF('carsTable').filter()" styleClass="year-spinner">-->
-            <!--<f:converter converterId="javax.faces.Character" />-->
-            <!--</p:spinner>-->
-            <!--</f:facet>-->
-            <!--<h:outputText value="#{kweet.message}" />-->
-            <!--</p:column>-->
-
-            <!--<p:column filterBy="#{car.brand}" headerText="Brand" footerText="exact" filterMatchMode="exact">-->
-            <!--<f:facet name="filter">-->
-            <!--<p:selectOneMenu onchange="PF('carsTable').filter()" >-->
-            <!--<f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />-->
-            <!--<f:selectItems value="#{dtFilterView.brands}" />-->
-            <!--</p:selectOneMenu>-->
-            <!--</f:facet>-->
-            <!--<h:outputText value="#{car.brand}" />-->
-            <!--</p:column>-->
-
-            <!--<p:column filterBy="#{car.color}" headerText="Color" footerText="in" filterMatchMode="in">-->
-            <!--<f:facet name="filter">-->
-            <!--<p:selectCheckboxMenu label="Colors" onchange="PF('carsTable').filter()" panelStyle="width:125px" scrollHeight="150">-->
-            <!--<f:selectItems value="#{dtFilterView.colors}" />-->
-            <!--</p:selectCheckboxMenu>-->
-            <!--</f:facet>-->
-            <!--<h:outputText value="#{car.color}" />-->
-            <!--</p:column>-->
-
-            <!--<p:column filterBy="#{car.sold}" headerText="Status" footerText="equals" filterMatchMode="equals">-->
-            <!--<f:facet name="filter">-->
-            <!--<p:selectOneButton onchange="PF('carsTable').filter()">-->
-            <!--<f:converter converterId="javax.faces.Boolean" />-->
-            <!--<f:selectItem itemLabel="All" itemValue="" />-->
-            <!--<f:selectItem itemLabel="Sold" itemValue="true" />-->
-            <!--<f:selectItem itemLabel="Sale" itemValue="false" />-->
-            <!--</p:selectOneButton>-->
-            <!--</f:facet>-->
-            <!--<h:outputText value="#{car.sold ? 'Sold': 'Sale'}" />-->
-            <!--</p:column>-->
-
-            <!--<p:column filterBy="#{car.price}" headerText="Price" footerText="custom (min)" filterFunction="#{dtFilterView.filterByPrice}">-->
-            <!--<h:outputText value="#{car.price}">-->
-            <!--<f:convertNumber currencySymbol="$" type="currency"/>-->
-            <!--</h:outputText>-->
-            <!--</p:column>-->
         </p:dataTable>
+
+        <p:commandButton actionListener="#{kweetBean.refreshKweets}" value="refresh" update=":kweet-form:kweets">
+        </p:commandButton>
+
     </h:form>
 </h:body>
 </html>

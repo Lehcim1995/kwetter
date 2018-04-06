@@ -3,8 +3,35 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 <f:view>
     <h:outputText value="#{param['username']}" />
+
+    <div id="likes">
+        <p:dataTable id="hartsTable" var="hart" value="#{userBean.getUser(param['username']).}" widgetVar="kweetTable" editable="true">
+            <p:column headerText="Harts">
+                <h:outputText value="#{hart}"/>
+            </p:column>
+        </p:dataTable>
+    </div>
+
+    <div id="metions">
+        <p:dataTable id="mentionsTable" var="mention" value="#{kweetBean.getKweet(param['id']).mentions}" widgetVar="kweetTable" editable="true">
+            <p:column headerText="Mentions">
+                <h:outputText value="#{mention}"/>
+            </p:column>
+        </p:dataTable>
+    </div>
+
+    <div id="trends">
+        <p:dataTable id="trendsTable" var="trend" value="#{kweetBean.getKweet(param['id']).trends}" widgetVar="kweetTable" editable="true">
+            <p:column headerText="Trends">
+                <h:outputText value="#{trend}"/>
+            </p:column>
+        </p:dataTable>
+    </div>
+
+
 </f:view>
 </html>
