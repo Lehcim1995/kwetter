@@ -6,10 +6,17 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 <f:view>
+
+    <p:link outcome="/pages/kweetmanager.xhtml" value="Kweet manager">
+    </p:link>
+
+    <p:link outcome="/pages/usermanger.xhtml" value="User manager">
+    </p:link>
+
     <h:outputText value="#{param['username']}" />
 
     <div id="likes">
-        <p:dataTable id="hartsTable" var="hart" value="#{userBean.getUser(param['username']).}" widgetVar="kweetTable" editable="true">
+        <p:dataTable id="hartsTable" var="hart" value="#{userBean.getUser(param['username']).harts}" widgetVar="kweetTable" editable="true">
             <p:column headerText="Harts">
                 <h:outputText value="#{hart}"/>
             </p:column>
@@ -17,7 +24,7 @@
     </div>
 
     <div id="metions">
-        <p:dataTable id="mentionsTable" var="mention" value="#{kweetBean.getKweet(param['id']).mentions}" widgetVar="kweetTable" editable="true">
+        <p:dataTable id="mentionsTable" var="mention" value="#{userBean.getUser(param['username']).mentions}" widgetVar="kweetTable" editable="true">
             <p:column headerText="Mentions">
                 <h:outputText value="#{mention}"/>
             </p:column>
@@ -25,9 +32,9 @@
     </div>
 
     <div id="trends">
-        <p:dataTable id="trendsTable" var="trend" value="#{kweetBean.getKweet(param['id']).trends}" widgetVar="kweetTable" editable="true">
-            <p:column headerText="Trends">
-                <h:outputText value="#{trend}"/>
+        <p:dataTable id="trendsTable" var="followers" value="#{userBean.getUser(param['username']).followers}" widgetVar="kweetTable" editable="true">
+            <p:column headerText="Followers">
+                <h:outputText value="#{followers}"/>
             </p:column>
         </p:dataTable>
     </div>

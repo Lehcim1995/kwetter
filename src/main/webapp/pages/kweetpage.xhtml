@@ -8,6 +8,12 @@
 
 <h:head>
 
+    <p:link outcome="/pages/usermanger.xhtml" value="User manager">
+    </p:link>
+
+    <p:link outcome="/pages/kweetmanager.xhtml" value="Kweet manager">
+    </p:link>
+
     <f:metadata>
         <f:viewParam name="kweet" value="#{kweetBean.getKweet(param['id'])}" required="true">
             <!--<o:viewParamValidationFailed sendRedirect="some.xhtml"/>-->
@@ -52,9 +58,9 @@
     </div>
 
     <div id="trends">
-        <p:dataTable id="trendsTable" var="trend" value="#{kweetBean.getKweet(param['id']).trends}" widgetVar="kweetTable" editable="true">
+        <p:dataTable id="trendsTable" var="followers" value="#{kweetBean.getKweet(param['id']).trends}" widgetVar="kweetTable" editable="true">
             <p:column headerText="Trends">
-                <h:outputText value="#{trend}"/>
+                <h:outputText value="#{followers}"/>
             </p:column>
         </p:dataTable>
     </div>

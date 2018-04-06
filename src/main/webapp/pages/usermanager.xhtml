@@ -15,6 +15,10 @@
     <title>Main page</title>
 </h:head>
 <h:body>
+
+    <p:link outcome="/pages/kweetmanager.xhtml" value="Kweet manager">
+    </p:link>
+
     <p:dataTable var="user" value="#{userBean.users}">
         <p:column headerText="username">
             <h:outputText value="#{user.username}"/>

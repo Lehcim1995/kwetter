@@ -13,6 +13,10 @@
     <title>Main page</title>
 </h:head>
 <h:body>
+
+    <p:link outcome="/pages/usermanger.xhtml" value="User manager">
+    </p:link>
+
     <h:form id="kweet-form">
         <p:growl id="kweet_message" showDetail="true"/>
         <p:dataTable id="kweets" var="kweet" value="#{kweetBean.kweets}" widgetVar="kweetTable" editable="true"
