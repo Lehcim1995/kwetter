@@ -5,6 +5,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
 >
 <h:head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -14,8 +15,12 @@
 </h:head>
 <h:body>
 
-    <p:link outcome="/pages/usermanger.xhtml" value="User manager">
-    </p:link>
+    <ui:insert name = "header" >
+        <ui:include src = "/templates/header.xhtml" />
+    </ui:insert>
+
+    <p:link outcome="usermanager.xhtml" value="User manager">
+    </p:link><br />
 
     <h:form id="kweet-form">
         <p:growl id="kweet_message" showDetail="true"/>

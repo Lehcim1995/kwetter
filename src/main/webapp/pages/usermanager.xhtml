@@ -6,8 +6,8 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:fn="http://java.sun.com/jsp/jstl/functions"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 
->
 <h:head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -16,8 +16,12 @@
 </h:head>
 <h:body>
 
-    <p:link outcome="/pages/kweetmanager.xhtml" value="Kweet manager">
-    </p:link>
+    <ui:insert name="header">
+        <ui:include src="/templates/header.xhtml"/>
+    </ui:insert>
+
+    <p:link outcome="kweetmanager.xhtml" value="Kweet manager">
+    </p:link><br/>
 
     <p:dataTable var="user" value="#{userBean.users}">
         <p:column headerText="username">

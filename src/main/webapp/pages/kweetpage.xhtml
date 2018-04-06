@@ -4,15 +4,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
 
-    <p:link outcome="/pages/usermanger.xhtml" value="User manager">
-    </p:link>
+    <ui:insert name = "header" >
+        <ui:include src = "/templates/header.xhtml" />
+    </ui:insert>
 
-    <p:link outcome="/pages/kweetmanager.xhtml" value="Kweet manager">
-    </p:link>
+    <p:link outcome="usermanager.xhtml" value="User manager">
+    </p:link><br />
+
+    <p:link outcome="kweetmanager.xhtml" value="Kweet manager">
+    </p:link><br />
 
     <f:metadata>
         <f:viewParam name="kweet" value="#{kweetBean.getKweet(param['id'])}" required="true">
