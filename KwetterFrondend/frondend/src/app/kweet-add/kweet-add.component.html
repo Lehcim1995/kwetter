@@ -1,0 +1,19 @@
+<div class="center-block" style="width: 30%">
+
+  <form (ngSubmit)="method()">
+
+    <h1>kweet owner</h1><input [(ngModel)]="owner" type="text" name="owner">
+
+    <div class="form-group">
+      <label for="exampleTextarea">Kweet message</label>
+      <textarea class="form-control" [(ngModel)]="message" id="exampleTextarea" name="message" rows="3"></textarea>
+
+      <!--<label class="btn btn-secondary active">-->
+        <!--<input type="submit" value="Submit">-->
+      <!--</label>-->
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+
+    <!--<h1>kweet message</h1><input [(ngModel)]="message" type="text" name="message">-->
+  </form>
+</div>

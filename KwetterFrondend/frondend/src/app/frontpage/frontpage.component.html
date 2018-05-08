@@ -1,0 +1,52 @@
+<div class="row" xmlns="http://www.w3.org/1999/html">
+  <div class="col-sm-3">
+    <app-frontend-user></app-frontend-user>
+
+    <app-frontpage-trends></app-frontpage-trends>
+  </div>
+  <div class="col-sm-6">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <div class="media">
+          <a class="media-left" href="#fake">
+            <img alt="" class="media-object img-rounded" src="http://placehold.it/35x35">
+          </a>
+          <div class="media-body">
+            <div class="form-group has-feedback">
+              <label class="control-label sr-only" for="inputSuccess5">Hidden label</label>
+              <input (keydown)="onKeydown($event)" [(ngModel)]="kweetmessage" name="kweet" type="text"
+                     class="form-control" id="search2" aria-describedby="search">
+              <span class="glyphicon glyphicon-camera form-control-feedback" aria-hidden="true"></span>
+              <span id="search2" class="sr-only">(success)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="kweets.length == 0">
+        <p style="text-align: center"> No kweets found </p>
+      </div>
+      <div *ngFor="let kweet of kweets">
+        <app-kweet [kweet]=kweet></app-kweet>
+      </div>
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+
+    <div class="panel panel-default">
+      <div class="panel-heading">Prova</div>
+      <div class="panel-body">
+        <ul class="nav nav-pills">
+          <li role="presentation" class="active"><a href="#">Home</a></li>
+          <li role="presentation"><a routerLink="/user">Profile</a></li>
+          <li role="presentation"><a href="#">Messages</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <app-frontpage-whotofollow></app-frontpage-whotofollow>
+</div>
