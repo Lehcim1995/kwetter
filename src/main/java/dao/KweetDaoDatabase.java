@@ -175,7 +175,7 @@ public class KweetDaoDatabase implements KweetDao
     @Override
     public List<String> getTends()
     {
-        return entityManager.createQuery("SELECT distinct k.trends, count(k.trends) FROM Kweet k order by count(k.trends) desc", String.class)
+        return entityManager.createQuery("SELECT distinct k.trends, count(k.trends) FROM Kweet k group by k.trends order by count(k.trends) desc", String.class)
                             .getResultList();
     }
 
@@ -183,7 +183,7 @@ public class KweetDaoDatabase implements KweetDao
     public List<String> getTends(int limit)
     {
         // https://stackoverflow.com/questions/7001226/how-to-order-by-count-in-jpa
-        return entityManager.createQuery("SELECT distinct k.trends, count(k.trends) FROM Kweet k order by count(k.trends) desc", String.class)
+        return entityManager.createQuery("SELECT distinct k.trends, count(k.trends) FROM Kweet k group by k.trends order by count(k.trends) desc", String.class)
                             .setMaxResults(limit)
                             .getResultList();
     }

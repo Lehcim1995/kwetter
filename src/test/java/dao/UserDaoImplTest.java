@@ -58,11 +58,11 @@ public class UserDaoImplTest
         // TODO add users
         try
         {
-            userDao.createUser("hans", "password");
-            userDao.createUser("hans1", "password");
-            userDao.createUser("hans2", "password");
-            userDao.createUser("hans3", "password");
-            userDao.createUser("hans4", "password");
+            userDao.createUser("hans", "password", new Group("lel"));
+            userDao.createUser("hans1", "password", new Group("lel"));
+            userDao.createUser("hans2", "password", new Group("lel"));
+            userDao.createUser("hans3", "password", new Group("lel"));
+            userDao.createUser("hans4", "password", new Group("lel"));
         }
         catch (Exception e)
         {
@@ -82,11 +82,11 @@ public class UserDaoImplTest
         // TODO add users
         try
         {
-            userDao.createUser("hans", "password");
-            userDao.createUser("hans", "password");
-            userDao.createUser("hans2", "password");
-            userDao.createUser("hans3", "password");
-            userDao.createUser("hans4", "password");
+            userDao.createUser("hans", "password", new Group("lel"));
+            userDao.createUser("hans", "password", new Group("lel"));
+            userDao.createUser("hans2", "password", new Group("lel"));
+            userDao.createUser("hans3", "password", new Group("lel"));
+            userDao.createUser("hans4", "password", new Group("lel"));
             fail("Cannot contain duplicate username's");
         }
         catch (Exception e)
@@ -106,11 +106,11 @@ public class UserDaoImplTest
     {
         try
         {
-            userDao.createUser("hans", "password");
-            userDao.createUser("hans1", "password");
-            userDao.createUser("hans2", "password");
-            userDao.createUser("hans3", "password");
-            userDao.createUser("hans4", "password");
+            userDao.createUser("hans", "password", new Group("lel"));
+            userDao.createUser("hans1", "password", new Group("lel"));
+            userDao.createUser("hans2", "password", new Group("lel"));
+            userDao.createUser("hans3", "password", new Group("lel"));
+            userDao.createUser("hans4", "password", new Group("lel"));
         }
         catch (Exception e)
         {
@@ -136,7 +136,7 @@ public class UserDaoImplTest
 
         try
         {
-            userDao.createUser("hans", "password");
+            userDao.createUser("hans", "password", new Group("lel"));
         }
         catch (IdAlreadyExistsException | CouldNotCreateUser e)
         {
@@ -145,7 +145,7 @@ public class UserDaoImplTest
 
         try
         {
-            userDao.addGroup("hans", Group.USER_GROUP);
+            userDao.addGroup("hans", new Group("lel"));
         }
         catch (NoPermissionException | UserNotFoundException e)
         {
@@ -171,7 +171,7 @@ public class UserDaoImplTest
 
         try
         {
-            userDao.createUser(username, password);
+            userDao.createUser(username, password, new Group("lel"));
         }
         catch (IdAlreadyExistsException | CouldNotCreateUser e)
         {

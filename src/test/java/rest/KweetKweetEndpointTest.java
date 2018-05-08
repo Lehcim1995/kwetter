@@ -1,5 +1,6 @@
 package rest;
 
+import classes.Group;
 import classes.Kweet;
 import classes.User;
 import org.junit.Before;
@@ -16,7 +17,7 @@ import java.util.Collection;
 
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 public class KweetKweetEndpointTest
 {
@@ -38,7 +39,7 @@ public class KweetKweetEndpointTest
     @Test
     public void crud() { //rest assured.
         String mediaType = MediaType.APPLICATION_JSON;
-        User u = new User("user1");
+        User u = new User("user1", new Group("lel"));
         Kweet kweet = new Kweet("message", u);
 
         final Entity<Kweet> entity = Entity.entity(kweet, mediaType);
@@ -65,7 +66,7 @@ public class KweetKweetEndpointTest
 
     @Test
     public void crudResponse() {
-        User u = new User("user1");
+        User u = new User("user1", new Group("lel"));
         Kweet k = new Kweet("hi", u);
 
         // add

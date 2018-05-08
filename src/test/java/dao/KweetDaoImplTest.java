@@ -1,5 +1,6 @@
 package dao;
 
+import classes.Group;
 import classes.Kweet;
 import classes.User;
 import exceptions.KweetNotFoundException;
@@ -43,9 +44,9 @@ public class KweetDaoImplTest //https://moepad.wordpress.com/tutorials/testing-m
         });
     }
 
-    User user1 = new User("user1");
-    User user2 = new User("user2");
-    User user3 = new User("user3");
+    User user1 = new User("user1", new Group("lel"));
+    User user2 = new User("user2", new Group("lel"));
+    User user3 = new User("user3", new Group("lel"));
 
     String trend1 = "Trend1";
     String trend2 = "Trend2";

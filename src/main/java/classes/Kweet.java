@@ -36,7 +36,7 @@ public class Kweet implements Serializable
     private List<String> harts = new ArrayList<>();
 
     @ElementCollection
-    private List<String> trends;
+    private List<String> trends = new ArrayList<>();
 
     private String message;
 
@@ -44,6 +44,9 @@ public class Kweet implements Serializable
     @JsonIgnore
     @XmlTransient
     private User owner;
+
+    private String ownerName;
+    //TODO add owner name
 
     private Date postDate;
 
@@ -217,6 +220,7 @@ public class Kweet implements Serializable
 
     public void setOwner(User owner)
     {
+        this.ownerName = owner.getUsername();
         this.owner = owner;
         if (!owner.getKweets()
                   .contains(this))

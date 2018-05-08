@@ -15,15 +15,10 @@ public interface UserDao
 
     User getUser(String userName) throws UserNotFoundException;
 
-    void addGroup(String userName, String group) throws NoPermissionException, UserNotFoundException;
+    void addGroup(String userName, Group group) throws NoPermissionException, UserNotFoundException;
 
     User updateUser(User user) throws NoPermissionException, UserNotFoundException;
 
-    default User createUser(
-        String username,
-        String password) throws IdAlreadyExistsException, CouldNotCreateUser
-    {return createUser(username, password, Group.USER_GROUP);}
-
-    User createUser(String username, String password, String group)
+    User createUser(String username, String password, Group group)
     throws IdAlreadyExistsException, CouldNotCreateUser;
 }

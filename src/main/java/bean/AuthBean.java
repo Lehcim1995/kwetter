@@ -52,14 +52,16 @@ public class AuthBean implements Serializable
 //        return "error/403.xhtml";
 //    }
 
-    public String logout() {
+
+    public String logout()
+    {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext()
                                                                  .getRequest();
         try
         {
             request.logout();
-            return "/login.xhtml";
+            return "/login.xhtml?faces-redirect=true";
         }
         catch (ServletException e)
         {
@@ -69,7 +71,8 @@ public class AuthBean implements Serializable
 //        return null;
     }
 
-    public String getUserPrincipalName() {
+    public String getUserPrincipalName()
+    {
         FacesContext fc = FacesContext.getCurrentInstance();
         Principal principal = (fc.getExternalContext()).getUserPrincipal();
         if (principal == null)
@@ -81,11 +84,13 @@ public class AuthBean implements Serializable
 //        return null;
     }
 
-    public String getUsername() {
+    public String getUsername()
+    {
         return username;
     }
 
     public void setUsername(String username) {
+
         this.username = username;
     }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module type="JAVA_MODULE" version="4">
+<module version="4">
   <component name="FacetManager">
     <facet type="javaeeApplication" name="javaEEApplication">
       <configuration>
@@ -11,15 +11,16 @@
     <facet type="jpa" name="JPA">
       <configuration>
         <setting name="validation-enabled" value="true" />
-        <setting name="provider-name" value="EclipseLink" />
+        <setting name="provider-name" value="" />
         <datasource-mapping>
-          <factory-entry name="Entities" />
-          <factory-entry name="StudentTestPU" />
-          <factory-entry name="kwetterPU" value="10a80c0a-a3c2-447c-a635-7fdfdd2bdb8f" />
-          <factory-entry name="studentPU" />
+          <factory-entry name="kwetterPU" />
         </datasource-mapping>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" />
       </configuration>
     </facet>
+  </component>
+  <component name="sonarModuleSettings">
+    <option name="localAnalysisScripName" value="&lt;PROJECT&gt;" />
+    <option name="serverName" value="&lt;PROJECT&gt;" />
   </component>
 </module>

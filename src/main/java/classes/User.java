@@ -66,24 +66,19 @@ public class User implements Serializable
 
     public User(
             String username,
-            String group)
+            Group group)
     {
         this.username = username;
         following = new ArrayList<>();
         followers = new ArrayList<>();
 
         groups = new ArrayList<>();
-        groups.add(new Group(group));
+        groups.add(group); // TODO fix
 
         kweets = new ArrayList<>();
 
         password = org.apache.commons.codec.digest.DigestUtils.sha256Hex("password");
         //TODO link to a default profile picture
-    }
-
-    public User(String username)
-    {
-        this(username, Group.ADMIN_GROUP);
     }
 
     public String getUsername()
@@ -200,14 +195,14 @@ public class User implements Serializable
         this.groups = groups;
     }
 
-    public void removeGroup(String groupName)
+    public void removeGroup(Group groupName)
     {
-        groups.removeIf(group -> group.getGroupName().equals(groupName));
+        groups.remove(groupName);
     }
 
-    public void addGroup(String groupName)
+    public void addGroup(Group groupName)
     {
-        groups.add(new Group(groupName));
+        groups.add(groupName);
     }
 
     public void setFollowing(List<User> following) {

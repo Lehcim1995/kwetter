@@ -1,7 +1,9 @@
 package services;
 
+import classes.Group;
 import classes.Kweet;
 import classes.User;
+import dao.GroupDoa;
 import dao.JPA;
 import exceptions.*;
 import interfaces.KweetDao;
@@ -25,6 +27,10 @@ public class KwetterService implements Serializable
     @JPA
     private UserDao userDao;
 
+    @Inject
+    @JPA
+    private GroupDoa groupDoa;
+
     public List<Kweet> getKweets()
     {
         return kweetDao.getKweets();
@@ -45,6 +51,7 @@ public class KwetterService implements Serializable
         return kweetDao.getKweetsFromUser(username, amount);
     }
 
+    // TODO add start point
     public List<Kweet> getKweetsFromMention(String mention) {
         return kweetDao.getKweetsFromMention(mention);
     }
@@ -116,7 +123,7 @@ public class KwetterService implements Serializable
 
     public void setGroup(
             String userName,
-            String group) throws NoPermissionException, UserNotFoundException
+            Group group) throws NoPermissionException, UserNotFoundException
     {
         userDao.addGroup(userName, group);
     }
@@ -129,7 +136,7 @@ public class KwetterService implements Serializable
             String username,
             String password) throws IdAlreadyExistsException, CouldNotCreateUser
     {
-        return userDao.createUser(username, password);
+        return userDao.createUser(username, password, getGroup(Group.USER_GROUP));
     }
 
     public User createUser(
@@ -137,7 +144,9 @@ public class KwetterService implements Serializable
             String password,
             String group) throws IdAlreadyExistsException, CouldNotCreateUser
     {
-        return userDao.createUser(username, password, group);
+        Group g = groupDoa.getGroup(group);
+
+        return userDao.createUser(username, password, g);
     }
 
     public void follow(User user, User follower) throws UserAlreadyFollowing, UserNotFoundException
@@ -158,6 +167,11 @@ public class KwetterService implements Serializable
     public void unlikeKweet(User user, Kweet kweet) throws KweetNotFoundException
     {
         kweetDao.getKweet(kweet.getId()).unLike(user);
+    }
+
+    public Group getGroup(String groupname)
+    {
+        return null;
     }
 
 }

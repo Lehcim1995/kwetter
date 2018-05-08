@@ -1,7 +1,5 @@
 package rest;
 
-import io.swagger.jaxrs.config.BeanConfig;
-
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 import java.util.HashSet;
@@ -28,6 +26,7 @@ public class KweetApplication extends Application
         Set<Class<?>> classes = new HashSet<>();
         classes.add(KweetKweetEndpoint.class);
         classes.add(KweetUserEndpoint.class);
+        classes.add(CORSFilter.class);
         classes.add(io.swagger.jaxrs.listing.ApiListingResource.class);
         classes.add(io.swagger.jaxrs.listing.SwaggerSerializers.class);
 

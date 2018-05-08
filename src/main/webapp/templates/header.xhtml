@@ -50,7 +50,7 @@
 
             <f:facet name="options">
                 <p:inputText style="margin-right:10px" placeholder="Search"/>
-                <p:commandButton actionListener="#{authbean.logout}" type="button" value="Logout" icon="ui-icon-extlink" />
+                <p:commandLink outcome="index.xhtml" action="#{authbean.logout()}" type="button" value="Logout" icon="ui-icon-extlink" />
             </f:facet>
         </p:menubar>
     </h:form>

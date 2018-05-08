@@ -1,5 +1,6 @@
 package dao;
 
+import classes.Group;
 import classes.User;
 import exceptions.CouldNotCreateUser;
 import exceptions.IdAlreadyExistsException;
@@ -53,7 +54,7 @@ public class UserDaoDatabase implements UserDao
     @Override
     public void addGroup(
             String userName,
-            String group) throws NoPermissionException, UserNotFoundException
+            Group group) throws NoPermissionException, UserNotFoundException
     {
         User u = getUser(userName);
 
@@ -66,7 +67,7 @@ public class UserDaoDatabase implements UserDao
     public User createUser(
             String username,
             String password,
-            String group) throws IdAlreadyExistsException, CouldNotCreateUser
+            Group group) throws IdAlreadyExistsException, CouldNotCreateUser
     {
         try
         {

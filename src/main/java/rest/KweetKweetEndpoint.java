@@ -5,6 +5,7 @@ import classes.User;
 import classes.restClasses.KweetRest;
 import exceptions.KweetNotFoundException;
 import exceptions.UserNotFoundException;
+import interfaces.JWTTokenNeeded;
 import services.KwetterService;
 
 import javax.inject.Inject;
@@ -12,6 +13,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.List;
 
 @Path("/kweet")
@@ -25,7 +27,7 @@ public class KweetKweetEndpoint
     @Produces(MediaType.APPLICATION_JSON)
     public Response getKweets(@QueryParam("limit") int limit)
     {
-        GenericEntity<List<Kweet>> kweets = new GenericEntity<List<Kweet>>(kwetterService.getKweets()) {};
+        GenericEntity<List<Kweet>> kweets = new GenericEntity<List<Kweet>>(kwetterService.getKweets(limit)) {};
 
         return Response.ok(kweets)
                        .build();
@@ -56,6 +58,7 @@ public class KweetKweetEndpoint
     @POST
     @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_HTML})
     @Consumes(MediaType.APPLICATION_JSON)
+    @JWTTokenNeeded
     public Response addKweet(KweetRest kweet)
     {
         // TODO create
@@ -103,14 +106,22 @@ public class KweetKweetEndpoint
     @Path("/trends")
     public Response getTrends(@DefaultValue("5") @QueryParam("limit") int limit)
     {
-        return Response.ok(kwetterService.getTends(limit))
-                       .build();
+        try
+        {
+            return Response.ok(kwetterService.getTends())
+                           .build();
+        }
+        catch (Exception e)
+        {
+            return Response.ok(new ArrayList<String>())
+                           .build();
+        }
     }
 
     @GET
     @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_HTML})
     @Path("/search")
-    public Response getTrends(
+    public Response getSearch(
             @QueryParam("search") String search,
             @DefaultValue("5") @QueryParam("limit") int limit)
     {
@@ -122,16 +133,20 @@ public class KweetKweetEndpoint
     @Path("/{id}/like")
     @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_HTML})
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response likeKweet(@PathParam("id") long id, User user)
+    public Response likeKweet(
+            @PathParam("id") long id,
+            User user)
     {
         if (user == null)
         {
-            return Response.notAcceptable(null).build();
+            return Response.notAcceptable(null)
+                           .build();
         }
 
         try
         {
-            if (kwetterService.getKweet(id).like(user))
+            if (kwetterService.getKweet(id)
+                              .like(user))
             {
                 return Response.status(Response.Status.NOT_MODIFIED)
                                .entity("user already liked kweet")
@@ -147,6 +162,7 @@ public class KweetKweetEndpoint
                            .build();
         }
 
-        return Response.ok("like").build();
+        return Response.ok("like")
+                       .build();
     }
 }

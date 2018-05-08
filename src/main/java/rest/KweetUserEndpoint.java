@@ -4,13 +4,20 @@ import classes.Group;
 import classes.Kweet;
 import classes.User;
 import exceptions.*;
+import interfaces.KeyGenerator;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import services.KwetterService;
+import util.DateUtil;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.security.Key;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Path("/user")
@@ -19,6 +26,32 @@ public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plug
 
     @Inject
     KwetterService kwetterService;
+
+    @Inject
+    KeyGenerator keyGenerator;
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/login")
+    public Response login(User user)
+    {
+        // TODO login
+
+
+        User u = null;
+        try
+        {
+            u = kwetterService.getUser(user.getUsername());
+        }
+        catch (UserNotFoundException e)
+        {
+            return Response.ok("login failed").build();
+        }
+
+        String token = issueToken(u.getUsername());
+
+        return Response.ok(u).header("Auth", token).build();
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -48,7 +81,7 @@ public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plug
 
         try
         {
-            newUser = kwetterService.createUser(user.getUsername(), "password", Group.ADMIN_GROUP);
+            newUser = kwetterService.createUser(user.getUsername(), "password", Group.USER_GROUP);
         }
         catch (IdAlreadyExistsException e)
         {
@@ -100,7 +133,7 @@ public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plug
             Kweet kweet)
     {
         String message = kweet.getMessage();
-        User user = null;
+        User user;
         try
         {
             user = kwetterService.getUser(username);
@@ -253,5 +286,17 @@ public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plug
                            .type(MediaType.TEXT_HTML)
                            .build();
         }
+    }
+
+    private String issueToken(String login) {
+        Key key = keyGenerator.generateKey();
+        String jwtToken = Jwts.builder()
+                              .setSubject(login)
+                              .setIssuer(login)
+                              .setIssuedAt(new Date())
+                              .setExpiration(DateUtil.toDate(LocalDateTime.now().plusMinutes(15L)))
+                              .signWith(SignatureAlgorithm.HS512, key)
+                              .compact();
+        return jwtToken;
     }
 }

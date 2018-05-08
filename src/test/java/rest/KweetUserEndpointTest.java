@@ -1,6 +1,6 @@
 package rest;
 
-import classes.Kweet;
+import classes.Group;
 import classes.User;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,15 +9,9 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import java.util.Collection;
-import java.util.List;
-
-import static org.hamcrest.CoreMatchers.hasItem;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
 public class KweetUserEndpointTest
 {
@@ -40,7 +34,7 @@ public class KweetUserEndpointTest
     @Test
     public void crud() {
 
-        User u = new User("hans");
+        User u = new User("hans", new Group("lel"));
 
         User kweetResult = root.request().post(Entity.entity(u, mediaType), User.class);
 

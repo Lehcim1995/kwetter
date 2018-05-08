@@ -1,5 +1,6 @@
 package dao;
 
+import classes.Group;
 import classes.User;
 import exceptions.IdAlreadyExistsException;
 import exceptions.NoPermissionException;
@@ -50,7 +51,7 @@ public class UserDaoCollection implements UserDao
     @Override
     public void addGroup(
             String userName,
-            String group) throws NoPermissionException, UserNotFoundException
+            Group group) throws NoPermissionException, UserNotFoundException
     {
         if (!users.containsKey(userName))
         {
@@ -66,7 +67,7 @@ public class UserDaoCollection implements UserDao
     public User createUser(
             String username,
             String password,
-            String group) throws IdAlreadyExistsException
+            Group group) throws IdAlreadyExistsException
     {
         if (users.containsKey(username))
         {
