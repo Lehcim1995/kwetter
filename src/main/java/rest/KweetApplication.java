@@ -27,6 +27,9 @@ public class KweetApplication extends Application
         classes.add(KweetKweetEndpoint.class);
         classes.add(KweetUserEndpoint.class);
         classes.add(CORSFilter.class);
+//        classes.add(JWTTokenNeededFilter.class);
+        classes.add(JsonResponseFilter.class);
+
         classes.add(io.swagger.jaxrs.listing.ApiListingResource.class);
         classes.add(io.swagger.jaxrs.listing.SwaggerSerializers.class);
 

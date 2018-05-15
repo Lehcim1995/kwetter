@@ -31,7 +31,7 @@ public class KweetKweetEndpoint
     {
 //        GenericEntity<List<Kweet>> kweets = new GenericEntity<List<Kweet>>(kwetterService.getKweets()) {};
 
-        return Response.ok(jsonService.parse(kwetterService.getKweets()), MediaType.APPLICATION_JSON_TYPE)
+        return Response.ok(kwetterService.getKweets())
                        .build();
     }
 
@@ -53,7 +53,7 @@ public class KweetKweetEndpoint
                            .build();
         }
 
-        return Response.ok(jsonService.parse(kweet), MediaType.APPLICATION_JSON_TYPE)
+        return Response.ok(kweet)
                        .build();
     }
 
@@ -78,7 +78,7 @@ public class KweetKweetEndpoint
                            .build();
         }
 
-        return Response.ok(jsonService.parse(newKweet), MediaType.APPLICATION_JSON_TYPE)
+        return Response.ok(newKweet)
                        .build();
     }
 

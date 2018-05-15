@@ -57,7 +57,7 @@ public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plug
     @Produces(MediaType.APPLICATION_JSON)
     public Response getUsers()
     {
-        GenericEntity<List<User>> users = new GenericEntity<List<User>>(kwetterService.getUsers()) {};
+        List<User> users = kwetterService.getUsers();
 
         return Response.ok(users)
                        .build();
@@ -197,7 +197,7 @@ public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plug
             @PathParam("id") String username,
             @DefaultValue("5") @QueryParam("limit") int limit)
     {
-        GenericEntity<List<Kweet>> userKweets = new GenericEntity<List<Kweet>>(kwetterService.getKweetsFromUser(username)) {};
+        List<Kweet> userKweets = kwetterService.getKweetsFromUser(username);
 
         return Response.ok(userKweets)
                        .build();
@@ -210,7 +210,7 @@ public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plug
             @PathParam("id") String username,
             @DefaultValue("5") @QueryParam("limit") int limit)
     {
-        GenericEntity<List<Kweet>> mentions = new GenericEntity<List<Kweet>>(kwetterService.getKweetsFromMention(username)) {};
+        List<Kweet> mentions = kwetterService.getKweetsFromMention(username);
 
         return Response.ok(mentions)
                        .build();
