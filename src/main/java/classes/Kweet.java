@@ -213,6 +213,7 @@ public class Kweet implements Serializable
     }
 
     @JsonIgnore
+    @XmlTransient
     public User getOwner()
     {
         return owner;

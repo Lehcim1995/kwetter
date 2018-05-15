@@ -10,16 +10,17 @@ import {AuthService} from "../services/auth.service";
 })
 export class FrontpageComponent implements OnInit {
 
-  number = [];
+  number = []; // TODO remove
   kweets = [];
 
   kweetmessage: string;
+
+  userLink: string;
 
   constructor(private http: HttpClient, public auth: AuthService) {
   }
 
   ngOnInit() { //https://codingthesmartway.com/angular-4-3-httpclient-accessing-rest-web-services-with-angular/
-    this.number = [1, 2, 3, 4, 5];
 
     this.http.get<Kweet[]>('http://localhost:8080/kwetter/rest/kweet?limit=10').subscribe(data => {
         console.log(data);

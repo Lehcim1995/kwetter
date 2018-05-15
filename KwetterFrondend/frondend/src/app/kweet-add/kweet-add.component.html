@@ -2,7 +2,9 @@
 
   <form (ngSubmit)="method()">
 
-    <h1>kweet owner</h1><input [(ngModel)]="owner" type="text" name="owner">
+    <div hidden>
+      <h1>kweet owner</h1><input [(ngModel)]="owner" type="text" name="owner">
+    </div>
 
     <div class="form-group">
       <label for="exampleTextarea">Kweet message</label>
