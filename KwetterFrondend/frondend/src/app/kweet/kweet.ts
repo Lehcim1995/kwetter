@@ -1,7 +1,8 @@
 export interface Kweet {
   id: number;
-  trends: any[];
-  harts: any[];
+  mentions?: any[],
+  trends?: any[];
+  harts?: any[];
   message: string;
   ownerName: string;
   postDate: string;

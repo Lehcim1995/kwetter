@@ -22,10 +22,10 @@ export class FrontpageComponent implements OnInit {
 
   ngOnInit() { //https://codingthesmartway.com/angular-4-3-httpclient-accessing-rest-web-services-with-angular/
 
-    this.http.get<Kweet[]>('http://localhost:8080/kwetter/rest/kweet?limit=10').subscribe(data => {
+    this.http.get<Kweet[]>('http://localhost:8080/kwetter/rest/kweet').subscribe(data => {
         console.log(data);
         this.kweets = data;
-        this.number = this.kweets.map(value => value.message);
+        // this.number = this.kweets.map(value => value.message);
 
       },
       err => {

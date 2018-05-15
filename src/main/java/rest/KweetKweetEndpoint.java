@@ -6,19 +6,21 @@ import classes.restClasses.KweetRest;
 import exceptions.KweetNotFoundException;
 import exceptions.UserNotFoundException;
 import interfaces.JWTTokenNeeded;
+import services.JsonService;
 import services.KwetterService;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
-import java.util.List;
 
 @Path("/kweet")
 public class KweetKweetEndpoint
 {
+
+    @Inject
+    private JsonService jsonService;
 
     @Inject
     private KwetterService kwetterService;
@@ -27,9 +29,9 @@ public class KweetKweetEndpoint
     @Produces(MediaType.APPLICATION_JSON)
     public Response getKweets(@QueryParam("limit") int limit)
     {
-        GenericEntity<List<Kweet>> kweets = new GenericEntity<List<Kweet>>(kwetterService.getKweets(limit)) {};
+//        GenericEntity<List<Kweet>> kweets = new GenericEntity<List<Kweet>>(kwetterService.getKweets()) {};
 
-        return Response.ok(kweets)
+        return Response.ok(jsonService.parse(kwetterService.getKweets()), MediaType.APPLICATION_JSON_TYPE)
                        .build();
     }
 
@@ -51,7 +53,7 @@ public class KweetKweetEndpoint
                            .build();
         }
 
-        return Response.ok(kweet)
+        return Response.ok(jsonService.parse(kweet), MediaType.APPLICATION_JSON_TYPE)
                        .build();
     }
 
@@ -76,7 +78,7 @@ public class KweetKweetEndpoint
                            .build();
         }
 
-        return Response.ok(newKweet)
+        return Response.ok(jsonService.parse(newKweet), MediaType.APPLICATION_JSON_TYPE)
                        .build();
     }
 

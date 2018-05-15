@@ -2,6 +2,7 @@ package classes;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import json.Exclude;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -43,6 +44,7 @@ public class Kweet implements Serializable
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JsonIgnore
     @XmlTransient
+    @Exclude
     private User owner;
 
     private String ownerName;
