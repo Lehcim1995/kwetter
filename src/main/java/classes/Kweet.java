@@ -1,14 +1,11 @@
 package classes;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import json.Exclude;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,7 +13,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity(name = "Kweet")
 @Table(name = "kweet")
@@ -41,9 +37,7 @@ public class Kweet implements Serializable
 
     private String message;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JsonIgnore
-    @XmlTransient
+    @ManyToOne(cascade = CascadeType.ALL)
     @Exclude
     private User owner;
 
@@ -214,8 +208,6 @@ public class Kweet implements Serializable
         return owner.getUsername();
     }
 
-    @JsonIgnore
-    @XmlTransient
     public User getOwner()
     {
         return owner;

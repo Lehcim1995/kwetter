@@ -20,7 +20,7 @@ import java.util.List;
 public class UserDaoDatabase implements UserDao
 {
     @PersistenceContext(unitName = "kwetterPU")
-    private EntityManager entityManager;
+    EntityManager entityManager;
 
     @Override
     public List<User> getUsers()

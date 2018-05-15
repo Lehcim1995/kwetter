@@ -3,12 +3,11 @@ package classes;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import exceptions.UserAlreadyFollowing;
 import exceptions.UserNotFollowing;
+import json.Exclude;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,7 +16,6 @@ import java.util.stream.Collectors;
 
 @Entity(name = "User")
 @Table(name = "kwetter_user")
-@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class User implements Serializable
 {
@@ -30,7 +28,7 @@ public class User implements Serializable
     private String location;
     private String website;
 
-    @XmlTransient // Never display password in a xml or json format
+    @Exclude
     @JsonIgnore
     private String password;
 
@@ -48,16 +46,14 @@ public class User implements Serializable
     @ElementCollection
     private List<String> harts = new ArrayList<>();
 
-    private String profilePicture;
+    private String profilePicture = "";
 
     @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinTable(joinColumns = @JoinColumn(name = "USERNAME", referencedColumnName = "USERNAME"),
             inverseJoinColumns = @JoinColumn(name = "GROUPNAME", referencedColumnName = "GROUPNAME"))
     private Collection<Group> groups;
 
-    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "owner")
-    @JsonIgnore
-    @XmlTransient
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<Kweet> kweets = new ArrayList<>();
 
     public User()
@@ -145,7 +141,6 @@ public class User implements Serializable
         this.profilePicture = profilePicture;
     }
 
-    @JsonIgnore
     public List<Kweet> getKweets()
     {
         return kweets;

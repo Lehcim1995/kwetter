@@ -10,13 +10,11 @@ import interfaces.KweetDao;
 import interfaces.UserDao;
 
 import javax.ejb.Stateless;
-import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.List;
 
 @Stateless
-@Default
 public class KwetterService implements Serializable
 {
     @Inject
@@ -83,6 +81,13 @@ public class KwetterService implements Serializable
         System.out.println("user is created : " + (realUser != null));
 
         return kweetDao.addKweet(message, realUser);
+    }
+
+    public Kweet addKweet(
+            String message,
+            User user) throws UserNotFoundException
+    {
+        return kweetDao.addKweet(message, user);
     }
 
     public boolean deleteKweet(long id) throws KweetNotFoundException {
