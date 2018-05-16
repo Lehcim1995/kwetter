@@ -19,7 +19,7 @@ export class AuthService {
 
 
 
-    return this.http.post<HttpResponse<Owner>>(this.baseUrl + 'user/login', { "username" : username },
+    return this.http.post<HttpResponse<Owner>>(this.baseUrl + 'user/login', { "username" : username, "password" : password },
     	{headers: headers, observe: 'response'});
   }
 

@@ -30,6 +30,14 @@ public class UserDaoCollection implements UserDao
         // TODO add some users
     }
 
+    @Override
+    public User login(
+            String username,
+            String password)
+    {
+        return null;
+    }
+
     // https://avaldes.com/jax-rs-security-using-basic-authentication-and-authorization/
     @Override
     public List<User> getUsers()

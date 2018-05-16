@@ -11,6 +11,10 @@ import java.util.List;
 
 public interface UserDao
 {
+    User login(
+            String username,
+            String password) throws UserNotFoundException;
+
     List<User> getUsers();
 
     User getUser(String userName) throws UserNotFoundException;

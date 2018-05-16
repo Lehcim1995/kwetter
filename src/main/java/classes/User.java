@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import exceptions.UserAlreadyFollowing;
 import exceptions.UserNotFollowing;
 import json.Exclude;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -49,8 +50,7 @@ public class User implements Serializable
     private String profilePicture = "";
 
     @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    @JoinTable(joinColumns = @JoinColumn(name = "USERNAME", referencedColumnName = "USERNAME"),
-            inverseJoinColumns = @JoinColumn(name = "GROUPNAME", referencedColumnName = "GROUPNAME"))
+    @JoinTable(joinColumns = @JoinColumn(name = "USERNAME", referencedColumnName = "USERNAME"), inverseJoinColumns = @JoinColumn(name = "GROUPNAME", referencedColumnName = "GROUPNAME"))
     private Collection<Group> groups;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
@@ -64,6 +64,14 @@ public class User implements Serializable
             String username,
             Group group)
     {
+       this(username, "password", group);
+    }
+
+    public User(
+            String username,
+            String password,
+            Group group)
+    {
         this.username = username;
         following = new ArrayList<>();
         followers = new ArrayList<>();
@@ -73,7 +81,7 @@ public class User implements Serializable
 
         kweets = new ArrayList<>();
 
-        password = org.apache.commons.codec.digest.DigestUtils.sha256Hex("password");
+        password = DigestUtils.sha256Hex(password);
         //TODO link to a default profile picture
     }
 
@@ -124,11 +132,19 @@ public class User implements Serializable
                         .collect(Collectors.toList());
     }
 
+    public void setFollowing(List<User> following) {
+        this.following = following;
+    }
+
     public List<String> getFollowers()
     {
         return followers.stream()
                         .map(User::getUsername)
                         .collect(Collectors.toList());
+    }
+
+    public void setFollowers(List<User> followers) {
+        this.followers = followers;
     }
 
     public String getProfilePicture()
@@ -200,14 +216,6 @@ public class User implements Serializable
         groups.add(groupName);
     }
 
-    public void setFollowing(List<User> following) {
-        this.following = following;
-    }
-
-    public void setFollowers(List<User> followers) {
-        this.followers = followers;
-    }
-
     public List<String> getMentions() {
         return mentions;
     }
@@ -222,5 +230,14 @@ public class User implements Serializable
 
     public void setHarts(List<String> harts) {
         this.harts = harts;
+    }
+
+    public String getPassword()
+    {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

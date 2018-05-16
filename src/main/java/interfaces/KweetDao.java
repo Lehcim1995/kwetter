@@ -27,7 +27,11 @@ public interface KweetDao {
      */
     List<Kweet> getKweets(int limit);
 
-	/**
+    List<Kweet> getKweets(
+            int limit,
+            int offset);
+
+    /**
 	 * Get all kweets from a user sorted by date
      *
 	 * @param username User's username

@@ -27,11 +27,12 @@ public class KweetKweetEndpoint
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getKweets(@QueryParam("limit") int limit)
+    public Response getKweets(@DefaultValue("-1") @QueryParam("limit") int limit, @DefaultValue("-1") @QueryParam("offset") int offset)
     {
 //        GenericEntity<List<Kweet>> kweets = new GenericEntity<List<Kweet>>(kwetterService.getKweets()) {};
 
-        return Response.ok(kwetterService.getKweets())
+
+        return Response.ok(limit == -1 ? kwetterService.getKweets() : kwetterService.getKweets(limit))
                        .build();
     }
 

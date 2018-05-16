@@ -23,6 +23,30 @@ public class UserDaoDatabase implements UserDao
     EntityManager entityManager;
 
     @Override
+    public User login(
+            final String username,
+            final String password) throws UserNotFoundException
+    {
+        final String passhash = org.apache.commons.codec.digest.DigestUtils.sha256Hex(password);
+
+        try
+        {
+
+
+            User u = entityManager.createQuery("SELECT u FROM User u WHERE u.username = :username AND u.password = :password", User.class)
+                         .setParameter("username", username)
+                         .setParameter("password", passhash)
+                         .getSingleResult();
+
+            return u;
+        }
+        catch (Exception e) // If any exception is thrown dont log in
+        {
+            throw new UserNotFoundException("asd");
+        }
+    }
+
+    @Override
     public List<User> getUsers()
     {
         return entityManager.createQuery("SELECT u FROM User u", User.class)
@@ -71,7 +95,7 @@ public class UserDaoDatabase implements UserDao
     {
         try
         {
-            User u = new User(username, group);
+            User u = new User(username, password, group);
             entityManager.persist(u);
 
 

@@ -41,6 +41,18 @@ public class KweetDaoCollection implements KweetDao
     }
 
     @Override
+    public List<Kweet> getKweets(
+            int limit,
+            int offset)
+    {
+        return kweets.values()
+                     .stream()
+                     .limit(limit)
+                     .skip(offset)
+                     .collect(Collectors.toList());
+    }
+
+    @Override
     public List<Kweet> getKweetsFromUser(String username)
     {
         return kweets.entrySet()

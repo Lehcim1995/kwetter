@@ -41,7 +41,7 @@ public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plug
         User u = null;
         try
         {
-            u = kwetterService.getUser(user.getUsername());
+            u = kwetterService.login(user.getUsername(), user.getPassword());
         }
         catch (UserNotFoundException e)
         {

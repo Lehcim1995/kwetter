@@ -179,4 +179,8 @@ public class KwetterService implements Serializable
         return null;
     }
 
+    public User login(String username, String password) throws UserNotFoundException
+    {
+        return userDao.login(username, password);
+    }
 }
