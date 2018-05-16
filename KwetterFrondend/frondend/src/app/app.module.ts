@@ -20,6 +20,7 @@ import {AuthService} from "./services/auth.service";
 import {AuthGuardService} from "./services/auth-guard.service";
 import {UserpageEditComponent} from './userpage/userpage-edit/userpage-edit.component';
 import {CookieService} from "ngx-cookie-service";
+import {RegistrerComponent} from './registrer/registrer.component';
 
 
 const appRoutes: Routes = [
@@ -46,7 +47,8 @@ const appRoutes: Routes = [
     FrontpageWhotofollowComponent,
     FrontendUserComponent,
     KweetAddComponent,
-    UserpageEditComponent
+    UserpageEditComponent,
+    RegistrerComponent
   ],
   imports: [
     BrowserModule,
