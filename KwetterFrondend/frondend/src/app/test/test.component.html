@@ -1,0 +1,21 @@
+<p>
+  test works!
+</p>
+
+<button (click)="sendMessage()">Reset Heroes</button>
+
+<!--<p id ="lastMessage">-->
+<!--</p>-->
+
+
+<div>
+
+  <!--<div *ngIf="kweets.length == 0" test>-->
+    <!--<p style="text-align: center"> No kweets found </p>-->
+  <!--</div>-->
+  <div *ngFor="let kweet of kweets" test>
+    <app-kweet [kweet]=kweet></app-kweet>
+  </div>
+</div>
+
+

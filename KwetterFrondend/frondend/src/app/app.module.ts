@@ -21,16 +21,19 @@ import {AuthGuardService} from "./services/auth-guard.service";
 import {UserpageEditComponent} from './userpage/userpage-edit/userpage-edit.component';
 import {CookieService} from "ngx-cookie-service";
 import {RegistrerComponent} from './registrer/registrer.component';
+import {TestComponent} from './test/test.component';
+import {TestDirective} from './test/test.directive';
 
 
 const appRoutes: Routes = [
-  {path: 'login', component: LoginComponent},
   {path: '', component: FrontpageComponent},
+  {path: 'login', component: LoginComponent},
   {path: 'kweet/:id', component: KweetComponent},
   {path: 'kweets/add', component: KweetAddComponent, canActivate: [AuthGuardService]},
   {path: 'user', component: UserpageComponent},
   {path: 'user/:username', component: UserpageComponent},
   {path: 'user/:username/edit', component: UserpageComponent, canActivate: [AuthGuardService]}, // TODO add user edit page
+  {path: 'test', component: TestComponent},
   {path: '**', component: FrontpageComponent},
 ];
 
@@ -48,7 +51,9 @@ const appRoutes: Routes = [
     FrontendUserComponent,
     KweetAddComponent,
     UserpageEditComponent,
-    RegistrerComponent
+    RegistrerComponent,
+    TestComponent,
+    TestDirective
   ],
   imports: [
     BrowserModule,

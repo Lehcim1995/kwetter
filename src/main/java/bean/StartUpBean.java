@@ -5,6 +5,7 @@ import classes.User;
 import exceptions.CouldNotCreateUser;
 import exceptions.IdAlreadyExistsException;
 import exceptions.UserNotFoundException;
+import org.fluttercode.datafactory.impl.DataFactory;
 import services.KwetterService;
 
 import javax.ejb.Schedule;
@@ -28,14 +29,15 @@ public class StartUpBean
         {
             for(int i = 0; i < 15; i++)
             {
+                DataFactory df = new DataFactory();
 
-                User u = kwetterService.createUser("Jan_" + i, "password", Group.USER_GROUP);
+                User u = kwetterService.createUser(df.getFirstName(), "password", Group.USER_GROUP);
 
-                kwetterService.addKweet("message1", u);
-                kwetterService.addKweet("message2", u);
-                kwetterService.addKweet("message3", u);
-                kwetterService.addKweet("message4", u);
-                kwetterService.addKweet("message5", u);
+                kwetterService.addKweet(getKweetMessage(), u);
+                kwetterService.addKweet(getKweetMessage(), u);
+                kwetterService.addKweet(getKweetMessage(), u);
+                kwetterService.addKweet(getKweetMessage(), u);
+                kwetterService.addKweet(getKweetMessage(), u);
             }
 
             System.out.println("Finished adding users and messages");
@@ -54,6 +56,27 @@ public class StartUpBean
         }
 
         timer.cancel();
+    }
+
+    private String getKweetMessage()
+    {
+        DataFactory df = new DataFactory();
+
+        int lenght = df.getNumberBetween(20, 139);
+
+        StringBuilder sb = new StringBuilder(lenght);
+
+        while (lenght > 1)
+        {
+            String word = df.getRandomWord();
+
+            sb.append(word);
+            sb.append(" ");
+
+            lenght -= word.length() + 1;
+        }
+
+        return sb.toString();
     }
 
 //    @PostConstruct
