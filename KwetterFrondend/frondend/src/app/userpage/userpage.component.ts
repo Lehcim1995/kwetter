@@ -3,6 +3,7 @@ import {ActivatedRoute} from "@angular/router";
 import {Kweet} from "../kweet/kweet";
 import {HttpClient} from "@angular/common/http";
 import {Owner} from "../kweet/owner";
+import {AuthService} from "../services/auth.service";
 
 @Component({
   selector: 'app-userpage',
@@ -18,7 +19,8 @@ export class UserpageComponent implements OnInit {
 
   kweets: Kweet[];
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) { }
+  constructor(private route: ActivatedRoute, private http: HttpClient, private auth: AuthService) {
+  }
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
@@ -27,12 +29,11 @@ export class UserpageComponent implements OnInit {
       // In a real app: dispatch action to load the details here.
     });
 
-    if (!this.username)
-    {
-      this.username = "user1";
+    if (!this.username) {
+      this.username = this.auth.getUserName();
     }
 
-    this.http.get<Owner>('http://localhost:8080/kwetter/rest/user/' + this.username ).subscribe(data => {
+    this.http.get<Owner>('http://localhost:8080/kwetter/rest/user/' + this.username).subscribe(data => {
         console.log(data);
         this.user = data;
       },
@@ -41,12 +42,12 @@ export class UserpageComponent implements OnInit {
       }
     );
 
-    this.http.get<Kweet[]>('http://localhost:8080/kwetter/rest/user/' + this.username + '/kweets' ).subscribe(data => {
+    this.http.get<Kweet[]>('http://localhost:8080/kwetter/rest/user/' + this.username + '/kweets').subscribe(data => {
         console.log(data);
         this.kweets = data;
       },
       err => {
-      this.kweets = [];
+        this.kweets = [];
         console.log("Error occured.")
       }
     );

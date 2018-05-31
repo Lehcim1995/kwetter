@@ -5,8 +5,8 @@ import dao.JPA;
 import interfaces.KweetDao;
 import services.JsonService;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.json.JsonObject;
 import javax.websocket.Session;
 import java.io.IOException;
@@ -15,11 +15,10 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@ApplicationScoped // Make stateless??
+@Singleton // Make stateless??
 public class KweetStreamHandler
 {
     private final Set<Session> sessions = new HashSet<>();
-    private final Set<Kweet> kweets = new HashSet<>(); // TODO probably kweets
 
     @Inject
     JsonService jsonService;
@@ -36,6 +35,13 @@ public class KweetStreamHandler
     public void removeSession(Session session)
     {
         sessions.remove(session);
+    }
+
+    public void addKweetToFrondPageEveryone(Kweet k)
+    {
+        System.out.println("sending kweet " + k.getId() + " to all");
+        System.out.println(sessions.size());
+        sendToAllConnectedSessions(jsonService.parse(k));
     }
 
     public void updateKweetsForAll()

@@ -4,8 +4,9 @@
       <img alt="" class="media-object img-rounded" src="http://placehold.it/64x64"> <!--todo load user icon-->
     </a>
     <div class="media-body">
-      <h4 class="media-heading"> @{{ kweet.ownerName }} </h4>
-      <p> {{ kweet.message }} </p>
+      <a href="/user/{{kweet.ownerName}}"><h4 class="media-heading"> @{{ kweet.ownerName }} </h4></a>
+      <div class="kweet_date"> {{ kweet.postDate }}</div>
+      <p class="kweet_message"> {{ kweet.message }} </p>
       <ul class="nav nav-pills nav-pills-custom">
         <li><a href="#"><span class="glyphicon glyphicon-share-alt"></span></a></li>
         <li><a href="#"><span class="glyphicon glyphicon-retweet"></span></a></li>

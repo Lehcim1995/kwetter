@@ -31,7 +31,7 @@ public class KweetDaoDatabase implements KweetDao
     {
         try
         {
-            return entityManager.createQuery("SELECT k FROM Kweet k ORDER BY k.postDate asc", Kweet.class)
+            return entityManager.createQuery("SELECT k FROM Kweet k ORDER BY k.postDate desc", Kweet.class)
                                 .getResultList();
         }
         catch (NoResultException e)
@@ -45,7 +45,7 @@ public class KweetDaoDatabase implements KweetDao
     {
         try
         {
-            return entityManager.createQuery("SELECT k FROM Kweet k ORDER BY k.postDate asc", Kweet.class)
+            return entityManager.createQuery("SELECT k FROM Kweet k ORDER BY k.postDate desc ", Kweet.class)
                                 .setMaxResults(limit)
                                 .getResultList();
         }
@@ -60,7 +60,7 @@ public class KweetDaoDatabase implements KweetDao
     {
         try
         {
-            return entityManager.createQuery("SELECT k FROM Kweet k ORDER BY k.postDate asc", Kweet.class)
+            return entityManager.createQuery("SELECT k FROM Kweet k ORDER BY k.postDate desc", Kweet.class)
                                 .setMaxResults(limit)
                                 .setFirstResult(offset)
                                 .getResultList();
@@ -191,17 +191,24 @@ public class KweetDaoDatabase implements KweetDao
     @Override
     public List<String> getTends()
     {
-        return entityManager.createQuery("SELECT distinct k.trends, count(k.trends) FROM Kweet k group by k.trends order by count(k.trends) desc", String.class)
+        return entityManager.createQuery("SELECT k.trends FROM Kweet k", String.class)
                             .getResultList();
+
+//        return entityManager.createQuery("SELECT distinct k.trends FROM Kweet k group by k.trends order by count(k.trends) desc", String.class)
+//                            .getResultList();
     }
 
     @Override
     public List<String> getTends(int limit)
     {
-        // https://stackoverflow.com/questions/7001226/how-to-order-by-count-in-jpa
-        return entityManager.createQuery("SELECT distinct k.trends, count(k.trends) FROM Kweet k group by k.trends order by count(k.trends) desc", String.class)
+        return entityManager.createQuery("SELECT k.trends FROM Kweet k", String.class)
                             .setMaxResults(limit)
                             .getResultList();
+
+        // https://stackoverflow.com/questions/7001226/how-to-order-by-count-in-jpa
+//        return entityManager.createQuery("SELECT distinct k.trends FROM Kweet k group by k.trends order by count(k.trends) desc", String.class)
+//                            .setMaxResults(limit)
+//                            .getResultList();
     }
 
     @Override

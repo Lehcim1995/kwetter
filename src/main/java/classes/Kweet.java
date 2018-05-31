@@ -2,8 +2,12 @@ package classes;
 
 
 import json.Exclude;
+import org.glassfish.jersey.linking.InjectLink;
+import org.glassfish.jersey.linking.InjectLinks;
+import rest.KweetKweetEndpoint;
 
 import javax.persistence.*;
+import javax.ws.rs.core.Link;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
@@ -43,6 +47,13 @@ public class Kweet implements Serializable
 
     private String ownerName;
     //TODO add owner name
+
+    @InjectLinks({
+            @InjectLink(resource = KweetKweetEndpoint.class,
+            rel = "self", method = "getKweets")
+    })
+    @Transient
+    private List<Link> links;
 
     private Date postDate;
 
@@ -237,5 +248,9 @@ public class Kweet implements Serializable
     public void addHeart(String userName)
     {
         harts.add(null); // test todo fix
+    }
+
+    public List<Link> getLinks() {
+        return links;
     }
 }

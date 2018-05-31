@@ -53,5 +53,12 @@ public class KweetStream
             System.out.println("sending hallo");
             kweetStreamHandler.sendHallo();
         }
+
+        // TODO parse message
+
+        if (message.equals("createdkweet"))
+        {
+
+        }
     }
 }

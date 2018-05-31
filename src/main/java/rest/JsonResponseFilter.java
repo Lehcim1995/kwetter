@@ -38,6 +38,9 @@ public class JsonResponseFilter implements ContainerResponseFilter
                                           .getClass()
                                           .toString());
 
+        System.out.println("Url");
+        responseContext.getLinks().forEach(link -> System.out.println(link.getUri().getPath()));
+
         // check for classes to parse to json
         if (responseContext.getEntity().getClass() == User.class ||
                 responseContext.getEntity().getClass() == Kweet.class ||

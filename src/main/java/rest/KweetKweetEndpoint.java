@@ -8,6 +8,7 @@ import exceptions.UserNotFoundException;
 import interfaces.JWTTokenNeeded;
 import services.JsonService;
 import services.KwetterService;
+import websocket.KweetStreamHandler;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -25,9 +26,14 @@ public class KweetKweetEndpoint
     @Inject
     private KwetterService kwetterService;
 
+    @Inject
+    private KweetStreamHandler kweetStreamHandler;
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getKweets(@DefaultValue("-1") @QueryParam("limit") int limit, @DefaultValue("-1") @QueryParam("offset") int offset)
+    public Response getKweets(
+            @DefaultValue("-1") @QueryParam("limit") int limit,
+            @DefaultValue("-1") @QueryParam("offset") int offset)
     {
 //        GenericEntity<List<Kweet>> kweets = new GenericEntity<List<Kweet>>(kwetterService.getKweets()) {};
 
@@ -55,6 +61,8 @@ public class KweetKweetEndpoint
         }
 
         return Response.ok(kweet)
+                       .link("link-URI", "kweets")
+//                       .links(kweet.getLinks())
                        .build();
     }
 
@@ -78,6 +86,8 @@ public class KweetKweetEndpoint
                            .type(MediaType.TEXT_HTML)
                            .build();
         }
+
+        kweetStreamHandler.addKweetToFrondPageEveryone(newKweet);
 
         return Response.ok(newKweet)
                        .build();

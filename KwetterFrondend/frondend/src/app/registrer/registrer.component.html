@@ -1,3 +1,13 @@
-<p>
-  registrer works!
-</p>
+<div class="center-block" style="width: 30%">
+  <form (ngSubmit)="register()">
+
+    <h1> Register account </h1>
+
+    <h3>Username</h3><input [(ngModel)]="username" name="username" type="text">
+
+    <h3>Password</h3><input [(ngModel)]="password" name="password" type="password">
+
+    <input type="submit" class="btn btn-primary active" value="Register">
+
+  </form>
+</div>

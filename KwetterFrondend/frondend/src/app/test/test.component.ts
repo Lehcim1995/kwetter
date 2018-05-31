@@ -10,6 +10,7 @@ export class TestComponent implements OnInit {
 
   ngOnInit() {
     this.ws = new WebSocket(this.CHAT_URL);
+    this.ws.onmessage =  (message) => this.updateKweets(message);
   }
 
   CHAT_URL = 'ws://localhost:8080/kwetter/kweetstream';
@@ -25,9 +26,17 @@ export class TestComponent implements OnInit {
   public updateKweets(message) {
     this.lastMessage = message.data;
 
-    this.kweets = JSON.parse(message.data);
+    let parsed = JSON.parse(message.data);
 
-    console.log('Connection 1', this.kweets);
+    console.log('Connection 1', parsed);
+
+    if (parsed instanceof Array) {
+      this.kweets = parsed;
+    }
+    else
+    {
+      this.kweets.unshift(parsed);
+    }
 
     // let text = document.getElementById('lastMessage');
     // text.innerText = this.lastMessage;
@@ -48,7 +57,5 @@ export class TestComponent implements OnInit {
       console.log("send message");
       this.ws.send("get");
     }
-
-    this.ws.onmessage =  (message) => this.updateKweets(message);
   }
 }

@@ -45,12 +45,16 @@ public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plug
         }
         catch (UserNotFoundException e)
         {
-            return Response.ok("login failed").build();
+            return Response.status(Response.Status.UNAUTHORIZED)
+                           .entity("login failed")
+                           .build();
         }
 
         String token = issueToken(u.getUsername());
 
-        return Response.ok(u).header("Auth", token).build();
+        return Response.ok(u)
+                       .header("Auth", token)
+                       .build();
     }
 
     @GET
@@ -81,7 +85,8 @@ public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plug
 
         try
         {
-            newUser = kwetterService.createUser(user.getUsername(), "password", Group.USER_GROUP);
+            newUser = kwetterService.createUser(user.getUsername(), user.getPassword()
+                                                                        .isEmpty() ? "password" : user.getPassword(), Group.USER_GROUP);
         }
         catch (IdAlreadyExistsException e)
         {
@@ -294,7 +299,8 @@ public class KweetUserEndpoint // https://github.com/kongchen/swagger-maven-plug
                               .setSubject(login)
                               .setIssuer(login)
                               .setIssuedAt(new Date())
-                              .setExpiration(DateUtil.toDate(LocalDateTime.now().plusMinutes(15L)))
+                              .setExpiration(DateUtil.toDate(LocalDateTime.now()
+                                                                          .plusMinutes(15L)))
                               .signWith(SignatureAlgorithm.HS512, key)
                               .compact();
         return jwtToken;

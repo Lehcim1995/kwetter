@@ -33,6 +33,7 @@ const appRoutes: Routes = [
   {path: 'user', component: UserpageComponent},
   {path: 'user/:username', component: UserpageComponent},
   {path: 'user/:username/edit', component: UserpageComponent, canActivate: [AuthGuardService]}, // TODO add user edit page
+  {path: 'register', component: RegistrerComponent},
   {path: 'test', component: TestComponent},
   {path: '**', component: FrontpageComponent},
 ];

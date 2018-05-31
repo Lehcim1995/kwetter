@@ -17,6 +17,9 @@ export class FrontpageComponent implements OnInit {
 
   userLink: string;
 
+  CHAT_URL = 'ws://localhost:8080/kwetter/kweetstream';
+  ws: any;
+
   constructor(private http: HttpClient, public auth: AuthService) {
   }
 
@@ -32,6 +35,9 @@ export class FrontpageComponent implements OnInit {
         console.log("Error occured.")
       }
     );
+
+    this.ws = new WebSocket(this.CHAT_URL);
+    this.ws.onmessage =  (message) => this.updateKweets(message);
   }
 
   onKeydown(event) {
@@ -50,7 +56,22 @@ export class FrontpageComponent implements OnInit {
     {
       window.alert("please log in");
     }
-
   }
 
+  public updateKweets(message) {
+    let parsed = JSON.parse(message.data);
+
+    if (parsed instanceof Array) {
+      this.kweets = parsed;
+    }
+    else
+    {
+      this.kweets.unshift(parsed);
+    }
+  }
+
+  ngOnClose()
+  {
+    this.ws.close();
+  }
 }

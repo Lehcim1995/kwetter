@@ -29,12 +29,13 @@ public class User implements Serializable
     private String location;
     private String website;
 
+
     @Exclude
     @JsonIgnore
     private String password;
 
-    @ManyToMany
-    private List<User> following = new ArrayList<>();
+//    @ManyToMany
+//    private List<User> following = new ArrayList<>();
 
     @ManyToMany
     private List<User> followers = new ArrayList<>();
@@ -73,7 +74,7 @@ public class User implements Serializable
             Group group)
     {
         this.username = username;
-        following = new ArrayList<>();
+//        following = new ArrayList<>();
         followers = new ArrayList<>();
 
         groups = new ArrayList<>();
@@ -81,7 +82,7 @@ public class User implements Serializable
 
         kweets = new ArrayList<>();
 
-        password = DigestUtils.sha256Hex(password);
+        this.password = DigestUtils.sha256Hex(password);
         //TODO link to a default profile picture
     }
 
@@ -127,13 +128,14 @@ public class User implements Serializable
 
     public List<String> getFollowing()
     {
-        return following.stream()
-                        .map(User::getUsername)
-                        .collect(Collectors.toList());
+//        return following.stream()
+//                        .map(User::getUsername)
+//                        .collect(Collectors.toList());
+        return new ArrayList<>();
     }
 
     public void setFollowing(List<User> following) {
-        this.following = following;
+        /*this.following = following;*/
     }
 
     public List<String> getFollowers()
@@ -185,7 +187,7 @@ public class User implements Serializable
             throw new UserAlreadyFollowing();
         }
         user.followers.add(this);
-        following.add(user);
+//        following.add(user);
     }
 
     public void unfollow(User user) throws UserNotFollowing
@@ -195,7 +197,7 @@ public class User implements Serializable
             throw new UserNotFollowing();
         }
         user.followers.remove(this);
-        following.remove(user);
+//        following.remove(user);
     }
 
     public Collection<Group> getGroups() {

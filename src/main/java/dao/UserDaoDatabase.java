@@ -122,4 +122,9 @@ public class UserDaoDatabase implements UserDao
 
         return user;
     }
+
+    public void followUser(User user, User follower)
+    {
+
+    }
 }

@@ -9,4 +9,5 @@ export interface Owner {
   bio?: string;
   location?: string;
   website?: string;
+  password?: string;
 }
