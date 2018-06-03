@@ -2,12 +2,8 @@ package classes;
 
 
 import json.Exclude;
-import org.glassfish.jersey.linking.InjectLink;
-import org.glassfish.jersey.linking.InjectLinks;
-import rest.KweetKweetEndpoint;
 
 import javax.persistence.*;
-import javax.ws.rs.core.Link;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
@@ -21,40 +17,25 @@ import java.util.regex.Pattern;
 @Entity(name = "Kweet")
 @Table(name = "kweet")
 @NamedQueries({@NamedQuery(name = "kweet.getKweets", query = "SELECT K FROM Kweet K"), @NamedQuery(name = "kweet.getKweetsFromUser", query = "SELECT k FROM Kweet k where k.owner.username = :owner")})
-public class Kweet implements Serializable
+public class Kweet extends Hateos implements Serializable
 {
-
     @Id
     @GeneratedValue()
     private long id;
-
     //    @OneToMany(cascade = CascadeType.PERSIST)
     @ElementCollection
     private List<String> mentions = new ArrayList<>(); // make users
-
     //    @OneToMany(cascade = CascadeType.PERSIST)
     @ElementCollection
     private List<String> harts = new ArrayList<>();
-
     @ElementCollection
     private List<String> trends = new ArrayList<>();
-
     private String message;
-
     @ManyToOne(cascade = CascadeType.ALL)
     @Exclude
     private User owner;
-
-    private String ownerName;
     //TODO add owner name
-
-    @InjectLinks({
-            @InjectLink(resource = KweetKweetEndpoint.class,
-            rel = "self", method = "getKweets")
-    })
-    @Transient
-    private List<Link> links;
-
+    private String ownerName;
     private Date postDate;
 
     public Kweet()
@@ -250,7 +231,4 @@ public class Kweet implements Serializable
         harts.add(null); // test todo fix
     }
 
-    public List<Link> getLinks() {
-        return links;
-    }
 }

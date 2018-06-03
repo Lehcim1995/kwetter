@@ -4,6 +4,7 @@ import classes.Kweet;
 import classes.User;
 import services.JsonService;
 
+import javax.annotation.Priority;
 import javax.inject.Inject;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerResponseContext;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
 
+@Priority(1)
 public class JsonResponseFilter implements ContainerResponseFilter
 {
     @Inject
@@ -27,7 +29,8 @@ public class JsonResponseFilter implements ContainerResponseFilter
         System.out.println(responseContext.getMediaType());
 
         //check if media type contains or is Json media type
-        if (!responseContext.getMediaType().isCompatible(MediaType.valueOf(MediaType.APPLICATION_JSON)))
+        if (!responseContext.getMediaType()
+                            .isCompatible(MediaType.valueOf(MediaType.APPLICATION_JSON)))
         {
             return;
         }
@@ -38,14 +41,13 @@ public class JsonResponseFilter implements ContainerResponseFilter
                                           .getClass()
                                           .toString());
 
-        System.out.println("Url");
-        responseContext.getLinks().forEach(link -> System.out.println(link.getUri().getPath()));
 
         // check for classes to parse to json
-        if (responseContext.getEntity().getClass() == User.class ||
-                responseContext.getEntity().getClass() == Kweet.class ||
-                responseContext.getEntity().getClass() == List.class ||
-                responseContext.getEntity().getClass() == Vector.class )
+        if (responseContext.getEntity()
+                           .getClass() == User.class || responseContext.getEntity()
+                                                                       .getClass() == Kweet.class || responseContext.getEntity()
+                                                                                                                    .getClass() == List.class || responseContext.getEntity()
+                                                                                                                                                                .getClass() == Vector.class)
         {
             String json = jsonService.parse(responseContext.getEntity());
             responseContext.setEntity(json);

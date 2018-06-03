@@ -12,13 +12,18 @@ import websocket.KweetStreamHandler;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.util.ArrayList;
 
 @Path("/kweet")
 public class KweetKweetEndpoint
 {
+
+    @Context
+    UriInfo uriInfo;
 
     @Inject
     private JsonService jsonService;
@@ -37,7 +42,6 @@ public class KweetKweetEndpoint
     {
 //        GenericEntity<List<Kweet>> kweets = new GenericEntity<List<Kweet>>(kwetterService.getKweets()) {};
 
-
         return Response.ok(limit == -1 ? kwetterService.getKweets() : kwetterService.getKweets(limit))
                        .build();
     }
@@ -51,6 +55,7 @@ public class KweetKweetEndpoint
         try
         {
             kweet = kwetterService.getKweet(kweetId);
+//            kweet.setSelf(Link.fromUri(uriInfo.getAbsolutePath()).rel("self").type("GET").build());
         }
         catch (KweetNotFoundException e)
         {
@@ -61,8 +66,6 @@ public class KweetKweetEndpoint
         }
 
         return Response.ok(kweet)
-                       .link("link-URI", "kweets")
-//                       .links(kweet.getLinks())
                        .build();
     }
 

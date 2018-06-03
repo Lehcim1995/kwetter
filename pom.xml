@@ -40,13 +40,6 @@
             <type>jar</type>
         </dependency>
 
-
-
-        <dependency>
-            <groupId>org.glassfish.jersey.core</groupId>
-            <artifactId>jersey-client</artifactId>
-            <version>2.25.1</version>
-        </dependency>
         <!-- https://mvnrepository.com/artifact/org.glassfish.jersey.ext/jersey-declarative-linking -->
         <dependency>
             <groupId>org.glassfish.jersey.ext</groupId>

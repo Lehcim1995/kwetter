@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Entity(name = "User")
 @Table(name = "kwetter_user")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class User implements Serializable
+public class User extends Hateos implements Serializable
 {
 
     @Id
@@ -28,7 +28,6 @@ public class User implements Serializable
     private String bio;
     private String location;
     private String website;
-
 
     @Exclude
     @JsonIgnore
